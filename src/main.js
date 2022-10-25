@@ -52,7 +52,7 @@ var optionsIm = {
 
 Vue.prototype.$WebIM = WebIM;
 Vue.prototype.$imconn = conn
-Vue.prototype.$imoption = optionsIm;
+// Vue.prototype.$imoption = optionsIm;
 
 Vue.config.productionTip = false
 
