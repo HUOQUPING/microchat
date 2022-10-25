@@ -1,15 +1,23 @@
 {
-  "name": "live-chat",
+  "name": "huanxin-demo-1",
   "version": "0.1.0",
   "private": true,
+  "description": "",
+  "main": "index.js",
+  "author": "",
+  "license": "ISC",
   "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
     "serve": "vue-cli-service serve",
     "build": "vue-cli-service build",
     "lint": "vue-cli-service lint"
   },
   "dependencies": {
     "core-js": "^3.8.3",
+    "easemob-websdk": "latest",
+    "lodash-es": "^4.17.21",
     "vue": "^2.6.14",
+    "vue-axios-plugin": "^1.3.0",
     "vue-router": "^3.5.1",
     "vuex": "^3.6.2"
   },
@@ -23,6 +31,8 @@
     "@vue/cli-service": "~5.0.0",
     "eslint": "^7.32.0",
     "eslint-plugin-vue": "^8.0.3",
+    "sass": "^1.55.0",
+    "sass-loader": "^13.1.0",
     "vue-template-compiler": "^2.6.14"
   }
 }
