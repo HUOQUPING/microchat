@@ -1,24 +1,37 @@
 # live-chat
 
-## Project setup
-```
-npm install
+## 使用技术
+` Vue Vuex elementUI `
+
+## 记得先拉取文件(clone)再进行编写程序
+## 记得在CMD输入 `npm i` 重新下载构建项目
+
+
+
+
+### git基本使用
+
+下载GitHub的东西
+```shell
+git clone git@github.com:p0ssword/live-chat.git
 ```
 
-### Compiles and hot-reloads for development
-```
-npm run serve
-```
-
-### Compiles and minifies for production
-```
-npm run build
+下拉新内容
+```shell
+git pull origin git@github.com:p0ssword/live-chat.git
 ```
 
-### Lints and fixes files
-```
-npm run lint
+添加远程仓库
+```shell
+git remote add origin git@github.com:p0ssword/live-chat.git
 ```
 
-### Customize configuration
-See [Configuration Reference](https://cli.vuejs.org/config/).
+添加更新的内容描述
+```shell
+git commit -m "内容描述"
+```
+
+push文件上GitHub
+```shell
+git push origin main:main
+```
