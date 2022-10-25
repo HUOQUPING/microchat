@@ -24,16 +24,33 @@ export default {
       password: '',
     }
   },
+  created() {
+    if (cookie.get('token')){
+      this.$router.push('/index')
+    }
+  },
   methods: {
     login() {
       getUserConfig(this.username, this.password)
+      // 这里setTimeout是防止获取token有的时候会获取慢
       setTimeout(() => {
-        console.log('token', cookie.get('token'))
+        // 将token存入vuex
         this.setToken(cookie.get('token'))
-      }, 500)
+        // 判断是否是从别的地方没权限跳转过来的
+        if (this.$route.query.state) {
+          this.goBack()
+          return
+        }
+        this.$router.push('/index')
+      }, 100)
     },
     register() {
       regUser(this.username, this.password)
+    },
+    goBack() {
+      setTimeout(() => {
+        this.$router.push(this.$route.query.redirect)
+      }, 500)
     },
     ...mapMutations(["setToken"]),
   }
