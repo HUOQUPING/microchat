@@ -6,17 +6,22 @@ WebIm.conn = new WebIm.connection({
     appKey: '1183221025099577#demo',
 })
 
-
-
 export let getUserConfig = (username, password) => {
-    console.log(username, password)
-    WebIm.conn.open({user: username, pwd: password}).then((res) => {
+    WebIm.conn.open({user:username,pwd:password}).then((res) => {
         console.log(res)
-        alert(res.accessToken)
+        console.log('登录成功')
         cookie.set('token',res.accessToken,1)
-    }).catch((e) => {
-        console.log(e)
-        alert('N')
+    }).catch((err) => {
+        console.log(err)
+    })
+}
+
+export let regUser = (username,password)=>{
+    WebIm.conn.registerUser({username:username,password:password}).then((res)=>{
+        console.log(res)
+        console.log('注册成功')
+    }).catch((err)=>{
+        console.log(err)
     })
 }
 
