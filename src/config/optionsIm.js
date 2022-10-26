@@ -9,10 +9,8 @@ WebIm.conn = new WebIm.connection({
 export let getUserConfig = (username, password) => {
     WebIm.conn.open({user:username,pwd:password}).then((res) => {
         console.log(res)
-        alert('登录成功')
         cookie.set('token',res.accessToken,1)
     }).catch((err) => {
-        alert('登录失败，请检查账号密码是否正确')
         console.log(err)
     })
 }
@@ -24,6 +22,12 @@ export let regUser = (username,password)=>{
     }).catch((err)=>{
         console.log(err)
     })
+}
+
+//退出
+export let close = () => {
+    WebIm.conn.close()
+    cookie.delete('token')
 }
 
 

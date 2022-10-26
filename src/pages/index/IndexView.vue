@@ -3,7 +3,7 @@
     <a-layout-sider v-model="collapsed" :trigger="null" collapsible>
 <!--      搜索框-->
       <div class="logo">
-        <a-input-search />
+        <a-input-search ref="search"/>
       </div>
 <!--      列表-->
       <a-menu theme="dark" mode="inline" :default-selected-keys="['1']" :default-open-keys="['sub1']">
@@ -66,7 +66,7 @@
         <a-popover placement="bottomRight" >
           <template slot="content">
             <p>个人信息</p>
-            <p>退出</p>
+            <p @click="closed">退出</p>
           </template>
           <template slot="title">
             <span>用户名</span>
@@ -90,6 +90,7 @@
 <script>
 import cookie from "vue-cookie";
 import './indexView.scss'
+import {close} from "@/config/optionsIm";
 
 export default {
   name: "IndexView",
@@ -98,11 +99,23 @@ export default {
       collapsed: false
     }
   },
+
   computed: {
     token() {
       return cookie.get('token')
-    }
-  }
+    },
+
+  },
+  methods:{
+      closed(){
+        console.log(1)
+        close()
+        setTimeout(()=>{
+          this.$router.replace('/')
+        },500)
+
+      },
+  },
 }
 </script>
 

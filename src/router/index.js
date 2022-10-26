@@ -36,7 +36,6 @@ router.beforeEach((to, from, next) => {
         } else {
             // cookie.token 不存在
             setTimeout(() => {
-                alert('客官您尚未登录呢，请进行登录或注册')
                 next({
                     path: '/',
                     query: {redirect: to.fullPath,state:'notlogin'}

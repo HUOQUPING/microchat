@@ -55,6 +55,9 @@ export default {
     if (cookie.get('token')) {
       this.$router.push('/index')
     }
+    if (this.$route.query.state){
+      this.$message.error('客官您尚未登录,请进行登录!')
+    }
     this.gethitokoto()
   },
   methods: {
@@ -64,6 +67,12 @@ export default {
       setTimeout(() => {
         // 将token存入vuex
         this.setToken(cookie.get('token'))
+        if (cookie.get('token')){
+          this.$message.success('客官欢迎您回来！')
+        }else {
+          this.$message.error('客官您的账号密码不对哦,请再输入试试。')
+        }
+
         // 判断是否是从别的地方没权限跳转过来的
         if (this.$route.query.state) {
           this.goBack()
