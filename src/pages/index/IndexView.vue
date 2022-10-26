@@ -9,18 +9,10 @@
       <a-menu theme="dark" mode="inline" :default-selected-keys="['1']" :default-open-keys="['sub1']">
         <a-sub-menu key="sub1">
           <span slot="title"><a-icon type="user"/><span>好友</span></span>
-          <a-menu-item key="1">
-            Option 1
+          <a-menu-item v-for="n in goodfriendsList" :key="n">
+            {{n}}
           </a-menu-item>
-          <a-menu-item key="2">
-            Option 2
-          </a-menu-item>
-          <a-menu-item key="3">
-            Option 3
-          </a-menu-item>
-          <a-menu-item key="4">
-            Option 4
-          </a-menu-item>
+
         </a-sub-menu>
         <a-sub-menu key="sub2">
           <span slot="title"><a-icon type="team"/><span>群组</span></span>
@@ -38,7 +30,7 @@
           </a-menu-item>
         </a-sub-menu>
         <a-sub-menu key="sub3">
-          <span slot="title"><a-icon type="mail"/><span>Navigation One</span></span>
+          <span slot="title"><a-icon type="usergroup-add" /><span>聊天室</span></span>
           <a-menu-item key="9">
             Option 9
           </a-menu-item>
@@ -65,7 +57,7 @@
 <!--        用户弹出栏-->
         <a-popover placement="bottomRight" >
           <template slot="content">
-            <p>个人信息</p>
+            <p >个人信息</p>
             <p @click="closed">退出</p>
           </template>
           <template slot="title">
@@ -91,24 +83,24 @@
 import cookie from "vue-cookie";
 import './indexView.scss'
 import {close} from "@/config/optionsIm";
+import {mapState} from 'vuex'
 
 export default {
   name: "IndexView",
   data() {
     return {
-      collapsed: false
+      collapsed: false,
     }
   },
 
   computed: {
+    ...mapState(['goodfriendsList']),
     token() {
       return cookie.get('token')
     },
-
   },
   methods:{
       closed(){
-        console.log(1)
         close()
         setTimeout(()=>{
           this.$router.replace('/')

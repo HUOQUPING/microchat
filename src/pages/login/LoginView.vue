@@ -33,7 +33,7 @@
 <script>
 import './LoginView.scss'
 
-import {getUserConfig} from '@/config/optionsIm.js'
+import {getUserConfig,getGoodFriends} from '@/config/optionsIm.js'
 import cookie from 'vue-cookie'
 import {mapMutations} from 'vuex'
 
@@ -78,7 +78,8 @@ export default {
           this.goBack()
           return
         }
-        this.$router.push('/index')
+        this.$router.push(`/index?id=${this.username}`)
+        getGoodFriends()
       }, 500)
     },
     // 配合检测是否从别处进入网站

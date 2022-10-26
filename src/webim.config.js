@@ -13,7 +13,7 @@ const config = {
 
     isAutoLogin: true,                        // 自动出席，（如设置为false，则表示离线，无法收消息，需要在登录成功后手动调 用conn.setPresence()才可以收消息）
 
-    isDebug: false,                           // 打开调试，会自动打印log，在控制台的console中查看log
+    isDebug: true,                           // 打开调试，会自动打印log，在控制台的console中查看log
 
     autoReconnectNumMax: 2,                   // 断线重连最大次数
 

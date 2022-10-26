@@ -1,5 +1,6 @@
 import cookie from 'vue-cookie'
 import WebIm from 'easemob-websdk'
+import store from "@/store";
 
 WebIm.conn = new WebIm.connection({
     // 注意这里的 "K" 需大写。
@@ -28,6 +29,22 @@ export let regUser = (username,password)=>{
 export let close = () => {
     WebIm.conn.close()
     cookie.delete('token')
+}
+
+
+//获取好友列表
+export let getGoodFriends = () => {
+    WebIm.conn.getContacts().then((res) => {
+        console.log(res.data)
+        store.commit('setGoodFriendsList',res.data)
+    })
+}
+
+//获取个人信息
+export  let getUser = () => {
+    WebIm.conn.fetchUserInfoById("admin").then((res) => {
+        console.log(res)
+    })
 }
 
 
