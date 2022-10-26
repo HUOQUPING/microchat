@@ -1,0 +1,111 @@
+
+.main {
+  width: 100vw;
+  min-height: 100vh;
+  background: url("/src/assets/images/bg.png") no-repeat;
+  background-size: 100% 100%;
+  display: flex;
+  user-select: none;
+
+  .main-content {
+    margin: auto;
+    min-width: 500px;
+    width: 20%;
+    min-height: 520px;
+    height: 20%;
+    display: flex;
+    flex-direction: column;
+
+    .loginconntent {
+      flex: 1;
+      height: 350px;
+      background: #ffffff88;
+      border-radius: 20px;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-around;
+
+      div {
+        margin: auto;
+        text-align: center;
+        flex: 0;
+
+        .ant-input {
+          width: 100%;
+          height: 100%;
+
+        }
+        &:nth-child(1){
+          font-size: 24px;
+          font-weight: bold;
+        }
+
+        &:nth-child(5) {
+          font-size: 12px;
+          cursor: pointer;
+          text-align: right;
+        }
+      }
+    }
+
+    .todo {
+      flex: 0;
+      margin-top: 50px;
+      height: 100px;
+      display: flex;
+      position: relative;
+
+      .blur {
+        position: absolute;
+        width: 100%;
+        height: 100%;
+        background: #ffffff88;
+        border-radius: 20px;
+        filter:blur(5px);
+      }
+
+      .todobox {
+        margin: auto;
+        width: 90%;
+        height: 65%;
+        position: relative;
+
+        &::before {
+          position: absolute;
+          top: -3px;
+          left: -3px;
+          width: 30px;
+          height: 30px;
+          content: "";
+          border-left: 3px solid #000000;
+          border-top: 3px solid #000000;
+        }
+
+        &::after {
+          position: absolute;
+          bottom: -3px;
+          right: -2px;
+          width: 30px;
+          height: 30px;
+          content: "";
+          border-right: 3px solid #000000;
+          border-bottom: 3px solid #000000;
+        }
+
+        .todo-hitokoto p{
+          font-size: 13px;
+          margin-top: 3px;
+          margin-left: 8px;
+          margin-bottom: 0;
+        }
+
+        .todo-author p{
+          float: right;
+          margin-right: 8px;
+          margin-top: 17px;
+        }
+      }
+    }
+  }
+}
+
