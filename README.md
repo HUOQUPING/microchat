@@ -1,7 +1,7 @@
 # live-chat
 
 ## 使用技术
-` Vue Vuex lodash-es`
+` Vue Vuex Ant Design`
 
 ## 记得先拉取文件(clone)再进行编写程序
 ## 记得在CMD输入 `npm i` 重新下载构建项目
