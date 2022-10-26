@@ -3,8 +3,10 @@ import App from './App.vue'
 import router from './router'
 import store from './store'
 import $axios from 'vue-axios-plugin'
+import 'ant-design-vue/dist/antd.css';
+import Antd from "ant-design-vue";
 
-
+Vue.use(Antd)
 Vue.use($axios, {
   // 请求拦截处理
   reqHandleFunc: config => config,
