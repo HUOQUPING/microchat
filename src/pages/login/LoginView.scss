@@ -2,8 +2,6 @@
 .login {
   width: 100vw;
   min-height: 100vh;
-  background: url("@/assets/images/bg.png") no-repeat;
-  background-size: 100% 100%;
   display: flex;
   user-select: none;
 
@@ -62,10 +60,10 @@
       flex: 1;
       position: relative;
       background:
-      linear-gradient(to left, #fff, #fff) left top no-repeat,
-      linear-gradient(to bottom, #fff, #fff) left top no-repeat,
-      linear-gradient(to left, #fff, #fff) right bottom no-repeat,
-      linear-gradient(to left, #fff, #fff) right bottom no-repeat;
+      linear-gradient(to left, #000, #000) left top no-repeat,
+      linear-gradient(to bottom, #000, #000) left top no-repeat,
+      linear-gradient(to left, #000, #000) right bottom no-repeat,
+      linear-gradient(to left, #000, #000) right bottom no-repeat;
       background-size: 0.12rem 2rem, 2rem 0.12rem;
 
       .text {
@@ -73,13 +71,13 @@
 
         p {
           font-size: 18px;
-          color: #efefef;
+          color: #000;
         }
 
         span {
           display: block;
           text-align: right;
-          color: #eee;
+          color: #000;
         }
       }
     }

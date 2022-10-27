@@ -2,7 +2,8 @@
   <a-layout>
     <div class="login">
       <div class="main">
-        <div class="input-box">
+<!--        登录-->
+        <div class="input-box" v-if="status">
           <div class="logo">
             <h3>畅聊</h3>
           </div>
@@ -16,9 +17,14 @@
             <a-button type="primary" class="login-btn" @click="login">登录</a-button>
           </div>
           <div>
-            <p @click="$router.push('/register')">还没账号？点击注册</p>
+            <p @click="status = false" style="cursor: pointer">还没账号？点击注册</p>
           </div>
         </div>
+
+<!--  注册-->
+        <register-view v-if="!status"></register-view>
+
+<!--        每日一言-->
         <div class="a-word">
           <div class="text">
             <p>{{ hitokoto }}</p>
@@ -36,10 +42,11 @@ import './LoginView.scss'
 import {getUserConfig,getGoodFriends} from '@/config/optionsIm.js'
 import cookie from 'vue-cookie'
 import {mapMutations} from 'vuex'
-
+import RegisterView from "@/pages/register/RegisterView";
 
 export default {
   name: "loginView",
+  components:{RegisterView},
   data() {
     return {
       username: '',
@@ -48,6 +55,8 @@ export default {
       hitokoto: '',
       //作者
       author: '',
+    //  注册登录状态 t登录 f注册
+      status:true
     }
   },
   created() {

@@ -69,15 +69,10 @@
           </span>
         </a-popover>
       </a-layout-header>
-
+<!--    个人信息-->
       <personal-information :show="ifShow" @onclose="onclose"></personal-information>
 
-<!--      内容-->
-      <a-layout-content
-          :style="{ margin: '24px 16px', padding: '24px', background: '#fff', minHeight: '280px' }"
-      >
-        Content
-      </a-layout-content>
+      <chat-content></chat-content>
     </a-layout>
   </a-layout>
 
@@ -90,10 +85,11 @@ import './indexView.scss'
 import {close} from "@/config/optionsIm";
 import {mapState} from 'vuex'
 import PersonalInformation from "@/components/ PersonalInformation/PersonalInformation";
+import ChatContent from "@/components/ChatContent/ChatContent";
 
 export default {
   name: "IndexView",
-  components:{PersonalInformation},
+  components:{PersonalInformation,ChatContent},
 
   data() {
     return {
@@ -115,10 +111,10 @@ export default {
         },500)
 
       },
-
       onclose(val){
         this.ifShow = val
       },
+
   },
 }
 </script>
