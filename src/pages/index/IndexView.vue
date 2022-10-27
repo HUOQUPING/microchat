@@ -82,7 +82,7 @@
 <script>
 import cookie from "vue-cookie";
 import './indexView.scss'
-import {close} from "@/config/optionsIm";
+import {close,tokenLogin} from "@/config/optionsIm";
 import {mapState} from 'vuex'
 import PersonalInformation from "@/components/ PersonalInformation/PersonalInformation";
 import ChatContent from "@/components/ChatContent/ChatContent";
@@ -96,6 +96,10 @@ export default {
       collapsed: false,
       ifShow:false,
     }
+  },
+  created() {
+    let userMsg = JSON.parse(cookie.get('token'))
+    tokenLogin(userMsg.userId,userMsg.token)
   },
   computed: {
     ...mapState(['goodfriendsList','userName']),

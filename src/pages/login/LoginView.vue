@@ -61,8 +61,8 @@ export default {
   },
   created() {
     // 检测当有token时跳转到index
-    if (cookie.get('token')) {
-      this.$router.push('/index')
+    if (cookie.get('token')){
+      this.$router.push(`/index`)
     }
     if (this.$route.query.state){
       this.$message.error('客官您尚未登录,请进行登录!')
@@ -87,7 +87,7 @@ export default {
           this.goBack()
           return
         }
-        this.$router.push(`/index?id=${this.username}`)
+        this.$router.push(`/index`)
         getGoodFriends()
       }, 500)
     },
