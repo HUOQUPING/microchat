@@ -6,7 +6,10 @@ Vue.use(Vuex)
 export default new Vuex.Store({
     state: {
         token: String,
+        //好友列表
         goodfriendsList:[],
+        //用户名
+        userName:'用户名',
     },
     getters: {},
     mutations: {
@@ -15,6 +18,9 @@ export default new Vuex.Store({
         },
         setGoodFriendsList(state,res){
             state.goodfriendsList = res
+        },
+        setUserName(state,name){
+            state.userName = name
         }
 
     },

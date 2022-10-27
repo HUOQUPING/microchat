@@ -7,15 +7,18 @@ WebIm.conn = new WebIm.connection({
     appKey: '1183221025099577#demo',
 })
 
+//登录
 export let getUserConfig = (username, password) => {
     WebIm.conn.open({user:username,pwd:password}).then((res) => {
         console.log(res)
         cookie.set('token',res.accessToken,1)
+        store.commit("setUserName",username)
     }).catch((err) => {
         console.log(err)
     })
 }
 
+//注册
 export let regUser = (username,password)=>{
     WebIm.conn.registerUser({username:username,password:password}).then((res)=>{
         console.log(res)
@@ -41,8 +44,9 @@ export let getGoodFriends = () => {
 }
 
 //获取个人信息
-export  let getUser = () => {
-    WebIm.conn.fetchUserInfoById("admin").then((res) => {
+export  let getUser = (id) => {
+    //第一个参数用户id，第二个想要查询的内容
+    WebIm.conn.fetchUserInfoById(id).then((res) => {
         console.log(res)
     })
 }

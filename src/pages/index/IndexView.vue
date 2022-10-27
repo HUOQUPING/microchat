@@ -1,4 +1,5 @@
 <template>
+  <div>
   <a-layout id="components-layout-demo-custom-trigger">
     <a-layout-sider v-model="collapsed" :trigger="null" collapsible>
 <!--      搜索框-->
@@ -57,17 +58,19 @@
 <!--        用户弹出栏-->
         <a-popover placement="bottomRight" >
           <template slot="content">
-            <p >个人信息</p>
+            <p @click="ifShow = true" >个人信息</p>
             <p @click="closed">退出</p>
           </template>
           <template slot="title">
-            <span>用户名</span>
+            <span>{{userName ?? '用户名'}}</span>
           </template>
           <span style="float: right;margin-right: 16px">
             <a-badge dot><a-avatar shape="square" icon="user"/></a-badge>
           </span>
         </a-popover>
       </a-layout-header>
+
+      <personal-information :show="ifShow" @onclose="onclose"></personal-information>
 
 <!--      内容-->
       <a-layout-content
@@ -77,6 +80,8 @@
       </a-layout-content>
     </a-layout>
   </a-layout>
+
+  </div>
 </template>
 
 <script>
@@ -84,17 +89,20 @@ import cookie from "vue-cookie";
 import './indexView.scss'
 import {close} from "@/config/optionsIm";
 import {mapState} from 'vuex'
+import PersonalInformation from "@/components/ PersonalInformation/PersonalInformation";
 
 export default {
   name: "IndexView",
+  components:{PersonalInformation},
+
   data() {
     return {
       collapsed: false,
+      ifShow:false,
     }
   },
-
   computed: {
-    ...mapState(['goodfriendsList']),
+    ...mapState(['goodfriendsList','userName']),
     token() {
       return cookie.get('token')
     },
@@ -106,6 +114,10 @@ export default {
           this.$router.replace('/')
         },500)
 
+      },
+
+      onclose(val){
+        this.ifShow = val
       },
   },
 }
