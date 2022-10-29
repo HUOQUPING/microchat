@@ -24,6 +24,7 @@ WebIm.conn.listen({
     onOpened: function () {},                  //连接成功回调
     onClosed: function () {},                  //连接关闭回调
     onTextMessage: function ( message ) {
+        //id 会话id msg 内容 time 时间戳 from 发送方 to 接收方 chatType 会话类型
         console.log(message)},    //收到文本消息
     onEmojiMessage: function ( message ) {console.log(message)},   //收到表情消息
     onPictureMessage: function ( message ) {console.log(message)}, //收到图片消息
@@ -125,6 +126,28 @@ export  let getUser = (id) => {
     //第一个参数用户id，第二个想要查询的内容
     WebIm.conn.fetchUserInfoById(id).then((res) => {
         console.log(res)
+    })
+}
+
+//发送消息
+export  let sendMessage = (msg,chatType,ID) => {
+//msg 发送的内容  chatType 会话类型  ID 接收方
+    let option = {
+        type:"txt",
+        msg:msg,
+        to:ID,
+        chatType:chatType
+    }
+
+    let Msg = WebIm.message.create(option)
+    WebIm.conn.send(Msg).then(() => {
+        console.log(`${ID}已经接收到消息`)
+    }).catch((e) => {
+        console.log("发送失败",e)
+    })
+
+    WebIm.conn.getConversationlist().then((res) => {
+        console.log("漫游消息",res)
     })
 }
 

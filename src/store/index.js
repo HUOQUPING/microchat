@@ -10,6 +10,8 @@ export default new Vuex.Store({
         goodfriendsList:[],
         //用户名
         userName:'用户名',
+        //聊天内容
+        charArr:[]
     },
     getters: {},
     mutations: {
@@ -21,6 +23,9 @@ export default new Vuex.Store({
         },
         setUserName(state,name){
             state.userName = name
+        },
+        setCharArr(state,arr){
+            state.charArr = arr
         }
 
     },

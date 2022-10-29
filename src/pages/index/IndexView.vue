@@ -1,7 +1,7 @@
 <template>
   <div>
   <a-layout id="components-layout-demo-custom-trigger">
-    <a-layout-sider v-model="collapsed" :trigger="null" collapsible>
+    <a-layout-sider v-model="collapsed" :trigger="null" collapsible >
 <!--      搜索框-->
       <div class="logo">
         <a-input-search ref="search"/>
@@ -10,7 +10,7 @@
       <a-menu theme="dark" mode="inline" :default-selected-keys="['1']" :default-open-keys="['sub1']">
         <a-sub-menu key="sub1">
           <span slot="title"><a-icon type="user"/><span>好友</span></span>
-          <a-menu-item v-for="n in goodfriendsList" :key="n">
+          <a-menu-item v-for="n in goodfriendsList" :key="n" @click="getUserID(n,SingleChat)">
             {{n}}
           </a-menu-item>
 
@@ -65,14 +65,14 @@
             <span>{{userName ?? '用户名'}}</span>
           </template>
           <span style="float: right;margin-right: 16px">
-            <a-badge dot><a-avatar shape="square" icon="user"/></a-badge>
+            <a-badge><a-avatar shape="square" icon="user"/></a-badge>
           </span>
         </a-popover>
       </a-layout-header>
 <!--    个人信息-->
       <personal-information :show="ifShow" @onclose="onclose"></personal-information>
-
-      <chat-content></chat-content>
+<!--      聊天框-->
+      <chat-content :userid="UserID" :type="chatType"></chat-content>
     </a-layout>
   </a-layout>
 
@@ -95,6 +95,15 @@ export default {
     return {
       collapsed: false,
       ifShow:false,
+      UserID:null,
+      //会话类型
+      chatType:null,
+      //单人聊天
+      SingleChat:"singleChat",
+      //群聊
+      GroupChat:"groupChat",
+      //聊天室
+      ChatRoom:"chatRoom",
     }
   },
   created() {
@@ -119,6 +128,11 @@ export default {
         this.ifShow = val
       },
 
+  //  获取用户id
+    getUserID(id,chatType){
+        this.UserID = id
+        this.chatType = chatType
+    },
   },
 }
 </script>
