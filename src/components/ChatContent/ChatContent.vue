@@ -6,11 +6,19 @@
     >
       <span v-show="userID === null" class="blankTitle">畅聊</span>
 
-        <div :style="{width: '100%',height:'100%'}" v-show="userID !== null" class="chatContent">
-          <a-page-header :style="{border: '1px solid rgb(235, 237, 240)',padding: '10px 24px'}" :title="userid"/>
+        <div :style="{width: '100%',height:'100%'}" v-show="userID !== null" class="chatContent" >
+          <a-page-header :style="{border: '1px solid rgb(235, 237, 240)',padding: '10px 24px'}"
+                         :title="userid"/>
 
 <!--          聊天框-->
-          <div class="titleContent"></div>
+          <div class="titleContent">
+            <ul>
+              <li v-for="(n,i) in this.$store.state.charArr" :key="i">
+                <span
+                    :class="{right:n.from === username,left:n.from !== username}">
+                  {{n.msg}}</span></li>
+            </ul>
+          </div>
 <!--          图标框-->
           <div class="iconContent">
 <!--            表情-->
@@ -68,6 +76,7 @@ import {sendMessage} from "@/config/optionsIm";
 export default {
   name: "ChatContent",
   data(){return {
+    username: null,
     userID:  null,
     text:'',
     chatType:null
@@ -79,13 +88,14 @@ export default {
     },
     type(nV){
       this.chatType = nV
-    }
+    },
   },
 
   methods:{
     sendMsg(){
       let text = this.text.trim()
-      sendMessage(text,this.chatType,this.userID)
+      this.username = this.$store.state.userName
+      sendMessage(text,this.chatType,this.userID,this.username)
       this.text = ''
     },
   },

@@ -19,6 +19,8 @@
 
   .titleContent {
     flex: 0 0 65%;
+    overflow: auto;
+    background: #F3F3FE;
 
     &::-webkit-scrollbar {
       width: 4px;
@@ -34,6 +36,59 @@
       box-shadow: inset 0 0 5px rgba(0,0,0,0.2);
       border-radius: 0;
       background: rgba(0,0,0,0.1);
+    }
+
+    li {
+      overflow: hidden;
+
+      .right {
+        display: inline-block;
+        max-width: 200px;
+        margin: 10px;
+        padding: 0 10px;
+        line-height: 30px;
+        word-break: break-all;
+        white-space: normal;
+        border-radius: 8px;
+        position: relative;
+        background: #52c41a;
+        float: right;
+
+        &:after {
+          content: "";
+          display: block;
+          border-top: 5px solid transparent;
+          border-left: 5px solid #52c41a;
+          border-bottom: 5px solid transparent;
+          position: absolute;
+          top: calc(50% - 2.4px);
+          right: -4px;
+        }
+      }
+
+      .left {
+        display: inline-block;
+        max-width: 200px;
+        margin: 10px;
+        padding: 0 10px;
+        line-height: 30px;
+        word-break: break-all;
+        white-space: normal;
+        border-radius: 8px;
+        position: relative;
+        background: white;
+
+        &:before {
+          content: "";
+          display: block;
+          border-top: 5px solid transparent;
+          border-right: 5px solid white;
+          border-bottom: 5px solid transparent;
+          position: absolute;
+          top: calc(50% - 2.4px);
+          left: -4px;
+        }
+      }
     }
   }
 

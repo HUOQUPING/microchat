@@ -6,8 +6,8 @@ Vue.use(Vuex)
 export default new Vuex.Store({
     state: {
         token: String,
-        //好友列表
-        goodfriendsList:[],
+        //列表
+        GoodFriendsList:[],
         //用户名
         userName:'用户名',
         //聊天内容
@@ -19,13 +19,13 @@ export default new Vuex.Store({
             state.token = token
         },
         setGoodFriendsList(state,res){
-            state.goodfriendsList = res
+            state.GoodFriendsList = res
         },
         setUserName(state,name){
             state.userName = name
         },
         setCharArr(state,arr){
-            state.charArr = arr
+            state.charArr.push(arr)
         }
 
     },

@@ -10,7 +10,7 @@
       <a-menu theme="dark" mode="inline" :default-selected-keys="['1']" :default-open-keys="['sub1']">
         <a-sub-menu key="sub1">
           <span slot="title"><a-icon type="user"/><span>好友</span></span>
-          <a-menu-item v-for="n in goodfriendsList" :key="n" @click="getUserID(n,SingleChat)">
+          <a-menu-item v-for="n in GoodFriendsList" :key="n" @click="getUserID(n,SingleChat)">
             {{n}}
           </a-menu-item>
 
@@ -111,7 +111,7 @@ export default {
     tokenLogin(userMsg.userId,userMsg.token)
   },
   computed: {
-    ...mapState(['goodfriendsList','userName']),
+    ...mapState(['GoodFriendsList','userName']),
     token() {
       return cookie.get('token')
     },
