@@ -7,44 +7,17 @@
         <a-input-search ref="search"/>
       </div>
 <!--      列表-->
-      <a-menu theme="dark" mode="inline" :default-selected-keys="['1']" :default-open-keys="['sub1']">
-        <a-sub-menu key="sub1">
-          <span slot="title"><a-icon type="user"/><span>好友</span></span>
-          <a-menu-item v-for="n in GoodFriendsList" :key="n" @click="getUserID(n,SingleChat)">
-            {{n}}
+      <a-menu theme="dark" mode="inline" :default-selected-keys="['1']" :default-open-keys="['sub1']" >
+
+        <a-sub-menu :key="i" v-for="(n,i) in List">
+          <span slot="title"><a-icon type="user"/><span>{{n.name}}</span></span>
+          <a-menu-item v-for="(nn,i) in n.arr" :key="nn.id ?? nn.groupid ?? i"
+                       @click="getUserID(nn.name ?? nn.groupname ?? nn,SingleChat)">
+            {{nn.name ?? nn.groupname ?? nn}}
           </a-menu-item>
 
         </a-sub-menu>
-        <a-sub-menu key="sub2">
-          <span slot="title"><a-icon type="team"/><span>群组</span></span>
-          <a-menu-item key="5">
-            Option 5
-          </a-menu-item>
-          <a-menu-item key="6">
-            Option 6
-          </a-menu-item>
-          <a-menu-item key="7">
-            Option 7
-          </a-menu-item>
-          <a-menu-item key="8">
-            Option 8
-          </a-menu-item>
-        </a-sub-menu>
-        <a-sub-menu key="sub3">
-          <span slot="title"><a-icon type="usergroup-add" /><span>聊天室</span></span>
-          <a-menu-item key="9">
-            Option 9
-          </a-menu-item>
-          <a-menu-item key="10">
-            Option 10
-          </a-menu-item>
-          <a-menu-item key="11">
-            Option 11
-          </a-menu-item>
-          <a-menu-item key="12">
-            Option 12
-          </a-menu-item>
-        </a-sub-menu>
+
       </a-menu>
 
     </a-layout-sider>
@@ -72,7 +45,9 @@
 <!--    个人信息-->
       <personal-information :show="ifShow" @onclose="onclose"></personal-information>
 <!--      聊天框-->
-      <chat-content :userid="UserID" :type="chatType"></chat-content>
+      <div :style="{height:'100%'}">
+        <chat-content :userid="UserID" :type="chatType" :style="{height: '100%'}"></chat-content>
+      </div>
     </a-layout>
   </a-layout>
 
@@ -111,7 +86,7 @@ export default {
     tokenLogin(userMsg.userId,userMsg.token)
   },
   computed: {
-    ...mapState(['GoodFriendsList','userName']),
+    ...mapState(['List','userName']),
     token() {
       return cookie.get('token')
     },

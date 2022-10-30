@@ -133,6 +133,8 @@ export let tokenLogin = (username, asscctoken) => {
     WebIm.conn.open({user: username, accessToken: asscctoken}).then((res) => {
         store.commit("setUserName", username)
         getGoodFriends()
+        getGroups()
+        getRooms()
         console.log("token登录", res)
     }).catch((reason) => {
         console.log("login fail", reason);
@@ -161,6 +163,32 @@ export let close = () => {
 export let getGoodFriends = () => {
     WebIm.conn.getContacts().then((res) => {
         store.commit('setGoodFriendsList', res.data)
+        console.log("好友列表",res.data)
+    })
+}
+
+//获取群列表
+export let getGroups = () => {
+    WebIm.conn.getJoinedGroups( {
+        pageNum: 1,
+        pageSize: 20,
+        needAffiliations: false,
+        needRole: false,
+    }).then((res) => {
+        store.commit('setGroupList', res.data)
+        console.log("群列表",res.data)
+    })
+}
+
+//获取聊天室
+export  let getRooms  = () => {
+    let opt = {
+        pagenum:1,
+        pagesize:20
+    }
+    WebIm.conn.getChatRooms(opt).then((res) => {
+        store.commit('setRoomList', res.data)
+        console.log("聊天室",res.data)
     })
 }
 
