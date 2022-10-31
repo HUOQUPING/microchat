@@ -100,7 +100,7 @@
 </template>
 
 <script>
-import './ PersonalInformation.scss'
+import './PersonalInformation.scss'
 
 export default {
   name: "PersonalInformation",

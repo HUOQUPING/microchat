@@ -10,7 +10,9 @@
       <a-menu theme="dark" mode="inline" :default-selected-keys="['1']" :default-open-keys="['sub1']" >
 
         <a-sub-menu :key="i" v-for="(n,i) in List">
-          <span slot="title"><a-icon type="user"/><span>{{n.name}}</span></span>
+          <span slot="title" v-if="n.name === '好友'"><a-icon type="user"/><span>{{n.name}}</span></span>
+          <span slot="title" v-if="n.name === '群组'"><a-icon type="team" /><span>{{n.name}}</span></span>
+          <span slot="title" v-if="n.name === '聊天室'"><a-icon type="usergroup-add" /><span>{{n.name}}</span></span>
           <a-menu-item v-for="(nn,i) in n.arr" :key="nn.id ?? nn.groupid ?? i"
                        @click="getUserID(nn.name ?? nn.groupname ?? nn,n.name)">
             {{nn.name ?? nn.groupname ?? nn}}
@@ -57,7 +59,7 @@ import cookie from "vue-cookie";
 import './indexView.scss'
 import {close,tokenLogin} from "@/config/optionsIm";
 import {mapState} from 'vuex'
-import PersonalInformation from "@/components/ PersonalInformation/PersonalInformation";
+import PersonalInformation from "@/components/PersonalInformation/PersonalInformation";
 import ChatContent from "@/components/ChatContent/ChatContent";
 
 export default {
