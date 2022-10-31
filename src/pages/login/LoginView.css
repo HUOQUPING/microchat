@@ -1,0 +1,80 @@
+.login {
+  width: 100vw;
+  min-height: 100vh;
+  display: flex;
+  user-select: none;
+}
+
+.login .main {
+  width: 520px;
+  height: 560px;
+  margin: auto;
+  display: flex;
+  flex-direction: column;
+}
+
+.login .main .input-box {
+  flex: 0 0 60%;
+  display: flex;
+  background: rgba(255, 255, 255, 0.8);
+  flex-direction: column;
+}
+
+.login .main .input-box div {
+  margin: 1vh auto;
+  width: 60%;
+}
+
+.login .main .input-box div:nth-child(1) {
+  margin-top: 2vh;
+  width: 80%;
+}
+
+.login .main .input-box h3 {
+  font-size: 38px;
+  font-weight: 700;
+  text-align: center;
+}
+
+.login .main .input-box .ant-input {
+  font-size: 14px;
+  line-height: 28px;
+  height: auto;
+}
+
+.login .main .input-box .login-btn {
+  margin: 1vh auto;
+  text-align: center;
+  width: 40%;
+}
+
+.login .main .input-box div:last-child {
+  width: 80%;
+}
+
+.login .main .input-box p {
+  text-align: right;
+}
+
+.login .main .a-word {
+  margin-top: 10vh;
+  flex: 1;
+  position: relative;
+  background: linear-gradient(to left, #000, #000) left top no-repeat, linear-gradient(to bottom, #000, #000) left top no-repeat, linear-gradient(to left, #000, #000) right bottom no-repeat, linear-gradient(to left, #000, #000) right bottom no-repeat;
+  background-size: 0.12rem 2rem, 2rem 0.12rem;
+}
+
+.login .main .a-word .text {
+  padding: 30px;
+}
+
+.login .main .a-word .text p {
+  font-size: 18px;
+  color: #000;
+}
+
+.login .main .a-word .text span {
+  display: block;
+  text-align: right;
+  color: #000;
+}

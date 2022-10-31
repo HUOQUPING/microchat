@@ -1,0 +1,29 @@
+.registerbox {
+  flex: 0 0 60%;
+  background: rgba(255, 255, 255, 0.8);
+  display: flex;
+  justify-content: space-around;
+  flex-direction: column;
+  align-items: center;
+}
+
+.registerbox div {
+  margin: 1vh auto;
+  width: 60%;
+}
+
+.registerbox h3 {
+  font-size: 38px;
+  font-weight: 700;
+  text-align: center;
+}
+
+.registerbox .register-btn {
+  margin: 1vh auto;
+  text-align: center;
+  width: 40%;
+}
+
+.registerbox p {
+  text-align: right;
+}

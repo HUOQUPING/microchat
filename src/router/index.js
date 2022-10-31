@@ -12,6 +12,7 @@ const routes = [
         name: 'loginView',
         component: LoginView,
     },
+ 
     {
         path: '/index',
         name: 'index',
