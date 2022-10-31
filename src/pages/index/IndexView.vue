@@ -45,9 +45,7 @@
 <!--    个人信息-->
       <personal-information :show="ifShow" @onclose="onclose"></personal-information>
 <!--      聊天框-->
-      <div :style="{height:'100%'}">
-        <chat-content :userid="UserID" :type="chatType" :style="{height: '100%'}"></chat-content>
-      </div>
+        <chat-content :userid="UserID" :type="chatType" ></chat-content>
     </a-layout>
   </a-layout>
 

@@ -11,12 +11,12 @@
                          :title="userid"/>
 
 <!--          聊天框-->
-          <div class="titleContent">
-            <ul>
-              <li v-for="(n,i) in this.$store.state.charArr" :key="i">
+          <div class="titleContent" ref="listContent">
+            <ul v-for="(n,i) in this.$store.state.charArr" :key="i" v-show="n.to === userid">
+              <li v-for="(nn,i) in n.arr" :key="i">
                 <span
-                    :class="{right:n.from === username,left:n.from !== username}">
-                  {{n.msg}}</span></li>
+                    :class="{right:nn.from === username,left:nn.from !== username}">
+                  {{nn.msg}}</span></li>
             </ul>
           </div>
 <!--          图标框-->
@@ -73,13 +73,14 @@
 import './ChatContent.scss'
 import {sendMessage} from "@/config/optionsIm";
 
+
 export default {
   name: "ChatContent",
   data(){return {
     username: null,
     userID:  null,
     text:'',
-    chatType:null
+    chatType:null,
   }},
   props:['userid','type'],
   watch:{
@@ -94,9 +95,18 @@ export default {
   methods:{
     sendMsg(){
       let text = this.text.trim()
-      this.username = this.$store.state.userName
-      sendMessage(text,this.chatType,this.userID,this.username)
-      this.text = ''
+      if (text){
+        this.username = this.$store.state.userName
+        sendMessage(text,this.chatType,this.userID,this.username)
+        setTimeout(() => {
+          this.$nextTick(() => {
+            this.$refs.listContent.scrollTop = this.$refs.listContent.scrollHeight
+          })
+        },100)
+
+        this.text = ''
+      }
+      console.log("聊天内容",this.$store.state.charArr)
     },
   },
 }

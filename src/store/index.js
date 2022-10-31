@@ -39,8 +39,18 @@ export default new Vuex.Store({
         setUserName(state,name){
             state.userName = name
         },
-        setCharArr(state,arr){
-            state.charArr.push(arr)
+        setCharArr(state,msg){
+            let i = state.charArr.findIndex(item => item.to === msg.to)
+            if (i === -1){
+                let opt = {
+                    to:msg.to,
+                    arr:[]
+                }
+                opt.arr.push(msg)
+                state.charArr.push(opt)
+            }else if (i !== -1){
+                state.charArr[i].arr.push(msg)
+            }
         }
 
     },
