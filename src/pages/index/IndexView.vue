@@ -12,7 +12,7 @@
         <a-sub-menu :key="i" v-for="(n,i) in List">
           <span slot="title"><a-icon type="user"/><span>{{n.name}}</span></span>
           <a-menu-item v-for="(nn,i) in n.arr" :key="nn.id ?? nn.groupid ?? i"
-                       @click="getUserID(nn.name ?? nn.groupname ?? nn,SingleChat)">
+                       @click="getUserID(nn.name ?? nn.groupname ?? nn,n.name)">
             {{nn.name ?? nn.groupname ?? nn}}
           </a-menu-item>
 
@@ -35,7 +35,7 @@
             <p @click="closed">退出</p>
           </template>
           <template slot="title">
-            <span>{{userName ?? '用户名'}}</span>
+            <span>{{this.$store.state.userName ?? '用户名'}}</span>
           </template>
           <span style="float: right;margin-right: 16px">
             <a-badge><a-avatar shape="square" icon="user"/></a-badge>
@@ -84,7 +84,7 @@ export default {
     tokenLogin(userMsg.userId,userMsg.token)
   },
   computed: {
-    ...mapState(['List','userName']),
+    ...mapState(['List']),
     token() {
       return cookie.get('token')
     },
@@ -102,9 +102,16 @@ export default {
       },
 
   //  获取用户id
-    getUserID(id,chatType){
+    getUserID(id,name){
         this.UserID = id
-        this.chatType = chatType
+
+        if (name === "好友"){
+          this.chatType = this.SingleChat
+        }else  if (name === "群组"){
+          this.chatType = this.GroupChat
+        }else  if (name === "聊天室"){
+          this.chatType = this.ChatRoom
+        }
     },
   },
 }

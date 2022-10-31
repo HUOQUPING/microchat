@@ -14,9 +14,17 @@
           <div class="titleContent" ref="listContent">
             <ul v-for="(n,i) in this.$store.state.charArr" :key="i" v-show="n.to === userid">
               <li v-for="(nn,i) in n.arr" :key="i">
-                <span
-                    :class="{right:nn.from === username,left:nn.from !== username}">
-                  {{nn.msg}}</span></li>
+                <span :class="{rightIcon:nn.from === username,leftIcon:nn.from !== username}">
+                    <a-avatar shape="square" icon="user"/>
+                  <span v-if="nn.from === username">{{nn.from}}</span>
+                  <span v-if="nn.from !== username">{{nn.to}}</span>
+                </span>
+
+                  <span
+                      :class="{right:nn.from === username,left:nn.from !== username}">
+                  {{nn.msg}}</span>
+
+              </li>
             </ul>
           </div>
 <!--          图标框-->
