@@ -5,31 +5,52 @@
     </div>
     <!-- 注册 -->
     <div class="username">
-      <a-input placeholder="用户名" v-model="username"></a-input>
+      <a-input placeholder="用户名" v-model="username">
+        <a-icon slot="prefix" type="user" />
+      </a-input>
     </div>
     <!-- 密码 -->
     <div class="passwd">
       <a-input-password
         placeholder="密码"
         v-model="password1"
-      ></a-input-password>
+      >
+        <a-icon slot="prefix" type="lock" />
+      </a-input-password>
     </div>
     <!-- 确认密码 -->
     <div class="passwd">
       <a-input-password
         placeholder="确认密码"
         v-model="password2"
-      ></a-input-password>
+      >
+        <a-icon slot="prefix" type="lock" />
+      </a-input-password>
     </div>
+
+    <!-- 手机验证码 -->
+<!--    <div class="verification-code">-->
+<!--      <a-input-->
+<!--          class="verificationCode"-->
+<!--          type="text"-->
+<!--          placeholder="手机验证码"-->
+<!--          :style="{width:'55%'}"-->
+<!--      >-->
+<!--        <a-icon slot="prefix" type="mobile" />-->
+<!--      </a-input>-->
+<!--    </div>-->
 
     <!-- 验证码 -->
     <div class="verification-code">
-      <input
-        type="text"
-        class="verificationCode"
-        placeholder="验证码"
-        v-model="captchacode"
-      />
+      <a-input
+          class="verificationCode"
+          type="text"
+          placeholder="验证码"
+          v-model="captchacode"
+          :style="{width:'55%'}"
+      >
+        <a-icon slot="prefix" type="lock" />
+      </a-input>
       <canvas id="captcha" class="captcha" ref="captcha"></canvas>
     </div>
 
@@ -71,7 +92,6 @@ export default {
         this.$router.push('/index')
         console.log('已有账号请去主页登入');
      }
-    
 
     this.initCaptcha();
   },
@@ -113,13 +133,3 @@ export default {
   },
 };
 </script>
-<style scoped>
-.verification-code {
-  display: flex;
-  justify-content: space-between;
-}
-.captcha {
-  width: 120px;
-  height: 30px;
-}
-</style>

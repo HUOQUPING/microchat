@@ -8,10 +8,14 @@
             <h3>畅聊</h3>
           </div>
           <div class="username">
-            <a-input placeholder="用户名" v-model="username"></a-input>
+            <a-input placeholder="用户名" v-model="username">
+              <a-icon slot="prefix" type="user" />
+            </a-input>
           </div>
           <div class="passwd">
-            <a-input-password placeholder="密码" v-model="password"></a-input-password>
+            <a-input-password placeholder="密码" v-model="password">
+              <a-icon slot="prefix" type="lock" />
+            </a-input-password>
           </div>
           <div class="login-btn">
             <a-button type="primary" class="login-btn" @click="login">登录</a-button>
@@ -38,7 +42,6 @@
 
 <script>
 import './LoginView.scss'
-
 import {getUserConfig,getGoodFriends,getGroups} from '@/config/optionsIm.js'
 import cookie from 'vue-cookie'
 import {mapMutations} from 'vuex'

@@ -3,8 +3,8 @@
   <a-layout id="components-layout-demo-custom-trigger">
     <a-layout-sider v-model="collapsed" :trigger="null" collapsible >
 <!--      搜索框-->
-      <div class="logo">
-        <a-input-search ref="search"/>
+      <div class="logo" >
+        <a-input-search ref="search"  />
       </div>
 <!--      列表-->
       <a-menu theme="dark" mode="inline" :default-selected-keys="['1']" :default-open-keys="['sub1']" >
@@ -30,6 +30,16 @@
             :type="collapsed ? 'menu-unfold' : 'menu-fold'"
             @click="() => (collapsed = !collapsed)"
         />
+
+<!--        添加好友/群-->
+        <a-popover placement="bottom">
+          <template slot="content">
+            <p>添加好友/群</p>
+            <p>创建群聊/聊天室</p>
+          </template>
+          <a-icon type="user-add" class="trigger" :style="{padding:'0',lineHeight:'0'}"/>
+        </a-popover>
+
 <!--        用户弹出栏-->
         <a-popover placement="bottomRight" >
           <template slot="content">

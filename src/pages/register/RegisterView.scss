@@ -24,7 +24,16 @@
     p {
     text-align: right;
   }
+}
 
+.verification-code {
+  display: flex;
+  justify-content: space-between;
+}
+.captcha {
+  width: 120px;
+  height: 30px;
+  border-radius: 4px;
 }
 
 

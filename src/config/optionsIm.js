@@ -167,6 +167,7 @@ export let getGoodFriends = () => {
 
 //获取群列表
 export let getGroups = () => {
+    //needAffiliations needRole 不知道什么参数 文档为true 获取不到 为false 才能获取
     WebIm.conn.getJoinedGroups( {
         pageNum: 1,
         pageSize: 20,
