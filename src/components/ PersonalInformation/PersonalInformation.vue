@@ -22,7 +22,7 @@
           <a-col :span="20">
 <!--            用户id-->
             <a-form-item label="用户ID">
-              <a-input :disabled="true" v-model="userID"/>
+              <a-input :disabled="true" v-model="this.$store.state.userName"/>
             </a-form-item>
           </a-col>
         </a-row>
@@ -108,7 +108,6 @@ export default {
     return {
       form: this.$form.createForm(this),
       visible: false,
-      userID:this.$store.state.userName
     }
   },
   watch: {
