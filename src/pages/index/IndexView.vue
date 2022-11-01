@@ -32,13 +32,19 @@
         />
 
 <!--        添加好友/群-->
-        <a-popover placement="bottom">
-          <template slot="content">
-            <p>添加好友/群</p>
-            <p>创建群聊/聊天室</p>
+        <a-tooltip placement="bottom" :mouseEnterDelay="1">
+          <template #title>
+            <span :style="{fontSize:'12px'}">添加好友/群</span>
           </template>
-          <a-icon type="user-add" class="trigger" :style="{padding:'0',lineHeight:'0'}"/>
-        </a-popover>
+          <a-icon type="user-add" class="trigger" :style="{padding:'0 24px 0 0',lineHeight:'0'}"/>
+        </a-tooltip>
+<!--        创建群/聊天室-->
+        <a-tooltip placement="bottom" :mouseEnterDelay="1">
+          <template #title>
+            <span :style="{fontSize:'12px'}">创建群/聊天室</span>
+          </template>
+          <a-icon type="usergroup-add" class="trigger" :style="{padding:'0 24px 0 0',lineHeight:'0'}"/>
+        </a-tooltip>
 
 <!--        用户弹出栏-->
         <a-popover placement="bottomRight" >
