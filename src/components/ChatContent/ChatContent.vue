@@ -12,7 +12,7 @@
 
 <!--          聊天框-->
           <div class="titleContent" ref="listContent">
-            <ul v-for="(n,i) in this.$store.state.charArr" :key="i" v-show="n.to === userid">
+            <ul v-for="(n,i) in this.$store.state.charArr" :key="i" v-show="n.to === sendID">
               <li v-for="(nn,i) in n.arr" :key="i">
                 <span :class="{rightIcon:nn.from === username,leftIcon:nn.from !== username}">
                     <a-avatar shape="square" icon="user"/>
@@ -89,8 +89,9 @@ export default {
     userID:  null,
     text:'',
     chatType:null,
+    sendID:null
   }},
-  props:['userid','type'],
+  props:['userid','type','sendid'],
   watch:{
     userid(nV){
       this.userID = nV
@@ -98,6 +99,9 @@ export default {
     type(nV){
       this.chatType = nV
     },
+    sendid(nV){
+      this.sendID = nV
+    }
   },
 
   methods:{
@@ -105,7 +109,7 @@ export default {
       let text = this.text.trim()
       if (text){
         this.username = this.$store.state.userName
-        sendMessage(text,this.chatType,this.userID,this.username)
+        sendMessage(text,this.chatType,this.sendID,this.username)
         setTimeout(() => {
           this.$nextTick(() => {
             this.$refs.listContent.scrollTop = this.$refs.listContent.scrollHeight

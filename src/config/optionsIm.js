@@ -219,6 +219,7 @@ export let sendMessage = (msg, chatType, ID,useName) => {
         console.log("发送失败", e)
     })
 
+
     // WebIm.conn.getConversationlist().then((res) => {
     //     console.log("漫游消息",res)
     // })

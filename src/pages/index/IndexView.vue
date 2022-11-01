@@ -13,8 +13,9 @@
           <span slot="title" v-if="n.name === '好友'"><a-icon type="user"/><span>{{n.name}}</span></span>
           <span slot="title" v-if="n.name === '群组'"><a-icon type="team" /><span>{{n.name}}</span></span>
           <span slot="title" v-if="n.name === '聊天室'"><a-icon type="usergroup-add" /><span>{{n.name}}</span></span>
+
           <a-menu-item v-for="(nn,i) in n.arr" :key="nn.id ?? nn.groupid ?? i"
-                       @click="getUserID(nn.name ?? nn.groupname ?? nn,n.name)">
+                       @click="getUserID(nn.name ?? nn.groupname ?? nn,n.name,nn.id ?? nn.groupid ?? nn)">
             {{nn.name ?? nn.groupname ?? nn}}
           </a-menu-item>
 
@@ -59,11 +60,23 @@
             <a-badge><a-avatar shape="square" icon="user"/></a-badge>
           </span>
         </a-popover>
+
+<!--          消息提示  ant-badge-dot 判断类名-->
+        <span style="float: right;" class="trigger">
+             <a-badge dot>
+                <a-icon type="bell"  :style="{fontSize:'18px'}" />
+              </a-badge>
+        </span>
+
+
+
       </a-layout-header>
+
+
 <!--    个人信息-->
       <personal-information :show="ifShow" @onclose="onclose"></personal-information>
 <!--      聊天框-->
-        <chat-content :userid="UserID" :type="chatType" ></chat-content>
+        <chat-content :userid="UserID" :type="chatType" :sendid="sendID"></chat-content>
     </a-layout>
   </a-layout>
 
@@ -86,9 +99,12 @@ export default {
     return {
       collapsed: false,
       ifShow:false,
+      //接收方名字
       UserID:null,
       //会话类型
       chatType:null,
+      //接收方id
+      sendID:null,
       //单人聊天
       SingleChat:"singleChat",
       //群聊
@@ -120,9 +136,9 @@ export default {
       },
 
   //  获取用户id
-    getUserID(id,name){
+    getUserID(id,name,ID){
         this.UserID = id
-
+        this.sendID = ID
         if (name === "好友"){
           this.chatType = this.SingleChat
         }else  if (name === "群组"){
