@@ -37,14 +37,14 @@
           <template #title>
             <span :style="{fontSize:'12px'}">添加好友/群</span>
           </template>
-          <a-icon type="user-add" class="trigger" :style="{padding:'0 24px 0 0',lineHeight:'0'}"/>
+          <a-icon type="user-add" class="trigger" :style="{margin:'0 24px 0 0',lineHeight:'0',padding: '0'}"/>
         </a-tooltip>
 <!--        创建群/聊天室-->
         <a-tooltip placement="bottom" :mouseEnterDelay="1">
           <template #title>
             <span :style="{fontSize:'12px'}">创建群/聊天室</span>
           </template>
-          <a-icon type="usergroup-add" class="trigger" :style="{padding:'0 24px 0 0',lineHeight:'0'}"/>
+          <a-icon type="usergroup-add" class="trigger" :style="{margin:'0 24px 0 0',lineHeight:'0',padding: '0'}"/>
         </a-tooltip>
 
 <!--        用户弹出栏-->
@@ -61,9 +61,9 @@
           </span>
         </a-popover>
 
-<!--          消息提示  ant-badge-dot 判断类名-->
+<!--          消息提示-->
         <span style="float: right;" class="trigger">
-             <a-badge dot>
+             <a-badge :dot="show">
                 <a-icon type="bell"  :style="{fontSize:'18px'}" />
               </a-badge>
         </span>
@@ -111,6 +111,8 @@ export default {
       GroupChat:"groupChat",
       //聊天室
       ChatRoom:"chatRoom",
+      //小圆点显示
+      show:true
     }
   },
   created() {
