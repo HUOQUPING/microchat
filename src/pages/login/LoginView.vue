@@ -8,7 +8,7 @@
             <h3>畅聊</h3>
           </div>
           <div class="username">
-            <a-input placeholder="用户名" v-model="username">
+            <a-input placeholder="用户名" v-model="userId">
               <a-icon slot="prefix" type="user" />
             </a-input>
           </div>
@@ -52,7 +52,7 @@ export default {
   components:{RegisterView},
   data() {
     return {
-      username: '',
+      userId: '',
       password: '',
       //每日一言
       hitokoto: '',
@@ -74,7 +74,7 @@ export default {
   },
   methods: {
     login() {
-      getUserConfig(this.username, this.password)
+      getUserConfig(this.userId, this.password)
       // 这里setTimeout是防止获取token有的时候会获取慢
       setTimeout(() => {
         // 将token存入vuex

@@ -50,11 +50,11 @@
 <!--        用户弹出栏-->
         <a-popover placement="bottomRight" >
           <template slot="content">
-            <p @click="ifShow = true" >个人信息</p>
+            <p @click="ifShow = true">个人信息</p>
             <p @click="closed">退出</p>
           </template>
           <template slot="title">
-            <span>{{this.$store.state.userName ?? '用户名'}}</span>
+            <span>{{this.$store.state.userId ?? '用户名'}}</span>
           </template>
           <span style="float: right;margin-right: 16px">
             <a-badge><a-avatar shape="square" icon="user"/></a-badge>
@@ -118,7 +118,7 @@ export default {
     tokenLogin(userMsg.userId,userMsg.token)
   },
   computed: {
-    ...mapState(['List']),
+    ...mapState(['List','userId']),
     token() {
       return cookie.get('token')
     },
@@ -147,7 +147,7 @@ export default {
           this.chatType = this.ChatRoom
         }
     },
-  },
+  }
 }
 </script>
 

@@ -20,14 +20,14 @@ WebIm.conn = new WebIm.connection({
 
 })
 
-WebIm.conn.addEventHandler("eventName",{
+WebIm.conn.addEventHandler("eventName", {
     onOpened: function () {
     },                  //连接成功回调
     onClosed: function () {
     },                  //连接关闭回调
     onTextMessage: function (message) {
         //id 会话id msg 内容 time 时间戳 from 发送方 to 接收方 chatType 会话类型
-        store.commit("setCharArr",message)
+        store.commit("setCharArr", message)
     },    //收到文本消息
     onEmojiMessage: function (message) {
         console.log(message)
@@ -84,7 +84,7 @@ WebIm.conn.addEventHandler("eventName",{
         console.log(message)
     },          //失败回调
     onBlacklistUpdate: function (list) {       //黑名单变动
-        // 查询黑名单，将好友拉黑，将好友从黑名单移除都会回调这个函数，list则是黑名单现有的所有好友信息
+                                               // 查询黑名单，将好友拉黑，将好友从黑名单移除都会回调这个函数，list则是黑名单现有的所有好友信息
         console.log(list);
     },
     onRecallMessage: function (message) {
@@ -111,28 +111,30 @@ WebIm.conn.addEventHandler("eventName",{
 });
 
 //账号密码登录
-export let getUserConfig = (username, password) => {
-    WebIm.conn.open({user: username, pwd: password}).then((res) => {
+export let getUserConfig = (userId, password) => {
+    WebIm.conn.open({user: userId, pwd: password}).then((res) => {
         console.log(res)
         let msg = {
             token: res.accessToken,
-            userId: username
+            userId: userId
         }
         cookie.set('token', JSON.stringify(msg), 1)
-        store.commit("setUserName", username)
-        console.log("账号登录")
+        store.commit("setUserName", userId)
+        getUserInfo(userId)
+        console.log("账号登录成功")
     }).catch((err) => {
         console.log(err)
     })
 }
 
 //账号token登录
-export let tokenLogin = (username, asscctoken) => {
-    WebIm.conn.open({user: username, accessToken: asscctoken}).then((res) => {
-        store.commit("setUserName", username)
+export let tokenLogin = (userId, asscctoken) => {
+    WebIm.conn.open({user: userId, accessToken: asscctoken}).then((res) => {
+        store.commit("setUserId", userId)
         getGoodFriends()
         getGroups()
         getRooms()
+        getUserInfo(userId)
         console.log("token登录", res)
     }).catch((reason) => {
         console.log("login fail", reason);
@@ -161,51 +163,43 @@ export let close = () => {
 export let getGoodFriends = () => {
     WebIm.conn.getContacts().then((res) => {
         store.commit('setGoodFriendsList', res.data)
-        console.log("好友列表",res.data)
+        console.log("好友列表", res.data)
     })
 }
 
 //获取群列表
 export let getGroups = () => {
     //needAffiliations needRole 不知道什么参数 文档为true 获取不到 为false 才能获取
-    WebIm.conn.getJoinedGroups( {
+    WebIm.conn.getJoinedGroups({
         pageNum: 1,
         pageSize: 20,
         needAffiliations: false,
         needRole: false,
     }).then((res) => {
         store.commit('setGroupList', res.data)
-        console.log("群列表",res.data)
+        console.log("群列表", res.data)
     })
 }
 
 //获取聊天室
-export  let getRooms  = () => {
+export let getRooms = () => {
     let opt = {
-        pagenum:1,
-        pagesize:20
+        pagenum: 1,
+        pagesize: 20
     }
     WebIm.conn.getChatRooms(opt).then((res) => {
         store.commit('setRoomList', res.data)
-        console.log("聊天室",res.data)
-    })
-}
-
-//获取个人信息
-export let getUser = (id) => {
-    //第一个参数用户id，第二个想要查询的内容
-    WebIm.conn.fetchUserInfoById(id).then((res) => {
-        console.log(res)
+        console.log("聊天室", res.data)
     })
 }
 
 //发送消息
-export let sendMessage = (msg, chatType, ID,useName) => {
+export let sendMessage = (msg, chatType, ID, useName) => {
 //msg 发送的内容  chatType 会话类型  ID 接收方
     let option = {
         type: "txt",
         msg: msg,
-        from:useName,
+        from: useName,
         to: ID,
         chatType: chatType
     }
@@ -214,7 +208,7 @@ export let sendMessage = (msg, chatType, ID,useName) => {
     WebIm.conn.send(Msg).then(() => {
         console.log(`${ID}已经接收到消息`)
         //id 会话id msg 内容 time 时间戳 from 发送方 to 接收方 chatType 会话类型
-        store.commit("setCharArr",Msg)
+        store.commit("setCharArr", Msg)
     }).catch((e) => {
         console.log("发送失败", e)
     })
@@ -225,11 +219,21 @@ export let sendMessage = (msg, chatType, ID,useName) => {
     // })
 }
 
-//存储消息
-export  let setMsgArr = () => {
-
+//获取个人信息
+export let getUserInfo = (id) => {
+    //第一个参数用户id，第二个想要查询的内容
+    WebIm.conn.fetchUserInfoById(id).then((res) => {
+        console.log('获取个人信息', res.data)
+    })
 }
 
+// 设置个人信息
+export let setUserInfo = (option) => {
+    console.log(option)
+    WebIm.conn.updateUserInfo(option).then((res) => {
+        console.log('设置个人信息',res)
+    })
+}
 
 
 
