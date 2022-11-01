@@ -28,6 +28,7 @@
       <a-layout-header style="background: #fff; padding: 0">
         <a-icon
             class="trigger"
+            :style="{padding:'0',margin:'0 24px 0 24px',lineHeight:'0'}"
             :type="collapsed ? 'menu-unfold' : 'menu-fold'"
             @click="() => (collapsed = !collapsed)"
         />
@@ -37,8 +38,11 @@
           <template #title>
             <span :style="{fontSize:'12px'}">添加好友/群</span>
           </template>
-          <a-icon type="user-add" class="trigger" :style="{margin:'0 24px 0 0',lineHeight:'0',padding: '0'}"/>
+          <a-icon type="user-add" class="trigger"
+                  @click="showModal"
+                  :style="{margin:'0 24px 0 0',lineHeight:'0',padding: '0'}"/>
         </a-tooltip>
+
 <!--        创建群/聊天室-->
         <a-tooltip placement="bottom" :mouseEnterDelay="1">
           <template #title>
@@ -68,8 +72,6 @@
               </a-badge>
         </span>
 
-
-
       </a-layout-header>
 
 
@@ -80,6 +82,7 @@
     </a-layout>
   </a-layout>
 
+    <add-ition :status="visible" @addhandle="addhandle" ></add-ition>
   </div>
 </template>
 
@@ -90,10 +93,11 @@ import {close,tokenLogin} from "@/config/optionsIm";
 import {mapState} from 'vuex'
 import PersonalInformation from "@/components/PersonalInformation/PersonalInformation";
 import ChatContent from "@/components/ChatContent/ChatContent";
+import AddItion from "@/components/AddItion/AddItion";
 
 export default {
   name: "IndexView",
-  components:{PersonalInformation,ChatContent},
+  components:{PersonalInformation,ChatContent,AddItion},
 
   data() {
     return {
@@ -112,7 +116,9 @@ export default {
       //聊天室
       ChatRoom:"chatRoom",
       //小圆点显示
-      show:true
+      show:true,
+      //添加好友框状态
+      visible: false,
     }
   },
   created() {
@@ -149,6 +155,14 @@ export default {
           this.chatType = this.ChatRoom
         }
     },
+
+    //显示添加好友框
+    showModal() {
+      this.visible = true;
+    },
+    addhandle(val) {
+        this.visible = val
+    }
   }
 }
 </script>
