@@ -61,8 +61,8 @@
       >
     </div>
 
-    <div class="return">
-      <p @click="$router.go('/')" style="cursor: pointer">有账号，点击登入</p>
+    <div class="to-login">
+      <span @click="$router.go('/')" style="cursor: pointer">有账号，点击登入</span>
     </div>
   </div>
 </template>

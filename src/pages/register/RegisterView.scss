@@ -21,8 +21,11 @@
     text-align: center;
     width: 40%;
   }
-    p {
-    text-align: right;
+  .to-login {
+    span{
+      text-align: right;
+      display: block;
+    }
   }
 }
 

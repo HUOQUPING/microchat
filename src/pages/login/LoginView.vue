@@ -20,8 +20,8 @@
           <div class="login-btn">
             <a-button type="primary" class="login-btn" @click="login">登录</a-button>
           </div>
-          <div>
-            <p @click="status = false" style="cursor: pointer">还没账号？点击注册</p>
+          <div class="to-register">
+            <span @click="status = false" style="cursor: pointer">还没账号？点击注册</span>
           </div>
         </div>
 
