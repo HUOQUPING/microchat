@@ -3,7 +3,7 @@
     <div class="login">
       <div class="main">
 <!--        登录-->
-        <div class="input-box" v-if="status">
+        <div class="input-box">
           <div class="logo">
             <h3>畅聊</h3>
           </div>
@@ -21,20 +21,18 @@
             <a-button type="primary" class="login-btn" @click="login">登录</a-button>
           </div>
           <div class="to-register">
-            <span @click="status = false" style="cursor: pointer">还没账号？点击注册</span>
+            <span @click="$router.push('/register')" style="cursor: pointer">还没账号？点击注册</span>
           </div>
         </div>
-
-<!--  注册-->
-        <register-view v-if="!status"></register-view>
 
 <!--        每日一言-->
-        <div class="a-word">
+<!--        <div class="a-word">
           <div class="text">
             <p>{{ hitokoto }}</p>
-            <span>--{{ author }}</span>
+            <span>&#45;&#45;{{ author }}</span>
           </div>
-        </div>
+        </div>-->
+        <AWord></AWord>
       </div>
     </div>
   </a-layout>
@@ -45,22 +43,18 @@ import './LoginView.scss'
 import {getUserConfig,getGoodFriends,getGroups} from '@/config/optionsIm.js'
 import cookie from 'vue-cookie'
 import {mapMutations} from 'vuex'
-import RegisterView from "@/pages/register/RegisterView";
+import AWord from "@/components/AWord/AWord";
 
 export default {
   name: "loginView",
-  components:{RegisterView},
   data() {
     return {
       userId: '',
       password: '',
-      //每日一言
-      hitokoto: '',
-      //作者
-      author: '',
-    //  注册登录状态 t登录 f注册
-      status:true
     }
+  },
+  components:{
+    AWord
   },
   created() {
     // 检测当有token时跳转到index
@@ -70,7 +64,6 @@ export default {
     if (this.$route.query.state){
       this.$message.error('客官您尚未登录,请进行登录!')
     }
-    this.gethitokoto()
   },
   methods: {
     login() {
@@ -100,16 +93,6 @@ export default {
       setTimeout(() => {
         this.$router.push(this.$route.query.redirect)
       }, 500)
-    },
-    // 获取一言
-    async gethitokoto() {
-      let {data} = await this.$axios.get('https://v1.hitokoto.cn')
-      this.hitokoto = data.hitokoto
-      if (data.from_who === null) {
-        this.author = data.from
-      } else {
-        this.author = data.from_who
-      }
     },
     ...mapMutations(["setToken"]),
   }
