@@ -45,7 +45,7 @@
               <a-icon type="folder" />
             </a-tooltip>
 <!--            聊天记录-->
-            <a-tooltip placement="bottom" :mouseEnterDelay="1">
+            <a-tooltip placement="bottom" :mouseEnterDelay="1" @click="chatHis">
               <template #title>
                 <span :style="{fontSize:'12px'}">聊天记录</span>
               </template>
@@ -80,7 +80,7 @@
 
 <script>
 import './ChatContent.scss'
-import {sendMessage} from "@/config/optionsIm";
+import {sendMessage,chatHistory} from "@/config/optionsIm";
 
 
 export default {
@@ -121,6 +121,10 @@ export default {
       }
       console.log("聊天内容",this.$store.state.charArr)
     },
+
+    chatHis(){
+      chatHistory()
+    }
   },
 }
 </script>

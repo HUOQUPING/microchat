@@ -274,7 +274,12 @@ export let joinGroup = (opt) => {
     })
 }
 
-
+//聊天记录
+export let chatHistory = () =>{
+    WebIm.conn.getConversationlist().then((res)=>{
+        console.log('调出聊天记录',res)
+    })
+}
 
 
 
