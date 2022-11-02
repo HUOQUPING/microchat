@@ -108,7 +108,7 @@ export default {
     sendMsg(){
       let text = this.text.trim()
       if (text){
-        this.username = this.$store.state.userName
+        this.username = this.$store.state.userId
         sendMessage(text,this.chatType,this.sendID,this.username)
         setTimeout(() => {
           this.$nextTick(() => {
