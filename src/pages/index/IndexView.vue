@@ -50,7 +50,6 @@
               <p :style="{textAlign:'center'}" @click="showGroupModal(2)">创建聊天室</p>
             </template>
             <a-icon type="usergroup-add"
-                    @click="showGroupModal"
                     class="trigger" :style="{margin:'0 24px 0 0',lineHeight:'0',padding: '0'}"/>
           </a-popover>
 

@@ -28,6 +28,7 @@ WebIm.conn.addEventHandler("eventName", {
     },                  //连接关闭回调
     onTextMessage: function (message) {
         //id 会话id msg 内容 time 时间戳 from 发送方 to 接收方 chatType 会话类型
+
         store.commit("setCharArr", message)
     },    //收到文本消息
     onEmojiMessage: function (message) {

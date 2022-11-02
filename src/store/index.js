@@ -57,9 +57,14 @@ export default new Vuex.Store({
         },
         setCharArr(state, msg) {
             let i = state.charArr.findIndex(item => item.to === msg.to)
+            let l = state.charArr.findIndex(item => item.to === msg.from)
+            if (l !== -1){
+                state.charArr[l].arr.push(msg)
+            }
             if (i === -1) {
                 let opt = {
                     to: msg.to,
+                    from:msg.from,
                     arr: []
                 }
                 opt.arr.push(msg)
@@ -67,6 +72,7 @@ export default new Vuex.Store({
             } else if (i !== -1) {
                 state.charArr[i].arr.push(msg)
             }
+
         }
 
     },

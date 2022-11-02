@@ -16,8 +16,9 @@
               <li v-for="(nn,i) in n.arr" :key="i">
                 <span :class="{rightIcon:nn.from === username,leftIcon:nn.from !== username}">
                     <a-avatar shape="square" icon="user"/>
-                  <span v-if="nn.from === username">{{nn.from}}</span>
-                  <span v-if="nn.from !== username">{{nn.to}}</span>
+                  <span v-if="nn.from === username && nn.chatType === 'singleChat'">{{nn.from}}</span>
+                  <span v-if="nn.from !== username  && nn.chatType === 'singleChat'">{{nn.from}}</span>
+                  <span v-if="nn.chatType !== 'singleChat' ">{{nn.from}}</span>
                 </span>
 
                   <span
@@ -108,7 +109,7 @@ export default {
     sendMsg(){
       let text = this.text.trim()
       if (text){
-        this.username = this.$store.state.userName
+        this.username = this.$store.state.userId
         sendMessage(text,this.chatType,this.sendID,this.username)
         setTimeout(() => {
           this.$nextTick(() => {
