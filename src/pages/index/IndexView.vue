@@ -12,7 +12,7 @@
           <a-sub-menu :key="i" v-for="(n,i) in List">
             <span slot="title" v-if="n.name === '好友'"><a-icon type="user"/><span>{{ n.name }}</span></span>
             <span slot="title" v-if="n.name === '群组'"><a-icon type="team"/><span>{{ n.name }}</span></span>
-            <span slot="title" v-if="n.name === '聊天'"><a-icon type="usergroup-add"/><span>{{ n.name }}</span></span>
+            <span slot="title" v-if="n.name === '聊天室'"><a-icon type="usergroup-add"/><span>{{ n.name }}</span></span>
 
             <a-menu-item v-for="(nn,i) in n.arr" :key="nn.id ?? nn.groupid ?? i"
                          @click="getUserID(nn.name ?? nn.groupname ?? nn,n.name,nn.id ?? nn.groupid ?? nn)">
@@ -34,27 +34,28 @@
           />
 
           <!--        添加好友/群-->
-          <a-tooltip placement="bottom" :mouseEnterDelay="1">
-            <template #title>
-              <span :style="{fontSize:'12px'}">添加好友/群</span>
+          <a-popover placement="bottom">
+            <template slot="content">
+              <p :style="{textAlign:'center'}" @click="showModal(1)">添加好友</p>
+              <p :style="{textAlign:'center'}" @click="showModal(2)">添加群</p>
             </template>
-<!--            <a-icon type="user-add" class="trigger"-->
-<!--                    @click="showModal"-->
-<!--                    :style="{margin:'0 24px 0 0',lineHeight:'0',padding: '0'}"/> -->
             <a-icon type="user-add" class="trigger"
-                    @click="showModal"
                     :style="{margin:'0 24px 0 0',lineHeight:'0',padding: '0'}"/>
-          </a-tooltip>
+          </a-popover>
 
           <!--        创建群/聊天室-->
-          <a-tooltip placement="bottom" :mouseEnterDelay="1">
-            <template #title>
-              <span :style="{fontSize:'12px'}">创建群/聊天室</span>
+          <a-popover placement="bottom">
+            <template slot="content">
+              <p :style="{textAlign:'center'}" @click="showGroupModal(1)">创建群</p>
+              <p :style="{textAlign:'center'}" @click="showGroupModal(2)">创建聊天室</p>
             </template>
-            <a-icon type="usergroup-add" class="trigger" :style="{margin:'0 24px 0 0',lineHeight:'0',padding: '0'}"/>
-          </a-tooltip>
+            <a-icon type="usergroup-add"
+                    @click="showGroupModal"
+                    class="trigger" :style="{margin:'0 24px 0 0',lineHeight:'0',padding: '0'}"/>
+          </a-popover>
 
           <!--        用户弹出栏-->
+
           <a-popover placement="bottomRight">
             <template slot="content">
               <p @click="ifShow = true">个人信息</p>
@@ -85,7 +86,10 @@
       </a-layout>
     </a-layout>
 
-    <add-ition :status="visible" @addhandle="addhandle"></add-ition>
+<!--    添加好友群-->
+    <add-ition :status="visible" @addhandle="addhandle" :addstatus="addstatus"></add-ition>
+<!--    创建群聊天室-->
+    <estab-iish :group-status="groupstatus" @grouphandle="grouphandle" :GroupModalstatus="GroupModalstatus"></estab-iish>
   </div>
 </template>
 
@@ -97,10 +101,11 @@ import {mapState} from 'vuex'
 import PersonalInformation from "@/components/PersonalInformation/PersonalInformation";
 import ChatContent from "@/components/ChatContent/ChatContent";
 import AddItion from "@/components/AddItion/AddItion";
+import EstabIish from "@/components/EstabIish/EstabIish";
 
 export default {
   name: "IndexView",
-  components: {PersonalInformation, ChatContent, AddItion},
+  components: {PersonalInformation, ChatContent, AddItion,EstabIish},
 
   data() {
     return {
@@ -122,6 +127,12 @@ export default {
       show: true,
       //添加好友框状态
       visible: false,
+      //创建群框状态
+      groupstatus:false,
+      //判断是添加好友还是群
+      addstatus:null,
+      //判断是创建群还是聊天室
+      GroupModalstatus:null
     }
   },
   created() {
@@ -160,12 +171,29 @@ export default {
     },
 
     //显示添加好友框
-    showModal() {
+    showModal(num) {
+      if (num === 1){
+        this.addstatus = num
+      }else if (num === 2){
+        this.addstatus = num
+      }
       this.visible = true;
     },
     addhandle(val) {
       this.visible = val
-    }
+    },
+    //显示创建群框
+    showGroupModal(num){
+      if (num === 1){
+        this.GroupModalstatus = num
+      }else if (num === 2){
+        this.GroupModalstatus = num
+      }
+      this.groupstatus = true
+    },
+    grouphandle(val) {
+      this.groupstatus = val
+  }
   }
 }
 </script>
