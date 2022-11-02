@@ -32,7 +32,9 @@ export default new Vuex.Store({
             phoneNumber: '',
             // 出生日期
             dateOfBirth: ''
-        }
+        },
+        //查询个人信息
+        userMsg:[]
     },
     getters: {},
     mutations: {
@@ -41,7 +43,7 @@ export default new Vuex.Store({
             state.token = token
         },
         // 保存好友列表
-        setGoodFriendsList(state, res) {
+        setList(state, res) {
             state.List[0].arr = res
         },
         setGroupList(state, res) {

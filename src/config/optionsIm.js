@@ -20,6 +20,7 @@ WebIm.conn = new WebIm.connection({
 
 })
 
+//消息回调
 WebIm.conn.addEventHandler("eventName", {
     onOpened: function () {
     },                  //连接成功回调
@@ -110,6 +111,31 @@ WebIm.conn.addEventHandler("eventName", {
     }      //收到整个会话已读的回执，在对方发送channel ack时会在这个回调里收到消息
 });
 
+
+//好友请求回调
+WebIm.conn.addEventHandler("contactEvent", {
+    // 当前用户收到好友请求。用户 B 向用户 A 发送好友请求，用户 A 收到该事件。
+    onContactInvited: function (msg) {
+        console.log(msg)
+    },
+    // 当前用户被其他用户从联系人列表上移除。用户 B 将用户 A 从联系人列表上删除，用户 A 收到该事件。
+    onContactDeleted: function (msg) {
+        console.log(msg)
+    },
+    // 当前用户新增了联系人。用户 B 向用户 A 发送好友请求，用户 A 同意该请求，用户 A 收到该事件，而用户 B 收到 `onContactAgreed` 事件。
+    onContactAdded: function (msg) {
+        console.log(msg)
+    },
+    // 当前用户发送的好友请求被拒绝。用户 A 向用户 B 发送好友请求，用户 B 收到好友请求后，拒绝加好友，则用户 A 收到该事件。
+    onContactRefuse: function (msg) {
+        console.log(msg)
+    },
+    // 当前用户发送的好友请求经过了对方同意。用户 A 向用户 B 发送好友请求，用户 B 收到好友请求后，同意加好友，则用户 A 收到该事件。
+    onContactAgreed: function (msg) {
+        console.log(msg)
+    },
+});
+
 //账号密码登录
 export let getUserConfig = (userId, password) => {
     WebIm.conn.open({user: userId, pwd: password}).then((res) => {
@@ -162,7 +188,7 @@ export let close = () => {
 //获取好友列表
 export let getGoodFriends = () => {
     WebIm.conn.getContacts().then((res) => {
-        store.commit('setGoodFriendsList', res.data)
+        store.commit('setList', res.data)
         console.log("好友列表", res.data)
     })
 }
@@ -232,6 +258,18 @@ export let setUserInfo = (option) => {
     console.log(option)
     WebIm.conn.updateUserInfo(option).then((res) => {
         console.log('设置个人信息',res)
+    })
+}
+
+//加好友
+export let addContact = (id) => {
+    WebIm.conn.addContact(id,'加个好友呗!')
+}
+
+//加群
+export let joinGroup = (opt) => {
+    WebIm.conn.joinGroup(opt).then((res) => {
+        console.log("已发送群申请",res)
     })
 }
 
