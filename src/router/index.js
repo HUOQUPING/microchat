@@ -1,6 +1,7 @@
 import Vue from 'vue'
 import VueRouter from 'vue-router'
 import LoginView from "@/pages/login/LoginView";
+import RegisterView from "@/pages/register/RegisterView";
 import IndexView from "@/pages/index/IndexView";
 import cookie from "vue-cookie";
 
@@ -9,10 +10,19 @@ Vue.use(VueRouter)
 const routes = [
     {
         path: '/',
-        name: 'loginView',
+        name: 'login',
         component: LoginView,
     },
- 
+    {
+        path: '/login',
+        name: 'login',
+        component: LoginView,
+    },
+    {
+        path: '/register',
+        name: 'register',
+        component: RegisterView,
+    },
     {
         path: '/index',
         name: 'index',

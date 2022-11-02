@@ -1,83 +1,94 @@
 <template>
-  <div class="registerbox">
-    <div class="theme">
-      <h3>畅聊</h3>
-    </div>
-    <!-- 注册 -->
-    <div class="username">
-      <a-input placeholder="用户名" v-model="username">
-        <a-icon slot="prefix" type="user" />
-      </a-input>
-    </div>
-    <!-- 密码 -->
-    <div class="passwd">
-      <a-input-password
-        placeholder="密码"
-        v-model="password1"
-      >
-        <a-icon slot="prefix" type="lock" />
-      </a-input-password>
-    </div>
-    <!-- 确认密码 -->
-    <div class="passwd">
-      <a-input-password
-        placeholder="确认密码"
-        v-model="password2"
-      >
-        <a-icon slot="prefix" type="lock" />
-      </a-input-password>
-    </div>
+  <a-layout>
+    <div class="register">
+      <div class="main">
+        <div class="input-box">
+          <div class="theme">
+            <h3>畅聊</h3>
+          </div>
+          <!-- 注册 -->
+          <div class="username">
+            <a-input placeholder="用户名" v-model="username">
+              <a-icon slot="prefix" type="user"/>
+            </a-input>
+          </div>
+          <!-- 密码 -->
+          <div class="passwd">
+            <a-input-password
+                placeholder="密码"
+                v-model="password1"
+            >
+              <a-icon slot="prefix" type="lock"/>
+            </a-input-password>
+          </div>
+          <!-- 确认密码 -->
+          <div class="passwd">
+            <a-input-password
+                placeholder="确认密码"
+                v-model="password2"
+            >
+              <a-icon slot="prefix" type="lock"/>
+            </a-input-password>
+          </div>
 
-    <!-- 手机验证码 -->
-<!--    <div class="verification-code">-->
-<!--      <a-input-->
-<!--          class="verificationCode"-->
-<!--          type="text"-->
-<!--          placeholder="手机验证码"-->
-<!--          :style="{width:'55%'}"-->
-<!--      >-->
-<!--        <a-icon slot="prefix" type="mobile" />-->
-<!--      </a-input>-->
-<!--    </div>-->
+          <!-- 手机验证码 -->
+          <!--    <div class="verification-code">-->
+          <!--      <a-input-->
+          <!--          class="verificationCode"-->
+          <!--          type="text"-->
+          <!--          placeholder="手机验证码"-->
+          <!--          :style="{width:'55%'}"-->
+          <!--      >-->
+          <!--        <a-icon slot="prefix" type="mobile" />-->
+          <!--      </a-input>-->
+          <!--    </div>-->
 
-    <!-- 验证码 -->
-    <div class="verification-code">
-      <a-input
-          class="verificationCode"
-          type="text"
-          placeholder="验证码"
-          v-model="captchacode"
-          :style="{width:'55%'}"
-      >
-        <a-icon slot="prefix" type="lock" />
-      </a-input>
-      <canvas id="captcha" class="captcha" ref="captcha"></canvas>
-    </div>
+          <!-- 验证码 -->
+          <div class="verification-code">
+            <a-input
+                class="verificationCode"
+                type="text"
+                placeholder="验证码"
+                v-model="captchacode"
+                :style="{width:'55%'}"
+            >
+              <a-icon slot="prefix" type="lock"/>
+            </a-input>
+            <canvas id="captcha" class="captcha" ref="captcha"></canvas>
+          </div>
 
-    <!-- 注册按钮 -->
-    <div class="register-btn">
-      <a-button type="primary" class="register-btn" click="userRegist"
-        >注册</a-button
-      >
-    </div>
+          <!-- 注册按钮 -->
+          <div class="register-btn">
+            <a-button type="primary" class="register-btn" click="userRegist"
+            >注册
+            </a-button
+            >
+          </div>
 
-    <div class="to-login">
-      <span @click="$router.go('/')" style="cursor: pointer">有账号，点击登入</span>
+          <div class="to-login">
+            <span @click="$router.push('/login')" style="cursor: pointer">有账号，点击登入</span>
+          </div>
+        </div>
+
+        <!-- 随机一言 -->
+        <AWord></AWord>
+      </div>
     </div>
-  </div>
+  </a-layout>
 </template>
 
 <script>
 // 验证码组件
+import "./RegisterView.scss";
 import CaptchaMini from "captcha-mini";
 import {regUser} from "@/config/optionsIm.js"
 import cookie from "vue-cookie";
 import {mapMutations} from "vuex";
-import "./RegisterView.scss";
+import AWord from "@/components/AWord/AWord";
 
 export default {
   name: "RegisterView",
-
+  components: {AWord},
   data() {
     return {
       username: "",
@@ -88,10 +99,10 @@ export default {
   },
 
   mounted() {
-     if(cookie.get('token')){
-        this.$router.push('/index')
-        console.log('已有账号请去主页登入');
-     }
+    if (cookie.get('token')) {
+      this.$router.push('/index')
+      console.log('已有账号请去主页登入');
+    }
 
     this.initCaptcha();
   },
@@ -126,7 +137,7 @@ export default {
     // }
 
     userRegist() {
-      regUser(this.username,this.password1,this.password2)
+      regUser(this.username, this.password1, this.password2)
     },
 
     ...mapMutations(["setToken"]),
