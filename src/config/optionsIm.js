@@ -146,7 +146,7 @@ export let getUserConfig = (userId, password) => {
             userId: userId
         }
         cookie.set('token', JSON.stringify(msg), 1)
-        store.commit("setUserName", userId)
+        store.commit("setUserId", userId)
         getUserInfo(userId)
         console.log("账号登录成功")
     }).catch((err) => {
