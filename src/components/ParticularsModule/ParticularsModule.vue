@@ -5,7 +5,7 @@
         <span v-if="partChatType === 'groupChat' ">群组id:</span>
         <span v-if="partChatType === 'chatRoom' ">聊天室id:</span>
         {{partUserId}}</p>
-      <template slot="footer">
+      <template slot="footer" v-if="partChatType === 'singleChat' ">
         <a-button  type="primary"  @click="handleCancel(1)">
           加入黑名单
         </a-button>
@@ -63,7 +63,6 @@ export default {
         this.$message.success("已成功加入黑名单")
       }
     },
-
   }
 }
 </script>
