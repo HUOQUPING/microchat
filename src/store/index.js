@@ -16,6 +16,9 @@ export default new Vuex.Store({
         }, {
             name: "聊天室",
             arr: []
+        },{
+            name: "黑名单",
+            arr:[]
         }],
         //用户名
         userId: '用户名',
@@ -44,10 +47,35 @@ export default new Vuex.Store({
         },
         // 保存好友列表
         setList(state, res) {
-            state.List[0].arr = res
+            state.List[0].arr = res.filter(item => {
+                if (!state.List[3].arr.includes(item)) {
+                    return item
+                }
+            })
         },
+        addList(state,res){
+            state.List[0].arr.push(res)
+        },
+        removeList(state,res){
+            state.List[0].arr = state.List[0].arr.filter(item => item !== res)
+        },
+        //获取全部群
         setGroupList(state, res) {
             state.List[1].arr = res
+        },
+        //获取黑名单
+        setBlackList(state,res){
+            state.List[3].arr = res
+        },
+        removeBlckList(state,res){
+            state.List[3].arr = state.List[3].arr.filter(item => item !== res)
+        },
+        addBlackList(state,res){
+            state.List[3].arr.push(res)
+        },
+        //添加群时用
+        addGroupList(state,res){
+            state.List[1].arr.push(res)
         },
         setRoomList(state, res) {
             state.List[2].arr = res
@@ -73,8 +101,10 @@ export default new Vuex.Store({
                 state.charArr[i].arr.push(msg)
             }
 
+        },
+        setUserMsg(state,msg){
+            state.userMsg = msg
         }
-
     },
     actions: {},
     modules: {}

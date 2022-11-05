@@ -62,8 +62,10 @@ export default {
     },
     onSearch(value) {
       if (this.addstatus === 1){
+        //加好友
         addContact(value)
       }else if (this.addstatus === 2){
+        //加群
         let opt = {
           groupId:value,
           message:`我是${this.$store.state.userId}`

@@ -8,8 +8,11 @@
 
         <div :style="{width: '100%',height:'100%'}" v-show="userID !== null" class="chatContent" >
           <a-page-header :style="{border: '1px solid rgb(235, 237, 240)',padding: '10px 24px'}"
-                         :title="userid"/>
+                         :title="userid">
+<!--            设置按钮-->
+          <a-icon type="ellipsis" class="trigger setting" :style="{fontSize:'26px'}" @click="showpart"/>
 
+          </a-page-header>
 <!--          聊天框-->
           <div class="titleContent" ref="listContent">
             <ul v-for="(n,i) in this.$store.state.charArr" :key="i" v-show="n.to === sendID">
@@ -72,6 +75,14 @@
           </div>
         </div>
 
+<!--      详情-->
+      <particulars-module :showpart="showPart"
+                          :chatType="chatType"
+                          :userName="userID"
+                          :userID="sendID"
+                          @showpartStatus="showpartStatus">
+      </particulars-module>
+
     </a-layout-content>
 
 
@@ -81,16 +92,21 @@
 <script>
 import './ChatContent.scss'
 import {sendMessage,chatHistory} from "@/config/optionsIm";
-
+import ParticularsModule from "@/components/ParticularsModule/ParticularsModule";
+import {getUserInfo} from "@/config/optionsIm";
 
 export default {
   name: "ChatContent",
+  components:{ParticularsModule},
   data(){return {
     username: null,
     userID:  null,
     text:'',
     chatType:null,
-    sendID:null
+    sendID:null,
+    visible:false,
+  //  详情
+    showPart:false
   }},
   props:['userid','type','sendid'],
   watch:{
@@ -99,6 +115,7 @@ export default {
     },
     type(nV){
       this.chatType = nV
+
     },
     sendid(nV){
       this.sendID = nV
@@ -124,6 +141,16 @@ export default {
 
     chatHis(){
       chatHistory()
+    },
+
+    showpart(){
+      this.showPart = true
+      if (this.chatType === "singleChat"){
+        getUserInfo(this.sendID)
+      }
+    },
+    showpartStatus(val){
+      this.showPart = val
     }
   },
 }

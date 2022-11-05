@@ -40,7 +40,7 @@
 
 <script>
 import './LoginView.scss'
-import {getUserConfig,getGoodFriends,getGroups} from '@/config/optionsIm.js'
+import {getUserConfig,getGoodFriends,getGroups,blackFriends} from '@/config/optionsIm.js'
 import cookie from 'vue-cookie'
 import {mapMutations} from 'vuex'
 import AWord from "@/components/AWord/AWord";
@@ -86,6 +86,7 @@ export default {
         this.$router.push(`/index`)
         getGoodFriends()
         getGroups()
+        blackFriends()
       }, 500)
     },
     // 配合检测是否从别处进入网站

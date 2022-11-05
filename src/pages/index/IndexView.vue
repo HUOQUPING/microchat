@@ -13,10 +13,10 @@
             <span slot="title" v-if="n.name === '好友'"><a-icon type="user"/><span>{{ n.name }}</span></span>
             <span slot="title" v-if="n.name === '群组'"><a-icon type="team"/><span>{{ n.name }}</span></span>
             <span slot="title" v-if="n.name === '聊天室'"><a-icon type="usergroup-add"/><span>{{ n.name }}</span></span>
-
-            <a-menu-item v-for="(nn,i) in n.arr" :key="nn.id ?? nn.groupid ?? i"
+            <span slot="title" v-if="n.name === '黑名单'"><a-icon type="meh" /><span>{{ n.name }}</span></span>
+            <a-menu-item v-for="(nn,i) in n.arr" :key="nn.id ?? nn.groupid ?? nn+i"
                          @click="getUserID(nn.name ?? nn.groupname ?? nn,n.name,nn.id ?? nn.groupid ?? nn)">
-              {{ nn.name ?? nn.groupname ?? nn }}
+              {{ nn.name ?? nn.groupname ?? nn}}
             </a-menu-item>
 
           </a-sub-menu>
@@ -89,6 +89,9 @@
     <add-ition :status="visible" @addhandle="addhandle" :addstatus="addstatus"></add-ition>
 <!--    创建群聊天室-->
     <estab-iish :group-status="groupstatus" @grouphandle="grouphandle" :GroupModalstatus="GroupModalstatus"></estab-iish>
+
+<!--    黑名单-->
+   <black-list :blackstatus="blackstatus" @blackvisible="blackvisible" :blackid="blackid"></black-list>
   </div>
 </template>
 
@@ -101,10 +104,11 @@ import PersonalInformation from "@/components/PersonalInformation/PersonalInform
 import ChatContent from "@/components/ChatContent/ChatContent";
 import AddItion from "@/components/AddItion/AddItion";
 import EstabIish from "@/components/EstabIish/EstabIish";
+import BlackList from "@/components/BlackList/BlackList";
 
 export default {
   name: "IndexView",
-  components: {PersonalInformation, ChatContent, AddItion,EstabIish},
+  components: {PersonalInformation, ChatContent, AddItion,EstabIish,BlackList},
 
   data() {
     return {
@@ -131,7 +135,11 @@ export default {
       //判断是添加好友还是群
       addstatus:null,
       //判断是创建群还是聊天室
-      GroupModalstatus:null
+      GroupModalstatus:null,
+      //黑名单状态
+      blackstatus:false,
+      //黑名单id
+      blackid:null
     }
   },
   created() {
@@ -158,15 +166,21 @@ export default {
 
     //  获取用户id
     getUserID(id, name, ID) {
-      this.UserID = id
-      this.sendID = ID
-      if (name === "好友") {
-        this.chatType = this.SingleChat
-      } else if (name === "群组") {
-        this.chatType = this.GroupChat
-      } else if (name === "聊天室") {
-        this.chatType = this.ChatRoom
+      if (name !== "黑名单"){
+        this.UserID = id
+        this.sendID = ID
+        if (name === "好友") {
+          this.chatType = this.SingleChat
+        } else if (name === "群组") {
+          this.chatType = this.GroupChat
+        } else if (name === "聊天室") {
+          this.chatType = this.ChatRoom
+        }
+      }else {
+        this.blackid = ID
+        this.blackstatus = true
       }
+
     },
 
     //显示添加好友框
@@ -192,7 +206,10 @@ export default {
     },
     grouphandle(val) {
       this.groupstatus = val
-  }
+    },
+    blackvisible(val){
+      this.blackstatus = val
+    }
   }
 }
 </script>

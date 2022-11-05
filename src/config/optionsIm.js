@@ -146,7 +146,7 @@ export let getUserConfig = (userId, password) => {
             userId: userId
         }
         cookie.set('token', JSON.stringify(msg), 1)
-        store.commit("setUserName", userId)
+        store.commit("setUserId", userId)
         getUserInfo(userId)
         console.log("账号登录成功")
     }).catch((err) => {
@@ -162,6 +162,7 @@ export let tokenLogin = (userId, asscctoken) => {
         getGroups()
         getRooms()
         getUserInfo(userId)
+        blackFriends()
         console.log("token登录", res)
     }).catch((reason) => {
         console.log("login fail", reason);
@@ -239,11 +240,6 @@ export let sendMessage = (msg, chatType, ID, useName) => {
     }).catch((e) => {
         console.log("发送失败", e)
     })
-
-
-    // WebIm.conn.getConversationlist().then((res) => {
-    //     console.log("漫游消息",res)
-    // })
 }
 
 //获取个人信息
@@ -251,6 +247,7 @@ export let getUserInfo = (id) => {
     //第一个参数用户id，第二个想要查询的内容
     WebIm.conn.fetchUserInfoById(id).then((res) => {
         console.log('获取个人信息', res.data)
+        store.commit("setUserMsg",res.data)
     })
 }
 
@@ -279,6 +276,61 @@ export let chatHistory = () =>{
     WebIm.conn.getConversationlist().then((res)=>{
         console.log('调出聊天记录',res)
     })
+}
+
+//创建群
+export let SetupGroup = (groupname,desc,ifpublic,approval) => {
+//groupname 群名字 desc 群简介 ifpublic 是否公开 approval 是否需要批准
+    let opt ={
+        data:{
+            groupname:groupname,
+            desc:desc,
+            mebers:store.state.userId,
+            public:ifpublic === 1,
+            approval:approval === 1,
+            allowinvites:true,
+            inviteNeedConfirm:true,
+            maxusers:500
+        }
+    }
+    WebIm.conn.createGroup(opt).then((res) => {
+        console.log("已创建群聊",res)
+        store.commit("addGroupList",groupname)
+    })
+}
+
+//删除好友
+export let delFriends = (id) => {
+    store.state.List[0].arr = store.state.List[0].arr.filter(item => item !== id)
+    WebIm.conn.deleteContact(id)
+}
+
+//获取黑名单
+export let blackFriends = () => {
+    WebIm.conn.getBlocklist().then((res) => {
+        console.log("黑名单",res.data)
+        store.commit("setBlackList",res.data)
+    })
+}
+
+//移出黑名单
+export let removeblackFrinends = (id) => {
+    WebIm.conn.removeUserFromBlocklist({
+        name:id
+    })
+    store.commit("removeBlckList",id)
+    store.commit("addList",id)
+    console.log(id,"已移除黑名单")
+}
+
+//加入黑名单
+export let addblackFriends = (id) => {
+    WebIm.conn.addUsersToBlocklist({
+        name:id
+    })
+    console.log(id,"已加入黑名单")
+    store.commit("removeList",id)
+    store.commit("addBlackList",id)
 }
 
 
