@@ -216,7 +216,7 @@ export let getRooms = () => {
         pagesize: 20
     }
     WebIm.conn.getChatRooms(opt).then((res) => {
-        store.commit('setRoomList', res.data)
+        store.commit("setChatRoom",res.data)
         console.log("聊天室", res.data)
     })
 }
@@ -332,6 +332,23 @@ export let addblackFriends = (id) => {
     store.commit("removeList",id)
     store.commit("addBlackList",id)
 }
+
+//加入聊天室
+export let addChatRoom = (id,name) => {
+    let opt = {
+        roomId:id,
+        message:'reason'
+    }
+    WebIm.conn.joinChatRoom(opt).then((res) => {
+        let opt = {
+            ...res.data,
+            name:name
+        }
+        store.commit('setRoomList', opt)
+        console.log("已加入聊天室",res)
+    })
+}
+
 
 
 

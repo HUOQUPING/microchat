@@ -5,6 +5,7 @@
         <span v-if="partChatType === 'groupChat' ">群组id:</span>
         <span v-if="partChatType === 'chatRoom' ">聊天室id:</span>
         {{partUserId}}</p>
+<!--      好友模块-->
       <template slot="footer" v-if="partChatType === 'singleChat' ">
         <a-button  type="primary"  @click="handleCancel(1)">
           加入黑名单

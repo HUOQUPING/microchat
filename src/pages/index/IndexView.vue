@@ -38,6 +38,7 @@
             <template slot="content">
               <p :style="{textAlign:'center'}" @click="showModal(1)">添加好友</p>
               <p :style="{textAlign:'center'}" @click="showModal(2)">添加群</p>
+              <p :style="{textAlign:'center'}" @click="showModal(3)">添加聊天室</p>
             </template>
             <a-icon type="user-add" class="trigger"
                     :style="{margin:'0 24px 0 0',lineHeight:'0',padding: '0'}"/>
@@ -188,6 +189,8 @@ export default {
       if (num === 1){
         this.addstatus = num
       }else if (num === 2){
+        this.addstatus = num
+      }else if (num === 3){
         this.addstatus = num
       }
       this.visible = true;

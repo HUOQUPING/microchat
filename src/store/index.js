@@ -37,7 +37,9 @@ export default new Vuex.Store({
             dateOfBirth: ''
         },
         //查询个人信息
-        userMsg:[]
+        userMsg:[],
+        //聊天室
+        chatRoom:[]
     },
     getters: {},
     mutations: {
@@ -47,11 +49,14 @@ export default new Vuex.Store({
         },
         // 保存好友列表
         setList(state, res) {
-            state.List[0].arr = res.filter(item => {
-                if (!state.List[3].arr.includes(item)) {
-                    return item
-                }
+              let arr  = res.filter((item) => {
+                return !state.List[3].arr.some(t => t === item)
             })
+            //延迟赋值，避免黑名单获取慢，没进行筛选
+            setTimeout(() => {
+                state.List[0].arr = arr
+            },1000)
+
         },
         addList(state,res){
             state.List[0].arr.push(res)
@@ -77,8 +82,9 @@ export default new Vuex.Store({
         addGroupList(state,res){
             state.List[1].arr.push(res)
         },
+        //加入聊天室
         setRoomList(state, res) {
-            state.List[2].arr = res
+            state.List[2].arr.push(res)
         },
         setUserId(state, name) {
             state.userId = name
@@ -104,6 +110,9 @@ export default new Vuex.Store({
         },
         setUserMsg(state,msg){
             state.userMsg = msg
+        },
+        setChatRoom(state,msg){
+            state.chatRoom = msg
         }
     },
     actions: {},
