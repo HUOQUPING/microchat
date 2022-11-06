@@ -1,14 +1,17 @@
 <template>
   <div>
     <a-modal v-model="visible" :title="title" :afterClose="afterClose" >
-<!--      <a-input-search placeholder="请输入ID号" enter-button @search="onSearch" />-->
+<!-- 输入框-->
       <a-input-search placeholder="请输入ID号" @search="onSearch" v-model="value" v-if="addstatus !== 3"/>
-      <ul v-if="addstatus === 3">
-        <li v-for="n in this.$store.state.chatRoom" :key="n.id"
-            class="chatRoom"
-            :class="{active:actIndex === n.id}"
-            @click="addChatRoom(n.id,n.name)"><p>{{n.name}}</p></li>
-      </ul>
+
+<!--      聊天室列表-->
+      <a-menu mode="inline" v-if="addstatus === 3">
+        <a-menu-item v-for="n in this.$store.state.chatRoom"
+                     @click="addChatRoom(n.id,n.name)"
+                     :key="n.id">
+          <span class="nav-text">{{n.name}}</span>
+        </a-menu-item>
+      </a-menu>
       <template #footer>
         <a-button key="back" @click="handleError" v-if="addstatus !== 3">
           取消
@@ -98,7 +101,6 @@ export default {
     addChatRoom(id,name){
       this.actIndex = id
       this.chatRoomName = name
-      console.log(id)
     },
     handleChatRoom(){
       this.visible = false;
