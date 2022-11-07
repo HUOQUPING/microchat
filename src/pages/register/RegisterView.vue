@@ -1,3 +1,4 @@
+<script src="../../config/optionsIm.js"></script>
 <template>
   <a-layout>
     <div class="register">
@@ -7,8 +8,8 @@
             <h3>畅聊</h3>
           </div>
           <!-- 注册 -->
-          <div class="username">
-            <a-input placeholder="用户名" v-model="username">
+          <div class="userId">
+            <a-input placeholder="用户名" v-model="userId">
               <a-icon slot="prefix" type="user"/>
             </a-input>
           </div>
@@ -16,50 +17,52 @@
           <div class="passwd">
             <a-input-password
                 placeholder="密码"
-                v-model="password1"
+                v-model="password"
             >
               <a-icon slot="prefix" type="lock"/>
             </a-input-password>
           </div>
           <!-- 确认密码 -->
-          <div class="passwd">
-            <a-input-password
-                placeholder="确认密码"
-                v-model="password2"
+          <div class="phoneNum">
+            <a-input
+                placeholder="手机号码"
+                v-model="phoneNum"
             >
-              <a-icon slot="prefix" type="lock"/>
-            </a-input-password>
+              <a-icon slot="prefix" type="phone"/>
+            </a-input>
           </div>
 
           <!-- 手机验证码 -->
-          <!--    <div class="verification-code">-->
-          <!--      <a-input-->
-          <!--          class="verificationCode"-->
-          <!--          type="text"-->
-          <!--          placeholder="手机验证码"-->
-          <!--          :style="{width:'55%'}"-->
-          <!--      >-->
-          <!--        <a-icon slot="prefix" type="mobile" />-->
-          <!--      </a-input>-->
-          <!--    </div>-->
-
-          <!-- 验证码 -->
           <div class="verification-code">
             <a-input
                 class="verificationCode"
                 type="text"
-                placeholder="验证码"
-                v-model="captchacode"
+                placeholder="手机验证码"
                 :style="{width:'55%'}"
+                v-model="phoneSMSCode"
             >
-              <a-icon slot="prefix" type="lock"/>
+              <a-icon slot="prefix" type="mobile"/>
             </a-input>
-            <canvas id="captcha" class="captcha" ref="captcha"></canvas>
+            <!-- 获取验证码按钮 -->
+            <a-button
+                type="primary"
+                v-show="countdownBtn"
+                @click="getSMSCode"
+            >
+              获取验证码
+            </a-button>
+            <a-button
+                type="primary"
+                v-show="!countdownBtn"
+                disabled
+            >
+              {{ countdown }}秒后再次获取
+            </a-button>
           </div>
 
           <!-- 注册按钮 -->
           <div class="register-btn">
-            <a-button type="primary" class="register-btn" click="userRegist"
+            <a-button type="primary" class="register-btn" @click="userRegister"
             >注册
             </a-button
             >
@@ -80,10 +83,12 @@
 <script>
 // 验证码组件
 import "./RegisterView.scss";
-import CaptchaMini from "captcha-mini";
-import {regUser} from "@/config/optionsIm.js"
 import cookie from "vue-cookie";
-import {mapMutations} from "vuex";
+import _ from 'lodash'
+import {mapState, mapMutations} from "vuex";
+import {regUser} from "@/config/optionsIm.js"
+import {getAdminToken, getSMS} from "@/api/axiosGetData";
+
 import AWord from "@/components/AWord/AWord";
 
 export default {
@@ -91,55 +96,96 @@ export default {
   components: {AWord},
   data() {
     return {
-      username: "",
-      password1: "",
-      password2: "",
-      captchacode: "",
+      // 用户Id
+      userId: "",
+      // 密码
+      password: "",
+      // 手机号码
+      phoneNum: null,
+      // 倒计时时间
+      countdown: 60,
+      // 是否触发获取验证码按钮
+      countdownBtn: true,
+      // 随机数
+      ranomNum: _.random(1000, 9999),
+      // 手机验证码
+      phoneSMSCode: null,
     };
   },
-
+  computed: {
+    ...mapState(['registerCode'])
+  },
+  watch: {
+    registerCode(nV) {
+      if (nV == 200) {
+        this.$message.success('注册成功')
+        setTimeout(()=>{
+          this.$router.push('/')
+        },500)
+      }
+      if (nV == 400){
+        this.$message.error('用户已存在！')
+      }
+      setTimeout(()=>{
+        this.$store.state.registerCode = 0
+      },100)
+    }
+  },
+  created() {
+    // 检测当有token时跳转到index
+    if (cookie.get('token')) {
+      this.$router.push(`/index`)
+    }
+    if (this.$route.query.state) {
+      this.$message.error('客官您尚未登录,请进行登录!')
+    }
+  },
   mounted() {
     if (cookie.get('token')) {
       this.$router.push('/index')
       console.log('已有账号请去主页登入');
     }
-
-    this.initCaptcha();
+    getAdminToken()
   },
 
   methods: {
-    initCaptcha() {
-      var captcha = new CaptchaMini({
-        lineWidth: 5, //线条宽度
-        lineNum: 6, //线条数量
-        dotR: 2, //点的半径
-        dotNum: 25, //点的数量
-        preGroundColor: [10, 80], //前景色区间
-        backGroundColor: [150, 250], //背景色区间
-        fontSize: 60, //字体大小
-        fontFamily: ["Georgia", "微软雅黑", "Helvetica", "Arial"], //字体类型
-        fontStyle: "stroke", //字体绘制方法，有fill和stroke
-        content: "ABCDEFGHJKLMNOPQRSTUVWXYZ234567890", //验证码内容
-        length: 4, //验证码长度
-      });
-      captcha.draw(this.$refs.captcha, (r) => {
-        this.captcha = r; // 可通过 this.captcha 使用当前验证码（校验用户输入对否等）
-      });
+    //获取验证码方法
+    getSMSFunc() {
+      if (/^(?:(?:\+|00)86)?1[3-9]\d{9}$/.test(this.phoneNum)) {
+        this.counDownNum()
+        getSMS(this.phoneNum, this.ranomNum)
+      } else {
+        this.$message.error('请检查您的手机号码是否输入正确');
+      }
     },
-    // userregist(){
-    //   if(!this.username.trim()){
-    //      alert("请输入用户名")
-    //   }else if(!this.password1.trim()||!this.password2.trim()){
-    //      alert("请输入密码")
-    //   }else if(!this.captchacode.trim()){
-    //      alert("请填写验证码")
-    //   }
-    // }
-
-    userRegist() {
-      regUser(this.username, this.password1, this.password2)
+    //获取验证码节流
+    getSMSCode: _.throttle(function () {
+      this.getSMSFunc()
+    }, 1000),
+    // 倒计时
+    counDownNum() {
+      console.log('counDownNum')
+      this.countdownBtn = false
+      let timer = setInterval(() => {
+        if (this.countdown > 0) {
+          this.countdown--
+        }
+        if (this.countdown == 0) {
+          console.log('countdown End')
+          this.countdownBtn = true
+          this.countdown = 60
+          clearInterval(timer)
+        }
+      }, 1000)
     },
-
+    // 注册方法
+    userRegister() {
+      if (this.userId && this.password && this.phoneNum && this.ranomNum == this.phoneSMSCode) {
+        regUser(this.userId, this.password)
+      } else {
+        this.$message.error('验证码不正确');
+      }
+    },
     ...mapMutations(["setToken"]),
   },
 };

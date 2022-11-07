@@ -5,6 +5,11 @@ Vue.use(Vuex)
 
 export default new Vuex.Store({
     state: {
+        // WebIM管理员Token
+        access_token:String,
+        // 注册状态
+        registerCode:0,
+        // 用户token
         token: String,
         //列表
         List: [{
