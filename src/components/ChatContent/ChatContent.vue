@@ -40,11 +40,19 @@
               <a-icon type="smile" />
             </a-tooltip>
 <!--            发送文件-->
-            <a-tooltip placement="bottom" :mouseEnterDelay="1">
+            <a-tooltip placement="bottom" :mouseEnterDelay="1" >
               <template #title>
                 <span :style="{fontSize:'12px'}">发送文件</span>
               </template>
-              <a-icon type="folder" />
+              <a-upload
+                  :style="{display:'inline-block'}"
+                  list-type="picture"
+                  action="//jsonplaceholder.typicode.com/posts/"
+                  :preview-file="previewFile"
+              >
+                <a-icon type="folder" />
+              </a-upload>
+
             </a-tooltip>
 <!--            聊天记录-->
             <a-tooltip placement="bottom" :mouseEnterDelay="1" @click="chatHis">
@@ -92,7 +100,7 @@
 import './ChatContent.scss'
 import {sendMessage,chatHistory} from "@/config/optionsIm";
 import ParticularsModule from "@/components/ParticularsModule/ParticularsModule";
-import {getUserInfo} from "@/config/optionsIm";
+import {getUserInfo,getGroupInfo,getChatRoomInfo} from "@/config/optionsIm";
 
 export default {
   name: "ChatContent",
@@ -146,11 +154,26 @@ export default {
       this.showPart = true
       if (this.chatType === "singleChat"){
         getUserInfo(this.sendID)
+      }else if (this.chatType === "groupChat") {
+        getGroupInfo(this.sendID)
+      }else if (this.chatType === "chatRoom"){
+        getChatRoomInfo(this.sendID)
       }
     },
     showpartStatus(val){
       this.showPart = val
-    }
+    },
+    //上传文件
+    previewFile(file) {
+      console.log('Your upload file:', file);
+      // Your process logic. Here we just mock to the same file
+      return fetch('https://next.json-generator.com/api/json/get/4ytyBoLK8', {
+        method: 'POST',
+        body: file,
+      })
+          .then(res => res.json())
+          .then(({ thumbnail }) => thumbnail);
+    },
   },
 }
 </script>
