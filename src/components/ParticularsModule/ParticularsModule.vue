@@ -18,6 +18,22 @@
             {{n.owner ?? n.member}}<span v-if="n.owner">(群主)</span></span>
         </a-menu-item>
       </a-menu>
+
+<!--      聊天室内容模块-->
+      <p v-if="partChatType === 'chatRoom'">创建者:
+        {{this.$store.state.chatRoomInfo.owner}}
+      </p>
+      <p v-if="partChatType === 'chatRoom'">聊天室成员列表:</p>
+      <a-menu mode="inline"  v-if="partChatType === 'chatRoom'">
+        <a-menu-item v-for="n in this.$store.state.chatRoomMember"
+                     @click="chatRoomMemberID = n.owner ?? n.member"
+                     :key="n.owner ?? n.member">
+          <span class="nav-text" >
+            {{n.owner ?? n.member}}<span v-if="n.owner">(创建者)</span></span>
+        </a-menu-item>
+      </a-menu>
+
+
       <template slot="footer">
         <!--      好友模块-->
         <a-button  type="primary"  @click="handleCancel(1)" v-if="partChatType === 'singleChat' ">
@@ -38,8 +54,24 @@
         </a-button>
       <!--        成员-->
         <a-button  type="primary"  @click="handleCancel(5)"
-                   v-if="partChatType === 'groupChat' && !this.$store.state.groupInfo.owner">
+                   v-if="partChatType === 'groupChat' && this.$store.state.groupInfo.owner !== this.$store.state.userId">
           退出群聊
+        </a-button>
+
+<!--        聊天室模块-->
+      <!--       创建者 -->
+        <a-button  type="primary"  @click="handleCancel(6)"
+                   v-if="partChatType === 'chatRoom' && this.$store.state.chatRoomInfo.owner === this.$store.state.userId">
+          踢出聊天室
+        </a-button>
+        <a-button  type="primary"  @click="handleCancel(7)"
+                   v-if="partChatType === 'chatRoom' && this.$store.state.chatRoomInfo.owner === this.$store.state.userId">
+          解散聊天室
+        </a-button>
+      <!--      普通成员  -->
+        <a-button  type="primary"  @click="handleCancel(8)"
+                   v-if="partChatType === 'chatRoom' && this.$store.state.chatRoomInfo.owner !== this.$store.state.userId">
+          退出聊天室
         </a-button>
       </template>
     </a-modal>
@@ -48,7 +80,9 @@
 
 <script>
 import './ParticularsModule.scss'
-import {delFriends,addblackFriends,dissolveGroup,removeGroupMemver,leaveGroup} from "@/config/optionsIm";
+import {delFriends,addblackFriends,
+  dissolveGroup,removeGroupMemver,leaveGroup,
+  removeChatRoomMember,leaveChatRoom,dissolveChatRoom} from "@/config/optionsIm";
 
 export default {
   name: "ParticularsModule",
@@ -64,7 +98,9 @@ export default {
       //id
       partUserId:null,
       //当前选中的群成员
-      groupmemberID:null
+      groupMemberID:null,
+      //当前选中聊天室成员
+      chatRoomMemberID:null
     }
   },
   watch:{
@@ -96,8 +132,8 @@ export default {
         dissolveGroup(this.partUserId)
         this.$message.success("已成功解散群聊")
       }else if (num === 4){
-        if (this.groupmemberID !== this.$store.state.userId) {
-          removeGroupMemver(this.partUserId,this.groupmemberID)
+        if (this.groupMemberID !== this.$store.state.userId) {
+          removeGroupMemver(this.partUserId,this.groupMemberID)
           this.$message.success("已成功提出群聊")
         }else {
           this.$message.error("不能踢自己噢")
@@ -105,6 +141,19 @@ export default {
       }else if (num === 5){
         leaveGroup(this.partUserId)
         this.$message.success("已成功退出群聊")
+      }else if (num === 6){
+        if (this.chatRoomMemberID !== this.$store.state.userId) {
+          removeChatRoomMember(this.partUserId,this.chatRoomMemberID)
+          this.$message.success("已成功踢出聊天室")
+        }else {
+          this.$message.error("不能踢自己噢")
+        }
+      }else if (num === 7){
+        dissolveChatRoom(this.partUserId)
+        this.$message.success("已成功解散聊天室")
+      }else if (num === 8){
+        leaveChatRoom(this.partUserId)
+        this.$message.success("已成功退出聊天室")
       }
     },
   }

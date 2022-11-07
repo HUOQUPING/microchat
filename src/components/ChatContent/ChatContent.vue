@@ -93,7 +93,7 @@
 import './ChatContent.scss'
 import {sendMessage,chatHistory} from "@/config/optionsIm";
 import ParticularsModule from "@/components/ParticularsModule/ParticularsModule";
-import {getUserInfo,getGroupInfo} from "@/config/optionsIm";
+import {getUserInfo,getGroupInfo,getChatRoomInfo} from "@/config/optionsIm";
 
 export default {
   name: "ChatContent",
@@ -149,6 +149,8 @@ export default {
         getUserInfo(this.sendID)
       }else if (this.chatType === "groupChat") {
         getGroupInfo(this.sendID)
+      }else if (this.chatType === "chatRoom"){
+        getChatRoomInfo(this.sendID)
       }
     },
     showpartStatus(val){

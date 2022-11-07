@@ -43,7 +43,11 @@ export default new Vuex.Store({
         //群详情
         groupInfo:[],
         //群成员
-        groupMember:[]
+        groupMember:[],
+        //聊天室详情
+        chatRoomInfo:[],
+        //聊天室成员
+        chatRoomMember:[]
     },
     getters: {},
     mutations: {
@@ -141,6 +145,22 @@ export default new Vuex.Store({
         //移除群成员
         removeGroupMember(state,id){
             state.groupMember = state.groupMember.filter(item => item !== id)
+        },
+        //聊天室详情
+        chatRoomInfo(state,msg){
+            state.chatRoomInfo = msg
+        },
+        //聊天室成员
+        chatRoomMember(state,msg){
+            state.chatRoomMember = msg
+        },
+        //移除聊天室
+        removeChatRoom(state,id){
+            state.chatRoom = state.chatRoom.filter(item => item.id !== id)
+        },
+        //退出聊天室
+        leaveChatRoom(state,id){
+            state.List[2].arr = state.List[2].arr.filter(item => item.id !== id)
         }
     },
     actions: {},
