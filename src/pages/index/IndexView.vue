@@ -70,7 +70,7 @@
           </a-popover>
 
           <!--          消息提示-->
-          <span style="float: right;" class="trigger">
+          <span style="float: right;" class="trigger" @click="showMessage">
              <a-badge :dot="show">
                 <a-icon type="bell" :style="{fontSize:'18px'}"/>
               </a-badge>
@@ -93,6 +93,9 @@
 
 <!--    黑名单-->
    <black-list :blackstatus="blackstatus" @blackvisible="blackvisible" :blackid="blackid"></black-list>
+
+<!--    消息回执-->
+    <message-receipt :messageStatus="messageStatus" @MsgStatus="MsgStatus"></message-receipt>
   </div>
 </template>
 
@@ -106,10 +109,11 @@ import ChatContent from "@/components/ChatContent/ChatContent";
 import AddItion from "@/components/AddItion/AddItion";
 import EstabIish from "@/components/EstabIish/EstabIish";
 import BlackList from "@/components/BlackList/BlackList";
+import MessageReceipt from "@/components/MessageReceipt/MessageReceipt";
 
 export default {
   name: "IndexView",
-  components: {PersonalInformation, ChatContent, AddItion,EstabIish,BlackList},
+  components: {PersonalInformation, ChatContent, AddItion,EstabIish,BlackList,MessageReceipt},
 
   data() {
     return {
@@ -140,7 +144,9 @@ export default {
       //黑名单状态
       blackstatus:false,
       //黑名单id
-      blackid:null
+      blackid:null,
+      //消息回执状态
+      messageStatus:false
     }
   },
   created() {
@@ -212,6 +218,13 @@ export default {
     },
     blackvisible(val){
       this.blackstatus = val
+    },
+    //消息回执
+    showMessage(){
+      this.messageStatus = true
+    },
+    MsgStatus(val){
+      this.messageStatus = val
     }
   }
 }

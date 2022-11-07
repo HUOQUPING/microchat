@@ -48,8 +48,8 @@
               <a-upload
                   :style="{display:'inline-block'}"
                   list-type="picture"
+                  :show-upload-list="false"
                   action="//jsonplaceholder.typicode.com/posts/"
-                  :preview-file="previewFile"
               >
                 <a-icon type="folder" />
               </a-upload>
@@ -68,6 +68,7 @@
             <a-textarea
                 @keydown.ctrl.enter.native="sendMsg"
                 :bordered="false" :style="{border: 'none',outline:'none'}" v-model="text" :max-length="196"/>
+
 
             <a-tooltip placement="top" :mouseEnterDelay="1" trigger="focus">
                 <template #title v-if="text === '' ">
@@ -91,6 +92,9 @@
                           @showpartStatus="showpartStatus">
       </particulars-module>
 
+<!--消息漫游-->
+      <message-roaming :roamingStatus="roamingStatus" @roamStatus="roamStatus"></message-roaming>
+
     </a-layout-content>
 
 
@@ -99,13 +103,14 @@
 
 <script>
 import './ChatContent.scss'
+import MessageRoaming from "@/components/MessageRoaming/MessageRoaming";
 import {sendMessage,chatHistory} from "@/config/optionsIm";
 import ParticularsModule from "@/components/ParticularsModule/ParticularsModule";
 import {getUserInfo,getGroupInfo,getChatRoomInfo} from "@/config/optionsIm";
 
 export default {
   name: "ChatContent",
-  components:{ParticularsModule},
+  components:{ParticularsModule,MessageRoaming},
   data(){return {
     username: null,
     userID:  null,
@@ -114,7 +119,8 @@ export default {
     sendID:null,
     visible:false,
   //  详情
-    showPart:false
+    showPart:false,
+    roamingStatus:false
   }},
   props:['userid','type','sendid'],
   watch:{
@@ -149,6 +155,10 @@ export default {
 
     chatHis(){
       chatHistory()
+      this.roamingStatus = true
+    },
+    roamStatus(val){
+      this.roamingStatus = val
     },
 
     showpart(){
@@ -163,17 +173,6 @@ export default {
     },
     showpartStatus(val){
       this.showPart = val
-    },
-    //上传文件
-    previewFile(file) {
-      console.log('Your upload file:', file);
-      // Your process logic. Here we just mock to the same file
-      return fetch('https://next.json-generator.com/api/json/get/4ytyBoLK8', {
-        method: 'POST',
-        body: file,
-      })
-          .then(res => res.json())
-          .then(({ thumbnail }) => thumbnail);
     },
   },
 }

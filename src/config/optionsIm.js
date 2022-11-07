@@ -190,7 +190,9 @@ export let close = () => {
 //获取好友列表
 export let getGoodFriends = () => {
     WebIm.conn.getContacts().then((res) => {
-        store.commit('setList', res.data)
+        setTimeout(() => {
+            store.commit('setList', res.data)
+        },1000)
         console.log("好友列表", res.data)
     })
 }

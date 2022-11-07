@@ -1,30 +1,30 @@
 <template>
   <div>
-    <a-modal title="消息" :visible="visible" :footer="null" @cancel="handleCancel" :afterClose="handleCancel">
+    <a-modal title="历史记录" :visible="visible" :footer="null" @cancel="handleCancel" :afterClose="handleCancel">
       <p>aaa</p>
     </a-modal>
   </div>
 </template>
 
 <script>
-import './MessageReceipt.scss'
+import './MessageRoaming.scss'
 export default {
-  name: "MessageReceipt",
+  name: "MessageRoaming",
   data(){
     return {
       visible: false,
     }
   },
-  props:['messageStatus'],
+  props:['roamingStatus'],
   watch:{
-    messageStatus(nV){
+    roamingStatus(nV){
       this.visible = nV
     }
   },
   methods:{
     handleCancel() {
       this.visible = false;
-      this.$emit("MsgStatus",this.visible)
+      this.$emit("roamStatus",this.visible)
     },
   }
 }
