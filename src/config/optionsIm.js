@@ -349,6 +349,67 @@ export let addChatRoom = (id,name) => {
     })
 }
 
+//获取群详情
+export let getGroupInfo = (id) => {
+    let opt = {
+        groupId:id
+    }
+    WebIm.conn.getGroupInfo(opt).then((res) => {
+        store.commit("setGroupInfo",res.data[0])
+        console.log("群详情",res.data)
+        getGroupList(id)
+    })
+}
+
+//获取群成员列表
+export let getGroupList = (id) => {
+    let pageNum = 1
+    let pageSize = 100
+    let opt = {
+        pageNum:pageNum,
+        pageSize:pageSize,
+        groupId: id
+    }
+    WebIm.conn.listGroupMembers(opt).then((res) => {
+        store.commit("setGroupMember",res.data.reverse())
+        console.log("群成员列表",res.data)
+    })
+}
+
+//解散群组
+export let dissolveGroup = (id) => {
+    let opt = {
+        groupId:id
+    }
+    WebIm.conn.destroyGroup(opt).then((res) => {
+        store.commit("removeGroup",id)
+        console.log("群组已经解散",res)
+    })
+}
+
+//群踢人
+export let removeGroupMemver = (gid,uid) => {
+    let opt = {
+        groupId:gid,
+        username:uid
+    }
+    WebIm.conn.removeGroupMember(opt).then((res) => {
+        store.commit("removeGroupMember",uid)
+        console.log(`${uid}已被提出${gid}`,res)
+    })
+}
+
+//退出群聊
+export let leaveGroup = (id) => {
+    let opt = {
+        groupId:id
+    }
+    WebIm.conn.leaveGroup(opt).then((res) => {
+        store.commit("removeGroup",id)
+        console.log("已退出群聊",res)
+    })
+}
+
 
 
 
