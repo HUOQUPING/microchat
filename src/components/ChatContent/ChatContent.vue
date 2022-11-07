@@ -23,7 +23,6 @@
                   <span v-if="nn.from !== username  && nn.chatType === 'singleChat'">{{nn.from}}</span>
                   <span v-if="nn.chatType !== 'singleChat' ">{{nn.from}}</span>
                 </span>
-
                   <span
                       :class="{right:nn.from === username,left:nn.from !== username}">
                   {{nn.msg}}</span>

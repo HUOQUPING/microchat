@@ -17,7 +17,6 @@ WebIm.conn = new WebIm.connection({
     autoReconnectInterval: WebIm.config.autoReconnectInterval,
     delivery: WebIm.config.delivery,
     useOwnUploadFun: WebIm.config.useOwnUploadFun
-
 })
 
 //消息回调
@@ -86,7 +85,7 @@ WebIm.conn.addEventHandler("eventName", {
         console.log(message)
     },          //失败回调
     onBlacklistUpdate: function (list) {       //黑名单变动
-                                               // 查询黑名单，将好友拉黑，将好友从黑名单移除都会回调这个函数，list则是黑名单现有的所有好友信息
+        // 查询黑名单，将好友拉黑，将好友从黑名单移除都会回调这个函数，list则是黑名单现有的所有好友信息
         console.log(list);
     },
     onRecallMessage: function (message) {
@@ -111,7 +110,6 @@ WebIm.conn.addEventHandler("eventName", {
         console.log(message)
     }      //收到整个会话已读的回执，在对方发送channel ack时会在这个回调里收到消息
 });
-
 
 //好友请求回调
 WebIm.conn.addEventHandler("contactEvent", {
@@ -169,15 +167,35 @@ export let tokenLogin = (userId, asscctoken) => {
     });
 }
 
-
 //注册
-export let regUser = (username, password) => {
-    WebIm.conn.registerUser({username: username, password: password}).then((res) => {
-        console.log(res)
-        console.log('注册成功')
+export let regUser = (userId, password) => {
+    const options = {
+        username: userId,
+        password: password,
+        nickname: userId,
+    };
+    WebIm.conn.registerUser(options).then((res) => {
+        console.log(res.application)
+        store.state.registerCode = 200
     }).catch((err) => {
-        console.log(err)
-    })
+            let errorData = JSON.parse(err.data);
+            if (errorData.error === 'duplicate_unique_property_exists') {
+                console.log('用户已存在！');
+                store.state.registerCode = 400
+            } else if (errorData.error === 'illegal_argument') {
+                if (errorData.error_description === 'USERNAME_TOO_LONG') {
+                    console.log('用户名超过64个字节！')
+                } else {
+                    console.log('用户名不合法！')
+                }
+            } else if (errorData.error === 'unauthorized') {
+                console.log('注册失败，无权限！')
+            } else if (errorData.error === 'resource_limited') {
+                console.log('您的App用户注册数量已达上限,请升级至企业版！')
+            }
+
+        }
+    );
 }
 
 //退出
@@ -185,7 +203,6 @@ export let close = () => {
     WebIm.conn.close()
     cookie.delete('token')
 }
-
 
 //获取好友列表
 export let getGoodFriends = () => {
@@ -216,7 +233,7 @@ export let getRooms = () => {
         pagesize: 20
     }
     WebIm.conn.getChatRooms(opt).then((res) => {
-        store.commit("setChatRoom",res.data)
+        store.commit("setChatRoom", res.data)
         console.log("聊天室", res.data)
     })
 }
@@ -247,7 +264,7 @@ export let getUserInfo = (id) => {
     //第一个参数用户id，第二个想要查询的内容
     WebIm.conn.fetchUserInfoById(id).then((res) => {
         console.log('获取个人信息', res.data)
-        store.commit("setUserMsg",res.data)
+        store.commit("setUserMsg", res.data)
     })
 }
 
@@ -255,47 +272,47 @@ export let getUserInfo = (id) => {
 export let setUserInfo = (option) => {
     console.log(option)
     WebIm.conn.updateUserInfo(option).then((res) => {
-        console.log('设置个人信息',res)
+        console.log('设置个人信息', res)
     })
 }
 
 //加好友
 export let addContact = (id) => {
-    WebIm.conn.addContact(id,'加个好友呗!')
+    WebIm.conn.addContact(id, '加个好友呗!')
 }
 
 //加群
 export let joinGroup = (opt) => {
     WebIm.conn.joinGroup(opt).then((res) => {
-        console.log("已发送群申请",res)
+        console.log("已发送群申请", res)
     })
 }
 
 //聊天记录
-export let chatHistory = () =>{
-    WebIm.conn.getConversationlist().then((res)=>{
-        console.log('调出聊天记录',res)
+export let chatHistory = () => {
+    WebIm.conn.getConversationlist().then((res) => {
+        console.log('调出聊天记录', res)
     })
 }
 
 //创建群
-export let SetupGroup = (groupname,desc,ifpublic,approval) => {
+export let SetupGroup = (groupname, desc, ifpublic, approval) => {
 //groupname 群名字 desc 群简介 ifpublic 是否公开 approval 是否需要批准
-    let opt ={
-        data:{
-            groupname:groupname,
-            desc:desc,
-            mebers:store.state.userId,
-            public:ifpublic === 1,
-            approval:approval === 1,
-            allowinvites:true,
-            inviteNeedConfirm:true,
-            maxusers:500
+    let opt = {
+        data: {
+            groupname: groupname,
+            desc: desc,
+            mebers: store.state.userId,
+            public: ifpublic === 1,
+            approval: approval === 1,
+            allowinvites: true,
+            inviteNeedConfirm: true,
+            maxusers: 500
         }
     }
     WebIm.conn.createGroup(opt).then((res) => {
-        console.log("已创建群聊",res)
-        store.commit("addGroupList",groupname)
+        console.log("已创建群聊", res)
+        store.commit("addGroupList", groupname)
     })
 }
 
@@ -308,44 +325,44 @@ export let delFriends = (id) => {
 //获取黑名单
 export let blackFriends = () => {
     WebIm.conn.getBlocklist().then((res) => {
-        console.log("黑名单",res.data)
-        store.commit("setBlackList",res.data)
+        console.log("黑名单", res.data)
+        store.commit("setBlackList", res.data)
     })
 }
 
 //移出黑名单
 export let removeblackFrinends = (id) => {
     WebIm.conn.removeUserFromBlocklist({
-        name:id
+        name: id
     })
-    store.commit("removeBlckList",id)
-    store.commit("addList",id)
-    console.log(id,"已移除黑名单")
+    store.commit("removeBlckList", id)
+    store.commit("addList", id)
+    console.log(id, "已移除黑名单")
 }
 
 //加入黑名单
 export let addblackFriends = (id) => {
     WebIm.conn.addUsersToBlocklist({
-        name:id
+        name: id
     })
-    console.log(id,"已加入黑名单")
-    store.commit("removeList",id)
-    store.commit("addBlackList",id)
+    console.log(id, "已加入黑名单")
+    store.commit("removeList", id)
+    store.commit("addBlackList", id)
 }
 
 //加入聊天室
-export let addChatRoom = (id,name) => {
+export let addChatRoom = (id, name) => {
     let opt = {
-        roomId:id,
-        message:'reason'
+        roomId: id,
+        message: 'reason'
     }
     WebIm.conn.joinChatRoom(opt).then((res) => {
         let opt = {
             ...res.data,
-            name:name
+            name: name
         }
         store.commit('setRoomList', opt)
-        console.log("已加入聊天室",res)
+        console.log("已加入聊天室", res)
     })
 }
 
