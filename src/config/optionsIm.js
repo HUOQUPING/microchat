@@ -1,23 +1,7 @@
 import cookie from 'vue-cookie'
-import WebIm from 'easemob-websdk'
 import store from "@/store";
-import config from "@/webim.config";
+import WebIm from '@/utils/WebIm'
 
-WebIm.config = config;
-WebIm.conn = new WebIm.connection({
-    // 注意这里的 "K" 需大写。
-    appKey: '1183221025099577#demo',
-    isHttpDNS: WebIm.config.isHttpDNS,
-    isMultiLoginSessions: WebIm.config.isMultiLoginSessions,
-    https: WebIm.config.https,
-    url: WebIm.config.socketServer,
-    apiUrl: WebIm.config.restServer,
-    isAutoLogin: WebIm.config.isAutoLogin,
-    autoReconnectNumMax: WebIm.config.autoReconnectNumMax,
-    autoReconnectInterval: WebIm.config.autoReconnectInterval,
-    delivery: WebIm.config.delivery,
-    useOwnUploadFun: WebIm.config.useOwnUploadFun
-})
 
 //消息回调
 WebIm.conn.addEventHandler("eventName", {
@@ -85,7 +69,7 @@ WebIm.conn.addEventHandler("eventName", {
         console.log(message)
     },          //失败回调
     onBlacklistUpdate: function (list) {       //黑名单变动
-        // 查询黑名单，将好友拉黑，将好友从黑名单移除都会回调这个函数，list则是黑名单现有的所有好友信息
+                                               // 查询黑名单，将好友拉黑，将好友从黑名单移除都会回调这个函数，list则是黑名单现有的所有好友信息
         console.log(list);
     },
     onRecallMessage: function (message) {
@@ -371,11 +355,11 @@ export let addChatRoom = (id, name) => {
 //获取群详情
 export let getGroupInfo = (id) => {
     let opt = {
-        groupId:id
+        groupId: id
     }
     WebIm.conn.getGroupInfo(opt).then((res) => {
-        store.commit("setGroupInfo",res.data[0])
-        console.log("群详情",res.data)
+        store.commit("setGroupInfo", res.data[0])
+        console.log("群详情", res.data)
         getGroupList(id)
     })
 }
@@ -385,59 +369,59 @@ export let getGroupList = (id) => {
     let pageNum = 1
     let pageSize = 100
     let opt = {
-        pageNum:pageNum,
-        pageSize:pageSize,
+        pageNum: pageNum,
+        pageSize: pageSize,
         groupId: id
     }
     WebIm.conn.listGroupMembers(opt).then((res) => {
-        store.commit("setGroupMember",res.data.reverse())
-        console.log("群成员列表",res.data)
+        store.commit("setGroupMember", res.data.reverse())
+        console.log("群成员列表", res.data)
     })
 }
 
 //解散群组
 export let dissolveGroup = (id) => {
     let opt = {
-        groupId:id
+        groupId: id
     }
     WebIm.conn.destroyGroup(opt).then((res) => {
-        store.commit("removeGroup",id)
-        console.log("群组已经解散",res)
+        store.commit("removeGroup", id)
+        console.log("群组已经解散", res)
     })
 }
 
 //群踢人
-export let removeGroupMemver = (gid,uid) => {
+export let removeGroupMemver = (gid, uid) => {
     let opt = {
-        groupId:gid,
-        username:uid
+        groupId: gid,
+        username: uid
     }
     WebIm.conn.removeGroupMember(opt).then((res) => {
-        store.commit("removeGroupMember",uid)
-        console.log(`${uid}已被提出${gid}`,res)
+        store.commit("removeGroupMember", uid)
+        console.log(`${uid}已被提出${gid}`, res)
     })
 }
 
 //退出群聊
 export let leaveGroup = (id) => {
     let opt = {
-        groupId:id
+        groupId: id
     }
     WebIm.conn.leaveGroup(opt).then((res) => {
-        store.commit("removeGroup",id)
-        console.log("已退出群聊",res)
+        store.commit("removeGroup", id)
+        console.log("已退出群聊", res)
     })
 }
 
 //获取聊天室详情
 export let getChatRoomInfo = (id) => {
     let opt = {
-        chatRoomId:id
+        chatRoomId: id
     }
     WebIm.conn.getChatRoomDetails(opt).then((res) => {
-        store.commit("chatRoomInfo",res.data[0])
+        store.commit("chatRoomInfo", res.data[0])
         getChatRoomMember(id)
-        console.log("聊天室详情",res.data[0])
+        console.log("聊天室详情", res.data[0])
     })
 }
 
@@ -449,41 +433,41 @@ export let getChatRoomMember = (id) => {
         chatRoomId: id
     }
     WebIm.conn.listChatRoomMembers(option).then(res => {
-        store.commit("chatRoomMember",res.data)
-        console.log("聊天室成员",res.data)
+        store.commit("chatRoomMember", res.data)
+        console.log("聊天室成员", res.data)
     })
 }
 
 //踢出聊天室
-export let removeChatRoomMember = (cid,uid) => {
+export let removeChatRoomMember = (cid, uid) => {
     let opt = {
-        chatRoomId:cid,
-        username:uid
+        chatRoomId: cid,
+        username: uid
     }
     WebIm.conn.removeChatRoomMember(opt).then(res => {
-        console.log(`已将${uid}移除${cid}`,res)
+        console.log(`已将${uid}移除${cid}`, res)
     })
 }
 
 //退出聊天室
 export let leaveChatRoom = (id) => {
     let opt = {
-        roomId:id
+        roomId: id
     }
     WebIm.conn.leaveChatRoom(opt).then(res => {
-        store.commit("leaveChatRoom",id)
-        console.log("已退出聊天室",res)
+        store.commit("leaveChatRoom", id)
+        console.log("已退出聊天室", res)
     })
 }
 
 //解散聊天室
 export let dissolveChatRoom = (id) => {
     let opt = {
-        chatRoomId:id
+        chatRoomId: id
     }
     WebIm.conn.destroyChatRoom(opt).then(res => {
-        store.commit("removeChatRoom",id)
-        console.log("已解散聊天室",res)
+        store.commit("removeChatRoom", id)
+        console.log("已解散聊天室", res)
     })
 }
 
