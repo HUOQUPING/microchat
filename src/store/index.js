@@ -7,6 +7,8 @@ export default new Vuex.Store({
     state: {
         // WebIM管理员Token
         access_token:String,
+        // 超级管理员列表
+        superAdminArr: Array,
         // 注册状态
         registerCode:0,
         // 用户token

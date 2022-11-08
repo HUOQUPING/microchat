@@ -100,10 +100,11 @@
 </template>
 
 <script>
-import cookie from "vue-cookie";
 import './indexView.scss'
-import {close, tokenLogin} from "@/config/optionsIm";
+import cookie from "vue-cookie";
 import {mapState} from 'vuex'
+import {close, tokenLogin} from "@/config/optionsIm";
+import {getSuperAdmin} from "@/api/axiosGetData";
 import PersonalInformation from "@/components/PersonalInformation/PersonalInformation";
 import ChatContent from "@/components/ChatContent/ChatContent";
 import AddItion from "@/components/AddItion/AddItion";
@@ -150,6 +151,7 @@ export default {
     }
   },
   created() {
+    getSuperAdmin()
     let userMsg = JSON.parse(cookie.get('token'))
     tokenLogin(userMsg.userId, userMsg.token)
   },
