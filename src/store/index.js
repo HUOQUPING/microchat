@@ -66,9 +66,9 @@ export default new Vuex.Store({
                 return !state.List[3].arr.some(t => t === item)
             })
             //延迟赋值，避免黑名单获取慢，没进行筛选
-            // setTimeout(() => {
+            setTimeout(() => {
                 state.List[0].arr = arr
-            // },1000)
+            },1000)
 
         },
         //获取好友列表
