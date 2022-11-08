@@ -26,11 +26,11 @@ export const getAdminToken = () => {
 }
 
 /**
- * 获取超级管理员权限
+ * 设置超级管理员权限
  * @param {String} userId [用户Id]
  */
 
-export const getSuperAdmin = (userId) => {
+export const setSuperAdmin = (userId) => {
     const options = {
         method: 'POST',
         url: 'http://a1.easemob.com/1183221025099577/demo/chatrooms/super_admin',
@@ -43,10 +43,34 @@ export const getSuperAdmin = (userId) => {
     };
 
     axios.request(options).then(function (response) {
-        console.log(response.data);
+        console.log('setSuperAdmin',response.data);
     }).catch(function (error) {
         console.error(error);
     });
+}
+
+/**
+ * 获取超级管理员权限列表
+ */
+
+export const getSuperAdmin = () => {
+    getAdminToken()
+    setTimeout(()=>{
+        const options = {
+            method: 'GET',
+            url: 'http://a1.easemob.com/1183221025099577/demo/chatrooms/super_admin',
+            headers: {
+                Authorization: `Bearer ${store.state.access_token}`,
+            }
+        };
+
+        axios.request(options).then(function (response) {
+            store.state.superAdminArr = response.data.data
+            console.log('getSuperAdmin',response.data);
+        }).catch(function (error) {
+            console.error(error);
+        });
+    },1000)
 }
 
 /**
@@ -67,7 +91,7 @@ export const getSMS = (phoneNum, code) => {
     };
 
     axios.request(options).then(function (response) {
-        console.log(response.data);
+        console.log('getSMS',response.data);
     }).catch(function (error) {
         console.error(error);
     });

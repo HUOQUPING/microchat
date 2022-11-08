@@ -6,9 +6,11 @@ Vue.use(Vuex)
 export default new Vuex.Store({
     state: {
         // WebIM管理员Token
-        access_token:String,
+        access_token: String,
+        // 超级管理员列表
+        superAdminArr: Array,
         // 注册状态
-        registerCode:0,
+        registerCode: 0,
         // 用户token
         token: String,
         //列表
@@ -21,9 +23,9 @@ export default new Vuex.Store({
         }, {
             name: "聊天室",
             arr: []
-        },{
+        }, {
             name: "黑名单",
-            arr:[]
+            arr: []
         }],
         //用户名
         userId: '用户名',
@@ -42,17 +44,17 @@ export default new Vuex.Store({
             dateOfBirth: ''
         },
         //查询个人信息
-        userMsg:[],
+        userMsg: [],
         //聊天室
-        chatRoom:[],
+        chatRoom: [],
         //群详情
-        groupInfo:[],
+        groupInfo: [],
         //群成员
-        groupMember:[],
+        groupMember: [],
         //聊天室详情
-        chatRoomInfo:[],
+        chatRoomInfo: [],
         //聊天室成员
-        chatRoomMember:[]
+        chatRoomMember: []
     },
     getters: {},
     mutations: {
@@ -62,21 +64,21 @@ export default new Vuex.Store({
         },
         // 保存好友列表
         setList(state, res) {
-              let arr  = res.filter((item) => {
+            let arr = res.filter((item) => {
                 return !state.List[3].arr.some(t => t === item)
             })
             //延迟赋值，避免黑名单获取慢，没进行筛选
             setTimeout(() => {
                 state.List[0].arr = arr
-            },1000)
+            }, 1000)
 
         },
         //获取好友列表
-        addList(state,res){
+        addList(state, res) {
             state.List[0].arr.push(res)
         },
         //移除好友
-        removeList(state,res){
+        removeList(state, res) {
             state.List[0].arr = state.List[0].arr.filter(item => item !== res)
         },
         //获取全部群
@@ -84,19 +86,19 @@ export default new Vuex.Store({
             state.List[1].arr = res
         },
         //获取黑名单
-        setBlackList(state,res){
+        setBlackList(state, res) {
             state.List[3].arr = res
         },
         //移除黑名单
-        removeBlckList(state,res){
+        removeBlckList(state, res) {
             state.List[3].arr = state.List[3].arr.filter(item => item !== res)
         },
         //添加黑名单
-        addBlackList(state,res){
+        addBlackList(state, res) {
             state.List[3].arr.push(res)
         },
         //添加群时用
-        addGroupList(state,res){
+        addGroupList(state, res) {
             state.List[1].arr.push(res)
         },
         //加入聊天室
@@ -111,13 +113,13 @@ export default new Vuex.Store({
         setCharArr(state, msg) {
             let i = state.charArr.findIndex(item => item.to === msg.to)
             let l = state.charArr.findIndex(item => item.to === msg.from)
-            if (l !== -1){
+            if (l !== -1) {
                 state.charArr[l].arr.push(msg)
             }
             if (i === -1) {
                 let opt = {
                     to: msg.to,
-                    from:msg.from,
+                    from: msg.from,
                     arr: []
                 }
                 opt.arr.push(msg)
@@ -128,43 +130,43 @@ export default new Vuex.Store({
 
         },
         //设置用户个人信息
-        setUserMsg(state,msg){
+        setUserMsg(state, msg) {
             state.userMsg = msg
         },
         //设置聊天室
-        setChatRoom(state,msg){
+        setChatRoom(state, msg) {
             state.chatRoom = msg
         },
         //设置群详情
-        setGroupInfo(state,msg){
+        setGroupInfo(state, msg) {
             state.groupInfo = msg
         },
         //设置群成员
-        setGroupMember(state,msg){
+        setGroupMember(state, msg) {
             state.groupMember = msg
         },
         //移除群
-        removeGroup(state,id){
+        removeGroup(state, id) {
             state.List[1].arr = state.List[1].arr.filter(item => item.groupid !== id)
         },
         //移除群成员
-        removeGroupMember(state,id){
+        removeGroupMember(state, id) {
             state.groupMember = state.groupMember.filter(item => item !== id)
         },
         //聊天室详情
-        chatRoomInfo(state,msg){
+        chatRoomInfo(state, msg) {
             state.chatRoomInfo = msg
         },
         //聊天室成员
-        chatRoomMember(state,msg){
+        chatRoomMember(state, msg) {
             state.chatRoomMember = msg
         },
         //移除聊天室
-        removeChatRoom(state,id){
+        removeChatRoom(state, id) {
             state.chatRoom = state.chatRoom.filter(item => item.id !== id)
         },
         //退出聊天室
-        leaveChatRoom(state,id){
+        leaveChatRoom(state, id) {
             state.List[2].arr = state.List[2].arr.filter(item => item.id !== id)
         }
     },

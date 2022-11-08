@@ -107,6 +107,7 @@ import ChatContent from "@/components/ChatContent/ChatContent";
 import AddItion from "@/components/AddItion/AddItion";
 import EstabIish from "@/components/EstabIish/EstabIish";
 import BlackList from "@/components/BlackList/BlackList";
+import {getSuperAdmin} from "@/api/axiosGetData";
 
 export default {
   name: "IndexView",
@@ -147,6 +148,7 @@ export default {
   created() {
     let userMsg = JSON.parse(cookie.get('token'))
     tokenLogin(userMsg.userId, userMsg.token)
+    getSuperAdmin()
   },
   computed: {
     ...mapState(['List', 'userId']),
