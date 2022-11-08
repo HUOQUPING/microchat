@@ -8,7 +8,7 @@ export default new Vuex.Store({
         // WebIM管理员Token
         access_token:String,
         // 超级管理员列表
-        superAdminArr: Array,
+        superAdminArr: [],
         // 注册状态
         registerCode:0,
         // 用户token
@@ -54,13 +54,16 @@ export default new Vuex.Store({
         //聊天室详情
         chatRoomInfo:[],
         //聊天室成员
-        chatRoomMember:[]
+        chatRoomMember:[],
     },
     getters: {},
     mutations: {
         // 设置cookie
         setToken(state, token) {
             state.token = token
+        },
+        setSuperAdminList(state,arr){
+            state.superAdminArr = arr
         },
         // 保存好友列表
         setList(state, res) {
@@ -168,7 +171,9 @@ export default new Vuex.Store({
         //退出聊天室
         leaveChatRoom(state,id){
             state.List[2].arr = state.List[2].arr.filter(item => item.id !== id)
-        }
+        },
+
+
     },
     actions: {},
     modules: {}

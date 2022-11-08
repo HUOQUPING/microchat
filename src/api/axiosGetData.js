@@ -18,7 +18,7 @@ export const getAdminToken = () => {
     axios.request(options).then(function (response) {
         store.state.access_token = response.data.access_token
         if (store.state.access_token) {
-            console.log('access_token')
+            console.log('access_token',response)
         }
     }).catch(function (error) {
         console.error(error);
@@ -44,6 +44,8 @@ export const setSuperAdmin = (userId) => {
 
     axios.request(options).then(function (response) {
         console.log('setSuperAdmin',response.data);
+
+
     }).catch(function (error) {
         console.error(error);
     });
@@ -65,7 +67,7 @@ export const getSuperAdmin = () => {
         };
 
         axios.request(options).then(function (response) {
-            store.state.superAdminArr = response.data.data
+            store.commit("setSuperAdminList",response.data.data)
             console.log('getSuperAdmin',response.data);
         }).catch(function (error) {
             console.error(error);

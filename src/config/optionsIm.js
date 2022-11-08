@@ -465,10 +465,10 @@ export let dissolveChatRoom = (id) => {
     let opt = {
         chatRoomId: id
     }
-    WebIm.conn.destroyChatRoom(opt).then(res => {
-        store.commit("removeChatRoom", id)
-        console.log("已解散聊天室", res)
-    })
+        WebIm.conn.destroyChatRoom(opt).then(res => {
+            store.commit("removeChatRoom", id)
+            console.log("已解散聊天室", res)
+        })
 }
 
 

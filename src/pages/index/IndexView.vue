@@ -48,7 +48,9 @@
           <a-popover placement="bottom">
             <template slot="content">
               <p :style="{textAlign:'center'}" @click="showGroupModal(1)">创建群</p>
-              <p :style="{textAlign:'center'}" @click="showGroupModal(2)">创建聊天室</p>
+              <p :style="{textAlign:'center'}"
+                 v-if="this.$store.state.superAdminArr.includes(this.$store.state.userId)"
+                 @click="showGroupModal(2)">创建聊天室</p>
             </template>
             <a-icon type="usergroup-add"
                     class="trigger" :style="{margin:'0 24px 0 0',lineHeight:'0',padding: '0'}"/>
