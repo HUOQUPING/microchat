@@ -24,14 +24,21 @@ export default {
     this.gethitokoto()
   },
   methods: {
+    /*
+    // api已失效
     async gethitokoto() {
-      let {data} = await this.$axios.get('https://v1.hitokoto.cn')
+    let {data} = await this.$axios.get('https://v1.hitokoto.cn')
+    this.hitokoto = data.hitokoto
+    if (data.from_who === null) {
+      this.author = data.from
+    } else {
+      this.author = data.from_who
+    }
+    */
+    async gethitokoto() {
+      let {data} = await this.$axios.get('https://tenapi.cn/yiyan/?format=json')
       this.hitokoto = data.hitokoto
-      if (data.from_who === null) {
-        this.author = data.from
-      } else {
-        this.author = data.from_who
-      }
+      this.author = data.author
     }
   }
 }

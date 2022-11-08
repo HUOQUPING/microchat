@@ -10,7 +10,7 @@ const config = {
     autoReconnectNumMax: 2,                   // 断线重连最大次数
     autoReconnectInterval: 2,                 // 断线重连时间间隔
     heartBeatWait: 4500,                       // 使用webrtc（视频聊天）时发送心跳包的时间间隔，单位ms
-    delivery: true,                           // 是否发送已读回执
+    delivery: false,                           // 是否发送已读回执
 }
 
 export default config;

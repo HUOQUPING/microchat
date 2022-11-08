@@ -6,6 +6,8 @@ import $axios from 'vue-axios-plugin'
 import 'ant-design-vue/dist/antd.css';
 import Antd from "ant-design-vue";
 
+import WebIm from './utils/WebIm.js';
+
 Vue.use(Antd)
 Vue.use($axios, {
   // 请求拦截处理
@@ -18,6 +20,7 @@ Vue.use($axios, {
 
 
 new Vue({
+  WebIm,
   router,
   store,
   render: h => h(App)
