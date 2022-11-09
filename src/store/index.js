@@ -33,18 +33,16 @@ export default new Vuex.Store({
         charArr: [],
         // 个人信息
         userInfo: {
-            nickname: '',
+            nickname: null,
             // 个性签名
-            signature: '',
+            sign: null,
             // 性别
-            sex: '',
+            gender: null,
             // 手机号码
-            phoneNumber: '',
+            phone: null,
             // 出生日期
-            dateOfBirth: ''
+            birth: null
         },
-        //查询个人信息
-        userMsg:[],
         //聊天室
         chatRoom:[],
         //群详情
@@ -65,6 +63,9 @@ export default new Vuex.Store({
         setSuperAdminList(state,arr){
             state.superAdminArr = arr
         },
+        setAccessToken(state,arr){
+            state.access_token = arr
+        },
         // 保存好友列表
         setList(state, res) {
               let arr  = res.filter((item) => {
@@ -75,6 +76,14 @@ export default new Vuex.Store({
                 state.List[0].arr = arr
             },1000)
 
+        },
+        //设置个人信息
+        setuserInfo(state,opt){
+           state.userInfo = opt
+        },
+        //获取个人信息
+        getuserInfo(state,opt){
+            state.userInfo = opt
         },
         //获取好友列表
         addList(state,res){
@@ -131,10 +140,6 @@ export default new Vuex.Store({
                 state.charArr[i].arr.push(msg)
             }
 
-        },
-        //设置用户个人信息
-        setUserMsg(state,msg){
-            state.userMsg = msg
         },
         //设置聊天室
         setChatRoom(state,msg){

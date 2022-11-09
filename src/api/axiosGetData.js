@@ -16,7 +16,7 @@ export const getAdminToken = () => {
         }
     };
     axios.request(options).then(function (response) {
-        store.state.access_token = response.data.access_token
+        store.commit("setAccessToken",response.data.access_token)
         if (store.state.access_token) {
             console.log('access_token',response)
         }
@@ -73,6 +73,7 @@ export const getSuperAdmin = () => {
             console.error(error);
         });
     },1000)
+    console.log("token",store.state.access_token)
 }
 
 /**

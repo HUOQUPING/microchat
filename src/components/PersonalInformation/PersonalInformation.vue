@@ -14,7 +14,7 @@
             <a-form-item label="昵称">
               <a-input
                   placeholder="请输入昵称"
-                  v-model="userInfo.nickname"
+                  v-model="nickname"
               />
             </a-form-item>
           </a-col>
@@ -32,7 +32,7 @@
 <!--            个性签名-->
             <a-form-item label="个性签名">
               <a-input
-                  placeholder="无个性，不签名" v-model="userInfo.signature"
+                  placeholder="无个性，不签名" v-model="signature"
               />
             </a-form-item>
           </a-col>
@@ -43,7 +43,7 @@
             <a-form-item label="性别">
               <a-select
                   placeholder="请选择你的性别"
-                  v-model="userInfo.sex"
+                  v-model="sex"
               >
                 <a-select-option value="1">
                   男
@@ -60,7 +60,7 @@
 <!--            手机号码-->
             <a-form-item label="手机号码">
               <a-input
-                  placeholder="请输入你的手机号码" v-model="userInfo.phoneNumber"
+                  placeholder="请输入你的手机号码" v-model="phoneNumber"
               />
             </a-form-item>
           </a-col>
@@ -72,7 +72,7 @@
               <a-date-picker
                   style="width: 100%"
                   :get-popup-container="trigger => trigger.parentNode"
-                  v-model="userInfo.dateOfBirth"
+                  v-model="dateOfBirth"
               />
             </a-form-item>
           </a-col>
@@ -113,15 +113,27 @@ export default {
     return {
       form: this.$form.createForm(this),
       visible: false,
+      nickname: "" ,
+      signature: "",
+      sex:"",
+      phoneNumber:  "",
+      dateOfBirth: ""
     }
-  },
-  computed:{
-    ...mapState(['userInfo'])
   },
   watch: {
     show(nV){
       this.visible = nV
+    },
+    userInfo(){
+      this.nickname = this.userInfo.nickname
+      this.signature = this.userInfo.sign
+      this.sex = this.userInfo.gender
+      this.phoneNumber = this.userInfo.phone
+      this.dateOfBirth = this.userInfo.birth
     }
+  },
+  computed:{
+    ...mapState(["userInfo"])
   },
   props:['show'],
   methods:{
@@ -132,9 +144,14 @@ export default {
     },
     // 修改个人信息
     submit(){
-      if (this.userInfo){
-        setUserInfo(this.userInfo)
+      let opt = {
+        nickname:this.nickname,
+        sign:this.signature,
+        gender:this.sex,
+        phone:this.phoneNumber,
+        birth:this.dateOfBirth._d
       }
+      setUserInfo(opt)
       this.$message.success('修改成功')
       this.onClose()
     }

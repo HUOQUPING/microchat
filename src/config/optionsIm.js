@@ -250,13 +250,12 @@ export let getUserInfo = (id) => {
     //第一个参数用户id，第二个想要查询的内容
     WebIm.conn.fetchUserInfoById(id).then((res) => {
         console.log('获取个人信息', res.data)
-        store.commit("setUserMsg", res.data)
+        store.commit("getuserInfo", Object.values(res.data)[0])
     })
 }
 
 // 设置个人信息
 export let setUserInfo = (option) => {
-    console.log(option)
     WebIm.conn.updateUserInfo(option).then((res) => {
         console.log('设置个人信息', res)
     })
