@@ -39,6 +39,13 @@
               </template>
               <a-icon type="smile" />
             </a-tooltip>
+<!--            图片-->
+            <a-tooltip placement="bottom" :mouseEnterDelay="1">
+              <template #title>
+                <span :style="{fontSize:'12px'}">图片</span>
+              </template>
+              <a-icon type="picture" />
+            </a-tooltip>
 <!--            发送文件-->
             <a-tooltip placement="bottom" :mouseEnterDelay="1" >
               <template #title>
