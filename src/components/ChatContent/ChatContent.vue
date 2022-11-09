@@ -84,15 +84,20 @@
         </div>
 
 <!--      详情-->
-      <particulars-module :showpart="showPart"
-                          :chatType="chatType"
-                          :userName="userID"
-                          :userID="sendID"
-                          @showpartStatus="showpartStatus">
+      <particulars-module
+          :showpart="showPart"
+          :chatType="chatType"
+          :userName="userID"
+          :userID="sendID"
+          @showpartStatus="showpartStatus">
       </particulars-module>
 
 <!--消息漫游-->
-      <message-roaming :roamingStatus="roamingStatus" @roamStatus="roamStatus"></message-roaming>
+      <message-roaming
+          :roamingStatus="roamingStatus"
+          :message="messageRoam"
+          @roamStatus="roamStatus">
+      </message-roaming>
 
     </a-layout-content>
 
@@ -103,24 +108,27 @@
 <script>
 import './ChatContent.scss'
 import MessageRoaming from "@/components/MessageRoaming/MessageRoaming";
-import {sendMessage,chatHistory} from "@/config/optionsIm";
+import {sendMessage, getmessage} from "@/config/optionsIm";
 import ParticularsModule from "@/components/ParticularsModule/ParticularsModule";
 import {getUserInfo,getGroupInfo,getChatRoomInfo} from "@/config/optionsIm";
 
 export default {
   name: "ChatContent",
   components:{ParticularsModule,MessageRoaming},
-  data(){return {
-    username: null,
-    userID:  null,
-    text:'',
-    chatType:null,
-    sendID:null,
-    visible:false,
-  //  详情
-    showPart:false,
-    roamingStatus:false
-  }},
+  data(){
+    return {
+      username: null,
+      userID:  null,
+      text:'',
+      chatType:null,
+      sendID:null,
+      visible:false,
+      //  详情
+      showPart:false,
+      roamingStatus:false,
+      messageRoam:[],
+    }
+  },
   props:['userid','type','sendid'],
   watch:{
     userid(nV){
@@ -128,7 +136,6 @@ export default {
     },
     type(nV){
       this.chatType = nV
-
     },
     sendid(nV){
       this.sendID = nV
@@ -151,11 +158,21 @@ export default {
       }
       console.log("聊天内容",this.$store.state.charArr)
     },
-
+    //点击聊天记录弹出   bug：点第二次才显示当前会话记录
     chatHis(){
-      chatHistory()
       this.roamingStatus = true
+      let options = {
+        targetId: this.sendid,
+        pageSize: 5,
+        cursor: -1,
+        chatType: this.chatType,
+        searchDirection: "up",
+      };
+      getmessage(options)
+      this.messageRoam = [].concat(this.$store.state.chatHistoryArr)
     },
+
+
     roamStatus(val){
       this.roamingStatus = val
     },
@@ -177,5 +194,5 @@ export default {
 }
 </script>
 
-<style scoped >
+<style scoped>
 </style>

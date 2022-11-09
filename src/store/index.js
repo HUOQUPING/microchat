@@ -66,6 +66,7 @@ export default new Vuex.Store({
         //聊天室详情
         chatRoomInfo: [],
         //聊天室成员
+<<<<<<< HEAD
         chatRoomMember: [],
     },
     getters: {
@@ -78,6 +79,11 @@ export default new Vuex.Store({
                 return true
             }
         },
+=======
+        chatRoomMember:[],
+        //聊天记录
+        chatHistoryArr:[]
+>>>>>>> 58decfe70086deec5ae88bf6f319619731258132
     },
     mutations: {
         // 设置cookie
@@ -248,8 +254,11 @@ export default new Vuex.Store({
         leaveChatRoom(state, id) {
             state.List[2].arr = state.List[2].arr.filter(item => item.id !== id)
         },
-
-
+        //聊天记录
+        chatHistoryArr(state,msg){
+            state.chatHistoryArr = msg.messages
+            // console.log('vuex取到聊天记录:',state.chatHistoryArr)
+        }
     },
     actions: {},
     modules: {}
