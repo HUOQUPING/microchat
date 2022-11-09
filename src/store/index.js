@@ -66,8 +66,9 @@ export default new Vuex.Store({
         //聊天室详情
         chatRoomInfo: [],
         //聊天室成员
-<<<<<<< HEAD
         chatRoomMember: [],
+        //聊天记录
+        chatHistoryArr:[]
     },
     getters: {
         // 监听好友状态事件的状态
@@ -79,11 +80,6 @@ export default new Vuex.Store({
                 return true
             }
         },
-=======
-        chatRoomMember:[],
-        //聊天记录
-        chatHistoryArr:[]
->>>>>>> 58decfe70086deec5ae88bf6f319619731258132
     },
     mutations: {
         // 设置cookie
