@@ -62,11 +62,11 @@
 
             </a-tooltip>
 <!--            聊天记录-->
-            <a-tooltip placement="bottom" :mouseEnterDelay="1" @click="chatHis">
+            <a-tooltip placement="bottom" :mouseEnterDelay="1" @click="chatHisFrom">
               <template #title>
                 <span :style="{fontSize:'12px'}">聊天记录</span>
               </template>
-              <a-icon type="message" />
+              <a-icon type="message"/>
             </a-tooltip>
           </div>
 <!--          输入框-->
@@ -102,7 +102,6 @@
 <!--消息漫游-->
       <message-roaming
           :roamingStatus="roamingStatus"
-          :message="messageRoam"
           @roamStatus="roamStatus">
       </message-roaming>
 
@@ -133,7 +132,6 @@ export default {
       //  详情
       showPart:false,
       roamingStatus:false,
-      messageRoam:[],
     }
   },
   props:['userid','type','sendid'],
@@ -166,17 +164,16 @@ export default {
       console.log("聊天内容",this.$store.state.charArr)
     },
     //点击聊天记录弹出   bug：点第二次才显示当前会话记录
-    chatHis(){
+    chatHisFrom() {
       this.roamingStatus = true
       let options = {
         targetId: this.sendid,
-        pageSize: 5,
+        pageSize: 10,
         cursor: -1,
         chatType: this.chatType,
         searchDirection: "up",
       };
       getmessage(options)
-      this.messageRoam = [].concat(this.$store.state.chatHistoryArr)
     },
 
 

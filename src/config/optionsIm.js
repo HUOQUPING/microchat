@@ -294,6 +294,7 @@ export let joinGroup = (opt) => {
 export let getmessage = (options) =>{
     // eslint-disable-next-line no-undef
     WebIM.conn.getHistoryMessages(options).then((res) => {
+        console.log('getmegs', res)
         //聊天记录信息传入vuex
         store.commit('chatHistoryArr',res)
     })
