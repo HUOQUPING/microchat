@@ -1,0 +1,27 @@
+.msg-box {
+  li {
+    display: flex;
+    align-items: center;
+
+    .text-box {
+      margin-left: 0.5vw;
+      flex: 1;
+
+      h3 {
+        margin: 0;
+        padding: 0;
+        font-size: 15px;
+      }
+
+      span {
+        color: #999;
+      }
+    }
+
+    .btn-box{
+      .ant-btn{
+        margin-left: 4px;
+      }
+    }
+  }
+}

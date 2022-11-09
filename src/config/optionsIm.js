@@ -69,7 +69,7 @@ WebIm.conn.addEventHandler("eventName", {
         console.log(message)
     },          //失败回调
     onBlacklistUpdate: function (list) {       //黑名单变动
-                                               // 查询黑名单，将好友拉黑，将好友从黑名单移除都会回调这个函数，list则是黑名单现有的所有好友信息
+        // 查询黑名单，将好友拉黑，将好友从黑名单移除都会回调这个函数，list则是黑名单现有的所有好友信息
         console.log(list);
     },
     onRecallMessage: function (message) {
@@ -99,23 +99,24 @@ WebIm.conn.addEventHandler("eventName", {
 WebIm.conn.addEventHandler("contactEvent", {
     // 当前用户收到好友请求。用户 B 向用户 A 发送好友请求，用户 A 收到该事件。
     onContactInvited: function (msg) {
-        console.log(msg)
+        console.log('好友请求', msg)
+        store.commit('friendsEventValFunc', msg)
     },
     // 当前用户被其他用户从联系人列表上移除。用户 B 将用户 A 从联系人列表上删除，用户 A 收到该事件。
     onContactDeleted: function (msg) {
-        console.log(msg)
+        console.log('被删除好友',msg)
     },
     // 当前用户新增了联系人。用户 B 向用户 A 发送好友请求，用户 A 同意该请求，用户 A 收到该事件，而用户 B 收到 `onContactAgreed` 事件。
     onContactAdded: function (msg) {
-        console.log(msg)
+        console.log('新增了联系人',msg)
     },
     // 当前用户发送的好友请求被拒绝。用户 A 向用户 B 发送好友请求，用户 B 收到好友请求后，拒绝加好友，则用户 A 收到该事件。
     onContactRefuse: function (msg) {
-        console.log(msg)
+        console.log('好友请求被拒绝',msg)
     },
     // 当前用户发送的好友请求经过了对方同意。用户 A 向用户 B 发送好友请求，用户 B 收到好友请求后，同意加好友，则用户 A 收到该事件。
     onContactAgreed: function (msg) {
-        console.log(msg)
+        console.log('好友请求经过了对方同意',msg)
     },
 });
 
@@ -193,9 +194,20 @@ export let getGoodFriends = () => {
     WebIm.conn.getContacts().then((res) => {
         setTimeout(() => {
             store.commit('setList', res.data)
-        },1000)
+        }, 1000)
         console.log("好友列表", res.data)
     })
+}
+
+// 同意添加好友
+export const agreeAdd = (userId) => {
+    WebIm.conn.acceptInvitation(userId)
+    store.commit('delFriendEventFunc',userId)
+}
+// 拒绝添加好友
+export const refuseAdd = (userId) => {
+    WebIm.conn.declineInvitation(userId)
+    store.commit('delFriendEventFunc',userId)
 }
 
 //获取群列表
@@ -246,13 +258,13 @@ export let sendMessage = (msg, chatType, ID, useName) => {
 }
 
 //获取个人信息
-export let getUserInfo = (id,num) => {
+export let getUserInfo = (id, num) => {
     //第一个参数用户id，第二个想要查询的内容
     WebIm.conn.fetchUserInfoById(id).then((res) => {
         console.log('获取个人信息', res.data)
-        if (num === 2){
-           store.commit("getfriendsInfo",Object.values(res.data)[0])
-        }else {
+        if (num === 2) {
+            store.commit("getfriendsInfo", Object.values(res.data)[0])
+        } else {
             store.commit("getuserInfo", Object.values(res.data)[0])
         }
     })
@@ -266,8 +278,8 @@ export let setUserInfo = (option) => {
 }
 
 //加好友
-export let addContact = (id) => {
-    WebIm.conn.addContact(id, '加个好友呗!')
+export let addContact = (id, msg) => {
+    WebIm.conn.addContact(id, msg ? msg : "加个好友呗")
 }
 
 //加群
@@ -468,10 +480,10 @@ export let dissolveChatRoom = (id) => {
     let opt = {
         chatRoomId: id
     }
-        WebIm.conn.destroyChatRoom(opt).then(res => {
-            store.commit("removeChatRoom", id)
-            console.log("已解散聊天室", res)
-        })
+    WebIm.conn.destroyChatRoom(opt).then(res => {
+        store.commit("removeChatRoom", id)
+        console.log("已解散聊天室", res)
+    })
 }
 
 

@@ -13,10 +13,10 @@
             <span slot="title" v-if="n.name === '好友'"><a-icon type="user"/><span>{{ n.name }}</span></span>
             <span slot="title" v-if="n.name === '群组'"><a-icon type="team"/><span>{{ n.name }}</span></span>
             <span slot="title" v-if="n.name === '聊天室'"><a-icon type="usergroup-add"/><span>{{ n.name }}</span></span>
-            <span slot="title" v-if="n.name === '黑名单'"><a-icon type="meh" /><span>{{ n.name }}</span></span>
+            <span slot="title" v-if="n.name === '黑名单'"><a-icon type="meh"/><span>{{ n.name }}</span></span>
             <a-menu-item v-for="(nn,i) in n.arr" :key="nn.id ?? nn.groupid ?? nn+i"
                          @click="getUserID(nn.name ?? nn.groupname ?? nn,n.name,nn.id ?? nn.groupid ?? nn)">
-              {{ nn.name ?? nn.groupname ?? nn}}
+              {{ nn.name ?? nn.groupname ?? nn }}
             </a-menu-item>
 
           </a-sub-menu>
@@ -73,10 +73,10 @@
 
           <!--          消息提示-->
           <span style="float: right;" class="trigger" @click="showMessage">
-             <a-badge :dot="show">
+             <a-badge :dot="friendsEventStatus">
                 <a-icon type="bell" :style="{fontSize:'18px'}"/>
               </a-badge>
-        </span>
+          </span>
 
         </a-layout-header>
 
@@ -88,15 +88,16 @@
       </a-layout>
     </a-layout>
 
-<!--    添加好友群-->
+    <!--    添加好友群-->
     <add-ition :status="visible" @addhandle="addhandle" :addstatus="addstatus"></add-ition>
-<!--    创建群聊天室-->
-    <estab-iish :group-status="groupstatus" @grouphandle="grouphandle" :GroupModalstatus="GroupModalstatus"></estab-iish>
+    <!--    创建群聊天室-->
+    <estab-iish :group-status="groupstatus" @grouphandle="grouphandle"
+                :GroupModalstatus="GroupModalstatus"></estab-iish>
 
-<!--    黑名单-->
-   <black-list :blackstatus="blackstatus" @blackvisible="blackvisible" :blackid="blackid"></black-list>
+    <!--    黑名单-->
+    <black-list :blackstatus="blackstatus" @blackvisible="blackvisible" :blackid="blackid"></black-list>
 
-<!--    消息回执-->
+    <!--    消息回执-->
     <message-receipt :messageStatus="messageStatus" @MsgStatus="MsgStatus"></message-receipt>
   </div>
 </template>
@@ -104,7 +105,7 @@
 <script>
 import './indexView.scss'
 import cookie from "vue-cookie";
-import {mapState} from 'vuex'
+import {mapGetters, mapState} from 'vuex'
 import {close, tokenLogin} from "@/config/optionsIm";
 import {getSuperAdmin} from "@/api/axiosGetData";
 import PersonalInformation from "@/components/PersonalInformation/PersonalInformation";
@@ -116,8 +117,7 @@ import MessageReceipt from "@/components/MessageReceipt/MessageReceipt";
 
 export default {
   name: "IndexView",
-  components: {PersonalInformation, ChatContent, AddItion,EstabIish,BlackList,MessageReceipt},
-
+  components: {PersonalInformation, ChatContent, AddItion, EstabIish, BlackList, MessageReceipt},
   data() {
     return {
       collapsed: false,
@@ -139,17 +139,17 @@ export default {
       //添加好友框状态
       visible: false,
       //创建群框状态
-      groupstatus:false,
+      groupstatus: false,
       //判断是添加好友还是群
-      addstatus:null,
+      addstatus: null,
       //判断是创建群还是聊天室
-      GroupModalstatus:null,
+      GroupModalstatus: null,
       //黑名单状态
-      blackstatus:false,
+      blackstatus: false,
       //黑名单id
-      blackid:null,
+      blackid: null,
       //消息回执状态
-      messageStatus:false
+      messageStatus: false,
     }
   },
   created() {
@@ -159,6 +159,7 @@ export default {
   },
   computed: {
     ...mapState(['List', 'userId']),
+    ...mapGetters(['friendsEventStatus']),
     token() {
       return cookie.get('token')
     },
@@ -177,7 +178,7 @@ export default {
 
     //  获取用户id
     getUserID(id, name, ID) {
-      if (name !== "黑名单"){
+      if (name !== "黑名单") {
         this.UserID = id
         this.sendID = ID
         if (name === "好友") {
@@ -187,7 +188,7 @@ export default {
         } else if (name === "聊天室") {
           this.chatType = this.ChatRoom
         }
-      }else {
+      } else {
         this.blackid = ID
         this.blackstatus = true
       }
@@ -196,11 +197,11 @@ export default {
 
     //显示添加好友框
     showModal(num) {
-      if (num === 1){
+      if (num === 1) {
         this.addstatus = num
-      }else if (num === 2){
+      } else if (num === 2) {
         this.addstatus = num
-      }else if (num === 3){
+      } else if (num === 3) {
         this.addstatus = num
       }
       this.visible = true;
@@ -209,10 +210,10 @@ export default {
       this.visible = val
     },
     //显示创建群框
-    showGroupModal(num){
-      if (num === 1){
+    showGroupModal(num) {
+      if (num === 1) {
         this.GroupModalstatus = num
-      }else if (num === 2){
+      } else if (num === 2) {
         this.GroupModalstatus = num
       }
       this.groupstatus = true
@@ -220,14 +221,14 @@ export default {
     grouphandle(val) {
       this.groupstatus = val
     },
-    blackvisible(val){
+    blackvisible(val) {
       this.blackstatus = val
     },
     //消息回执
-    showMessage(){
+    showMessage() {
       this.messageStatus = true
     },
-    MsgStatus(val){
+    MsgStatus(val) {
       this.messageStatus = val
     }
   }
