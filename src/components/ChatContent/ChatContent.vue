@@ -163,7 +163,7 @@ export default {
     showpart(){
       this.showPart = true
       if (this.chatType === "singleChat"){
-        getUserInfo(this.sendID)
+        getUserInfo(this.sendID,2)
       }else if (this.chatType === "groupChat") {
         getGroupInfo(this.sendID)
       }else if (this.chatType === "chatRoom"){

@@ -6,6 +6,17 @@
         <span v-if="partChatType === 'chatRoom' ">聊天室id:</span>
         {{partUserId}}</p>
 
+<!--      好友模块-->
+      <div v-if="partChatType === 'singleChat'">
+        <p v-for="(n,i) in this.$store.state.friendsInfo" :key="i">
+          <span v-if="i === 'nickname'">昵称</span>
+          <span v-if="i === 'sign'">个性签名</span>
+          <span v-if="i === 'gender'">性别</span>
+          <span v-if="i === 'phone'">手机号码</span>
+          <span v-if="i === 'birth'">生日</span>
+          :{{n}}</p>
+      </div>
+
 <!--      群内容模块-->
       <p v-if="partChatType === 'groupChat'">群主:
         {{this.$store.state.groupInfo.owner}}</p>

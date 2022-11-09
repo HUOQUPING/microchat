@@ -43,6 +43,18 @@ export default new Vuex.Store({
             // 出生日期
             birth: null
         },
+        //对方的个人信息
+        friendsInfo: {
+            nickname: "未设置",
+            // 个性签名
+            sign: "未设置",
+            // 性别
+            gender: "未设置",
+            // 手机号码
+            phone: "未设置",
+            // 出生日期
+            birth: "未设置"
+        },
         //聊天室
         chatRoom:[],
         //群详情
@@ -84,6 +96,34 @@ export default new Vuex.Store({
         //获取个人信息
         getuserInfo(state,opt){
             state.userInfo = opt
+        },
+        //设置好友信息
+        getfriendsInfo(state,opt){
+            if (opt.nickname){
+                state.friendsInfo.nickname = opt.nickname
+            }else {
+                state.friendsInfo.nickname = "未设置"
+            }
+            if (opt.sign){
+                state.friendsInfo.sign = opt.sign
+            }else {
+                state.friendsInfo.sign = "未设置"
+            }
+            if (opt.gender){
+                state.friendsInfo.gender = opt.gender
+            }else {
+                state.friendsInfo.gender = "未设置"
+            }
+            if (opt.phone){
+                state.friendsInfo.phone = opt.phone
+            }else {
+                state.friendsInfo.phone = "未设置"
+            }
+            if (opt.birth){
+                state.friendsInfo.birth = opt.birth
+            }else {
+                state.friendsInfo.birth = "未设置"
+            }
         },
         //获取好友列表
         addList(state,res){
