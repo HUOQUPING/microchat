@@ -1,7 +1,9 @@
 <template>
   <div>
-    <a-modal title="历史记录" :visible="visible" :footer="null" @cancel="handleCancel" :afterClose="handleCancel">
-      <p>aaa</p>
+    <a-modal title="聊天记录" :visible="visible" :footer="null" @cancel="handleCancel" :afterClose="handleCancel">
+      <div v-for="msg in messageRom" :key="msg.id">
+        <p>{{msg.msg}}</p>
+      </div>
     </a-modal>
   </div>
 </template>
@@ -13,12 +15,17 @@ export default {
   data(){
     return {
       visible: false,
+      messageRom: [],
     }
   },
-  props:['roamingStatus'],
+  props:['roamingStatus','message'],
   watch:{
     roamingStatus(nV){
       this.visible = nV
+      console.log(this.messageRom)
+    },
+    message(nV){
+      this.messageRom = nV
     }
   },
   methods:{

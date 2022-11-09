@@ -65,6 +65,8 @@ export default new Vuex.Store({
         chatRoomInfo:[],
         //聊天室成员
         chatRoomMember:[],
+        //聊天记录
+        chatHistoryArr:[]
     },
     getters: {},
     mutations: {
@@ -217,8 +219,11 @@ export default new Vuex.Store({
         leaveChatRoom(state,id){
             state.List[2].arr = state.List[2].arr.filter(item => item.id !== id)
         },
-
-
+        //聊天记录
+        chatHistoryArr(state,msg){
+            state.chatHistoryArr = msg.messages
+            // console.log('vuex取到聊天记录:',state.chatHistoryArr)
+        }
     },
     actions: {},
     modules: {}

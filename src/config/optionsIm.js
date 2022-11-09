@@ -95,6 +95,7 @@ WebIm.conn.addEventHandler("eventName", {
     }      //收到整个会话已读的回执，在对方发送channel ack时会在这个回调里收到消息
 });
 
+
 //好友请求回调
 WebIm.conn.addEventHandler("contactEvent", {
     // 当前用户收到好友请求。用户 B 向用户 A 发送好友请求，用户 A 收到该事件。
@@ -277,10 +278,12 @@ export let joinGroup = (opt) => {
     })
 }
 
-//聊天记录
-export let chatHistory = () => {
-    WebIm.conn.getConversationlist().then((res) => {
-        console.log('调出聊天记录', res)
+//调取聊天记录
+export let getmessage = (options) =>{
+    // eslint-disable-next-line no-undef
+    WebIM.conn.getHistoryMessages(options).then((res) => {
+        //聊天记录信息传入vuex
+        store.commit('chatHistoryArr',res)
     })
 }
 
