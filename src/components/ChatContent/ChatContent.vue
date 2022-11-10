@@ -17,18 +17,24 @@
       <div class="titleContent" ref="listContent">
         <ul v-for="(n,i) in this.$store.state.charArr" :key="i" v-show="n.to === sendID">
           <li v-for="(nn,i) in n.arr" :key="i">
-                <span :class="{rightIcon:nn.from === username,leftIcon:nn.from !== username}">
+            <!-- 头像 -->
+            <span :class="{rightIcon:nn.from === username,leftIcon:nn.from !== username}">
                     <a-avatar shape="square" icon="user"/>
                   <span v-if="nn.from === username && nn.chatType === 'singleChat'">{{ nn.from }}</span>
                   <span v-if="nn.from !== username  && nn.chatType === 'singleChat'">{{ nn.from }}</span>
                   <span v-if="nn.chatType !== 'singleChat' ">{{ nn.from }}</span>
                 </span>
+            <!-- 文本消息 -->
             <span v-if="!nn.ext.key1"
-                :class="{right:nn.from === username,left:nn.from !== username}">
+                  :class="{right:nn.from === username,left:nn.from !== username}">
                   {{ nn.msg }}</span>
-            <div v-else :class="{right:nn.from === username,left:nn.from !== username}">
-
-             {{nn.msg}}</div>
+            <!-- 文件消息 -->
+            <div v-else :class="{fileRight:nn.from === username,fileLeft:nn.from !== username}" class="file-box">
+              <p class="title">文件</p>
+              <h3>{{ nn.msg }}</h3>
+              <!-- TODO:点击下载按钮目前仅为装饰作用 -->
+              <span class="click-download">点击下载</span>
+            </div>
           </li>
         </ul>
       </div>
@@ -150,12 +156,13 @@ export default {
       let text = this.text.trim()
       if (text) {
         this.username = this.$store.state.userId
-        sendMessage(text, this.chatType, this.sendID, this.username,false)
+        sendMessage(text, this.chatType, this.sendID, this.username, false)
+        // 发送消息默认拉到底部
         setTimeout(() => {
           this.$nextTick(() => {
             this.$refs.listContent.scrollTop = this.$refs.listContent.scrollHeight
           })
-        }, 100)
+        }, 150)
 
         this.text = ''
       }
@@ -196,8 +203,14 @@ export default {
     previewFile(e) {
       if (e.srcElement.files.length > 0) {
         this.username = this.$store.state.userId
-        sendMessage(e.srcElement.files[0].name,this.chatType,this.sendID,this.username,true)
+        sendMessage(e.srcElement.files[0].name, this.chatType, this.sendID, this.username, true)
       }
+      // 发送消息默认拉到底部
+      setTimeout(() => {
+        this.$nextTick(() => {
+          this.$refs.listContent.scrollTop = this.$refs.listContent.scrollHeight
+        })
+      }, 180)
     }
   },
 }
