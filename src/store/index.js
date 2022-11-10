@@ -209,7 +209,8 @@ export default new Vuex.Store({
                 let opt = {
                     to: msg.to,
                     from: msg.from,
-                    arr: []
+                    arr: [],
+                    ifFile: msg.ifFile
                 }
                 opt.arr.push(msg)
                 state.charArr.push(opt)
