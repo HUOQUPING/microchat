@@ -55,9 +55,9 @@
                   :style="{display:'inline-block'}"
                   list-type="picture"
                   :show-upload-list="false"
-                  action="//jsonplaceholder.typicode.com/posts/"
+                  ref="file"
               >
-                <a-icon type="folder" />
+                <a-icon type="folder" @click="updataFile"/>
               </a-upload>
 
             </a-tooltip>
@@ -194,6 +194,11 @@ export default {
     showpartStatus(val){
       this.showPart = val
     },
+    //上传文件
+    updataFile(){
+      let input = this.$refs.file.$el.getElementsByTagName('input')[0]
+      console.log(input.files)
+    }
   },
 }
 </script>

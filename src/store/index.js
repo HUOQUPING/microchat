@@ -254,9 +254,9 @@ export default new Vuex.Store({
         leaveChatRoom(state, id) {
             state.List[2].arr = state.List[2].arr.filter(item => item.id !== id)
         },
-        //聊天记录
+        //聊天记
         chatHistoryArr(state,msg){
-            state.chatHistoryArr = msg.messages
+            state.chatHistoryArr = msg.messages.reverse()
             // console.log('vuex取到聊天记录:',state.chatHistoryArr)
         }
     },
