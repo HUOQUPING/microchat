@@ -1,15 +1,26 @@
 <template>
   <div>
-    <a-modal title="聊天记录" :visible="visible" :footer="null" @cancel="handleCancel" :afterClose="handleCancel">
-      <div v-for="msg in chatHistoryArr" :key="msg.id">
-        <div class="historyFrom"> 
-          <span>
-          <a-avatar shape="square" size="small" icon="user" />
-             {{ msg.from }} <p class="text">{{ msg.msg }}</p>
-          </span>
-          <span>{{ getHistoryTime(msg.time) }}</span>
-        </div>
-      </div>
+    <a-modal title="聊天记录"  :visible="visible" :footer="null" @cancel="handleCancel" :afterClose="handleCancel">
+      <ul class="chatHistory">
+        <li v-for="msg in chatHistoryArr" :key="msg.id" >
+          <div><a-avatar shape="square" icon="user" /></div>
+          <div>
+            {{ msg.from }}
+            <p class="text">{{ msg.msg }}</p>
+          </div>
+          <div>
+            <span>{{ getHistoryTime(msg.time) }}</span>
+          </div>
+<!--          <div class="historyFrom">-->
+<!--            <div>-->
+<!--              <a-avatar shape="square" icon="user" />-->
+<!--              {{ msg.from }} <p class="text">{{ msg.msg }}</p>-->
+<!--            </div>-->
+<!--            <span>{{ getHistoryTime(msg.time) }}</span>-->
+<!--          </div>-->
+        </li>
+      </ul>
+
     </a-modal>
   </div>
 </template>
