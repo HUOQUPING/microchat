@@ -320,15 +320,19 @@ export let getRooms = () => {
 }
 
 //发送消息
-export let sendMessage = (msg, chatType, ID, useName) => {
+export let sendMessage = (msg, chatType, ID, useName,isFile) => {
+
 //msg 发送的内容  chatType 会话类型  ID 接收方
-    let option = {
-        type: "txt",
-        msg: msg,
-        from: useName,
-        to: ID,
-        chatType: chatType
-    }
+         let option = {
+             type: "txt",
+             msg: msg,
+             from: useName,
+             to: ID,
+             chatType: chatType,
+             ext:{
+                 key1:isFile
+             }
+         }
 
     let Msg = WebIm.message.create(option)
     WebIm.conn.send(Msg).then(() => {
