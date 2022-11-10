@@ -320,7 +320,7 @@ export let getRooms = () => {
 }
 
 //发送消息
-export let sendMessage = (msg, chatType, ID, useName,isFile) => {
+export let sendMessage = (msg, chatType, ID, useName,status) => {
 
 //msg 发送的内容  chatType 会话类型  ID 接收方
          let option = {
@@ -330,7 +330,7 @@ export let sendMessage = (msg, chatType, ID, useName,isFile) => {
              to: ID,
              chatType: chatType,
              ext:{
-                 key1:isFile
+                 key1:status
              }
          }
 

@@ -116,12 +116,19 @@
 
       .file-box {
         display: inline-block;
-        vertical-align: middle;
+        vertical-align: top;
         background: #fff;
         padding: 6px;
         overflow:hidden;
         text-overflow:ellipsis;
-        white-space:nowrap
+        white-space:nowrap;
+
+        img{
+          width: 100%;
+          height: auto;
+          display: block;
+          padding: 4px;
+        }
       }
 
       .fileRight {
@@ -129,7 +136,7 @@
         float: right;
         margin: 0 10px 12px;
         width: 16vw;
-        height: 12vh;
+        max-height: 12vh;
 
         p {
           margin: 0;
@@ -150,10 +157,9 @@
 
       .fileLeft {
         position: relative;
-        float: left;
         margin: 0px 10px;
         width: 16vw;
-        height: 10vh;
+        max-height: 12vh;
 
         p {
           margin: 0;
@@ -161,14 +167,15 @@
           border-bottom: 1px solid #999;
         }
 
-        h3 {
-        }
-
         .click-download {
           color: deepskyblue;
           cursor: pointer;
           float: right;
         }
+      }
+
+      .pic {
+        max-height: 100vh ;
       }
     }
   }
@@ -232,7 +239,7 @@
   right: 0;
 }
 
-#file {
+.file {
   display: none;
 }
 

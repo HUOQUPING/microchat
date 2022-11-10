@@ -25,16 +25,31 @@
                   <span v-if="nn.chatType !== 'singleChat' ">{{ nn.from }}</span>
                 </span>
             <!-- 文本消息 -->
-            <span v-if="!nn.ext.key1"
+            <span v-if="nn.ext.key1 === 0"
                   :class="{right:nn.from === username,left:nn.from !== username}">
-                  {{ nn.msg }}</span>
+              {{ nn.msg }}</span>
             <!-- 文件消息 -->
-            <div v-else :class="{fileRight:nn.from === username,fileLeft:nn.from !== username}" class="file-box">
-              <p class="title">文件</p>
-              <h3>{{ nn.msg }}</h3>
-              <!-- TODO:点击下载按钮目前仅为装饰作用 -->
-              <span class="click-download">点击下载</span>
+            <div v-if="nn.ext.key1 === 2"
+                 :class="{fileRight:nn.from === username,fileLeft:nn.from !== username,pic:nn.ext.key1 === 1}"
+                 class="file-box">
+              <div>
+                <p class="title">文件</p>
+                <h3>{{ nn.msg }}</h3>
+                <!-- TODO:点击下载按钮目前仅为装饰作用 -->
+                <span class="click-download">点击下载</span>
+              </div>
             </div>
+
+            <div v-if="nn.ext.key1 === 1"
+                 :class="{fileRight:nn.from === username,fileLeft:nn.from !== username,pic:nn.ext.key1 === 1}"
+                 class="file-box">
+              <!--                            图片-->
+              <div v-if="nn.ext.key1 === 1">
+                <p class="title">图片</p>
+                <img :src=nn.msg>
+              </div>
+            </div>
+
           </li>
         </ul>
       </div>
@@ -48,11 +63,15 @@
           <a-icon type="smile"/>
         </a-tooltip>
         <!--            图片-->
-        <a-tooltip placement="bottom" :mouseEnterDelay="1">
+
+        <a-tooltip placement="bottom" :mouseEnterDelay="1" :style="{position:'relative'}">
           <template #title>
             <span :style="{fontSize:'12px'}">图片</span>
           </template>
-          <a-icon type="picture"/>
+          <label>
+            <a-icon type="picture"/>
+            <input type="file" class="file" @change="previewFile($event,1)">
+          </label>
         </a-tooltip>
 
         <!--            发送文件-->
@@ -62,7 +81,7 @@
           </template>
           <label>
             <a-icon type="folder"/>
-            <input type="file" id="file" @change="previewFile($event)">
+            <input type="file" class="file" @change="previewFile($event,2)">
           </label>
         </a-tooltip>
         <!--            聊天记录-->
@@ -157,7 +176,7 @@ export default {
       let text = this.text.trim()
       if (text) {
         this.username = this.$store.state.userId
-        sendMessage(text, this.chatType, this.sendID, this.username, false)
+        sendMessage(text, this.chatType, this.sendID, this.username, 0)
         // 发送消息默认拉到底部
         setTimeout(() => {
           this.$nextTick(() => {
@@ -201,10 +220,21 @@ export default {
       this.showPart = val
     },
     //上传文件
-    previewFile(e) {
+    previewFile(e, num) {
       if (e.srcElement.files.length > 0) {
         this.username = this.$store.state.userId
-        sendMessage(e.srcElement.files[0].name, this.chatType, this.sendID, this.username, true)
+        //图片
+        if (num === 1) {
+          let fr = new FileReader()
+          fr.readAsDataURL(e.srcElement.files[0])
+          fr.onload = () => {
+            sendMessage(fr.result, this.chatType, this.sendID, this.username, num)
+          }
+        }
+        //上传文件
+        if (num === 2) {
+          sendMessage(e.srcElement.files[0].name, this.chatType, this.sendID, this.username, num)
+        }
       }
       // 发送消息默认拉到底部
       setTimeout(() => {

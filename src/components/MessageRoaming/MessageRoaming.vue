@@ -11,13 +11,6 @@
           <div>
             <span>{{ getHistoryTime(msg.time) }}</span>
           </div>
-<!--          <div class="historyFrom">-->
-<!--            <div>-->
-<!--              <a-avatar shape="square" icon="user" />-->
-<!--              {{ msg.from }} <p class="text">{{ msg.msg }}</p>-->
-<!--            </div>-->
-<!--            <span>{{ getHistoryTime(msg.time) }}</span>-->
-<!--          </div>-->
         </li>
       </ul>
 
