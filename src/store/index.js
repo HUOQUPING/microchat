@@ -145,6 +145,11 @@ export default new Vuex.Store({
         },
         //监听好友状态事件传参方法
         friendsEventValFunc(state, res) {
+            state.friendsEventVal.map((t,i)=>{
+                if (t.from == res.from){
+                    state.friendsEventVal.splice(i,1)
+                }
+            })
             state.friendsEventVal = [...state.friendsEventVal, res]
         },
         /*
@@ -155,10 +160,9 @@ export default new Vuex.Store({
         */
         //删除已经处理好友状态事件
         delFriendEventFunc(state, res) {
-            console.log(res)
-            state.friendsEventVal = state.friendsEventVal.map(t => {
-                if (t.from == res) {
-                    console.log('YES')
+            state.friendsEventVal.map((t,i)=>{
+                if (t.from == res){
+                    state.friendsEventVal.splice(i,1)
                 }
             })
         },

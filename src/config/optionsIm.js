@@ -54,10 +54,90 @@ WebIm.conn.addEventHandler("eventName", {
     },   //收到视频消息
     onPresence: function (message) {
         console.log(message)
+        switch (message.type) {
+            case 'rmGroupMute':
+                // 解除群组一键禁言
+                break;
+            case 'muteGroup':
+                // 群组一键禁言
+                break;
+            case 'rmUserFromGroupWhiteList':
+                // 删除群白名单成员
+                break;
+            case 'addUserToGroupWhiteList':
+                // 增加群白名单成员
+                break;
+            case 'deleteFile':
+                // 删除群文件
+                break;
+            case 'uploadFile':
+                // 上传群文件
+                break;
+            case 'deleteAnnouncement':
+                // 删除群公告
+                break;
+            case 'updateAnnouncement':
+                // 更新群公告
+                break;
+            case 'removeMute':
+                // 解除禁言
+                break;
+            case 'addMute':
+                // 禁言
+                break;
+            case 'removeAdmin':
+                // 移除管理员
+                break;
+            case 'addAdmin':
+                // 添加管理员
+                break;
+            case 'changeOwner':
+                // 转让群组
+                break;
+            case 'direct_joined':
+                // 直接被拉进群
+                break;
+            case 'leaveGroup':
+                // 退出群
+                break;
+            case 'memberJoinPublicGroupSuccess':
+                // 加入公开群成功
+                break;
+            case 'removedFromGroup':
+                // 从群组移除
+                break;
+            case 'invite_decline':
+                // 拒绝加群邀请
+                break;
+            case 'invite_accept':
+                // 接收加群邀请（群含权限情况）
+                break;
+            case 'invite':
+                // 接收加群邀请
+                break;
+            case 'joinPublicGroupDeclined':
+                // 拒绝入群申请
+                break;
+            case 'joinPublicGroupSuccess':
+                // 同意入群申请
+                break;
+            case 'joinGroupNotifications':
+                // 申请入群
+                break;
+            case 'leave':
+                // 退出群
+                break;
+            case 'join':
+                // 加入群
+                break;
+            case 'deleteGroupChat':
+                // 解散群
+                break;
+            default:
+                break;
+        }
+
     },       //处理“广播”或“发布-订阅”消息，如联系人订阅请求、处理群组、聊天室被踢解散等消息
-    onRoster: function (message) {
-        console.log(message)
-    },         //处理好友申请
     onInviteMessage: function (message) {
         console.log(message)
     },  //处理群组邀请
@@ -105,19 +185,21 @@ WebIm.conn.addEventHandler("contactEvent", {
     },
     // 当前用户被其他用户从联系人列表上移除。用户 B 将用户 A 从联系人列表上删除，用户 A 收到该事件。
     onContactDeleted: function (msg) {
-        console.log('被删除好友',msg)
+        console.log('被删除好友', msg)
     },
     // 当前用户新增了联系人。用户 B 向用户 A 发送好友请求，用户 A 同意该请求，用户 A 收到该事件，而用户 B 收到 `onContactAgreed` 事件。
     onContactAdded: function (msg) {
-        console.log('新增了联系人',msg)
+        console.log('新增了联系人', msg)
+
     },
     // 当前用户发送的好友请求被拒绝。用户 A 向用户 B 发送好友请求，用户 B 收到好友请求后，拒绝加好友，则用户 A 收到该事件。
     onContactRefuse: function (msg) {
-        console.log('好友请求被拒绝',msg)
+        console.log('好友请求被拒绝', msg)
     },
     // 当前用户发送的好友请求经过了对方同意。用户 A 向用户 B 发送好友请求，用户 B 收到好友请求后，同意加好友，则用户 A 收到该事件。
     onContactAgreed: function (msg) {
-        console.log('好友请求经过了对方同意',msg)
+        console.log('好友请求经过了对方同意', msg)
+        getGoodFriends()
     },
 });
 
@@ -203,12 +285,12 @@ export let getGoodFriends = () => {
 // 同意添加好友
 export const agreeAdd = (userId) => {
     WebIm.conn.acceptInvitation(userId)
-    store.commit('delFriendEventFunc',userId)
+    store.commit('delFriendEventFunc', userId)
 }
 // 拒绝添加好友
 export const refuseAdd = (userId) => {
     WebIm.conn.declineInvitation(userId)
-    store.commit('delFriendEventFunc',userId)
+    store.commit('delFriendEventFunc', userId)
 }
 
 //获取群列表
@@ -291,12 +373,12 @@ export let joinGroup = (opt) => {
 }
 
 //调取聊天记录
-export let getmessage = (options) =>{
+export let getmessage = (options) => {
     // eslint-disable-next-line no-undef
     WebIM.conn.getHistoryMessages(options).then((res) => {
         console.log('getmegs', res)
         //聊天记录信息传入vuex
-        store.commit('chatHistoryArr',res)
+        store.commit('chatHistoryArr', res)
     })
 }
 
