@@ -1,0 +1,19 @@
+.historyFrom {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 3px;
+    border-bottom: 1px solid gray;
+
+    & .text{
+       margin-left: 30px;
+       width: 250px;
+       
+    }
+}
+.ant-modal-body {
+    overflow: scroll;
+    height: 500px;
+    overflow-x: hidden;
+}
+
+    
