@@ -193,7 +193,7 @@ export default {
       this.roamingStatus = true
       let options = {
         targetId: this.sendid,
-        pageSize: 10,
+        pageSize: 50,
         cursor: -1,
         chatType: this.chatType,
         searchDirection: "up",
