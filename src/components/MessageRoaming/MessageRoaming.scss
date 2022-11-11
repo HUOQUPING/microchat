@@ -9,12 +9,16 @@
       border-bottom: 1px solid #c5c5c5;
 
       div:nth-child(1) {
-        flex: 0 0 50px;
+        flex: 0 0 40px;
         margin: 5px 0 0 2px;
       }
 
       div:nth-child(2){
         flex: 1;
+
+        .text {
+          width: 250px;
+        }
       }
 
       div:nth-child(3){
