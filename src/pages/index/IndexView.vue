@@ -105,7 +105,7 @@
 <script>
 import './indexView.scss'
 import cookie from "vue-cookie";
-import {mapGetters, mapState} from 'vuex'
+import {mapGetters, mapMutations, mapState} from 'vuex'
 import {close, tokenLogin} from "@/config/optionsIm";
 import {getSuperAdmin} from "@/api/axiosGetData";
 import PersonalInformation from "@/components/PersonalInformation/PersonalInformation";
@@ -158,11 +158,21 @@ export default {
     tokenLogin(userMsg.userId, userMsg.token)
   },
   computed: {
-    ...mapState(['List', 'userId']),
+    ...mapState(['List', 'userId','msgTips']),
     ...mapGetters(['friendsEventStatus']),
     token() {
       return cookie.get('token')
     },
+  },
+  watch:{
+    msgTips(nV){
+      if (nV.msg){
+        this.$notification.open({
+          message:this.msgTips.from,
+          description:this.msgTips.msg
+        })
+      }
+    }
   },
   methods: {
     closed() {
@@ -230,7 +240,8 @@ export default {
     },
     MsgStatus(val) {
       this.messageStatus = val
-    }
+    },
+    ...mapMutations(['msgTipsFunc'])
   }
 }
 </script>

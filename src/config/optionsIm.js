@@ -11,7 +11,13 @@ WebIm.conn.addEventHandler("eventName", {
     },                  //连接关闭回调
     onTextMessage: function (message) {
         //id 会话id msg 内容 time 时间戳 from 发送方 to 接收方 chatType 会话类型
-
+        console.log('收到消息',message.type,message.msg,message.from)
+        let res = {
+            type:message.type,
+            msg:message.msg,
+            from:message.from
+        }
+        store.commit('msgTipsFunc',res)
         store.commit("setCharArr", message)
     },    //收到文本消息
     onEmojiMessage: function (message) {

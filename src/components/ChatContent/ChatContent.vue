@@ -25,9 +25,9 @@
                   <span v-if="nn.chatType !== 'singleChat' ">{{ nn.from }}</span>
                 </span>
             <!-- 文本消息 -->
-            <span v-if="nn.ext.key1 === 0"
+            <div v-if="nn.ext.key1 === 0"
                   :class="{right:nn.from === username,left:nn.from !== username}">
-              {{ nn.msg }}</span>
+              {{ nn.msg }}</div>
             <!-- 文件消息 -->
             <div v-if="nn.ext.key1 === 2"
                  :class="{fileRight:nn.from === username,fileLeft:nn.from !== username,pic:nn.ext.key1 === 1}"
@@ -39,11 +39,10 @@
                 <span class="click-download">点击下载</span>
               </div>
             </div>
-
             <div v-if="nn.ext.key1 === 1"
                  :class="{fileRight:nn.from === username,fileLeft:nn.from !== username,pic:nn.ext.key1 === 1}"
                  class="file-box">
-              <!--                            图片-->
+              <!-- 图片 -->
               <div v-if="nn.ext.key1 === 1">
                 <p class="title">图片</p>
                 <img :src=nn.msg>
@@ -246,6 +245,3 @@ export default {
   },
 }
 </script>
-
-<style scoped>
-</style>

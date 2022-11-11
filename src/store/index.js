@@ -31,6 +31,8 @@ export default new Vuex.Store({
         userId: '用户名',
         //聊天内容
         charArr: [],
+        //消息提醒
+        msgTips:{},
         // 监听好友状态事件参数
         friendsEventVal: [],
         // 个人信息
@@ -165,6 +167,10 @@ export default new Vuex.Store({
                     state.friendsEventVal.splice(i,1)
                 }
             })
+        },
+        //消息提醒
+        msgTipsFunc(state,res){
+            state.msgTips = res
         },
         //移除好友
         removeList(state, res) {
