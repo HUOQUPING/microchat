@@ -166,10 +166,22 @@ export default {
   },
   watch:{
     msgTips(nV){
-      if (nV.msg){
+      if (nV.key === 0){
         this.$notification.open({
           message:this.msgTips.from,
           description:this.msgTips.msg
+        })
+      }
+      if (nV.key === 1){
+        this.$notification.open({
+          message:this.msgTips.from,
+          description:'对方发送了一张图片'
+        })
+      }
+      if (nV.key === 2){
+        this.$notification.open({
+          message:this.msgTips.from,
+          description:'对方发送了一张文件'
         })
       }
     }
